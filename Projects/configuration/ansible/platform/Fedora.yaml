@@ -43,9 +43,11 @@
       - composer
       - curl
       - golang
+      - golang
       - mosh
       - mycli
       - nmap
+      - nodejs
       - p7zip
       - php
       - php-bcmath
@@ -53,15 +55,13 @@
       - php-devel
       - php-json
       - php-mbstring
-      - powerline
       - powerline-fonts
       - rclone
       - rsync
-      - tmux-powerline
+      - rust
       - trash-cli
       - unar
       - vim
-      - vim-powerline
       - weechat
       - wget
       - zsh
@@ -106,6 +106,8 @@
 - name: Keybase setup
   command:
     cmd: keybase ctl autostart --enable
+  register: keybase_result
+  changed_when: "keybase_result.stdout != ''"
 - name: ThinkPad battery tools
   block:
     - name: Install ThinkPad repo
@@ -125,7 +127,7 @@
           - kernel-devel
 - name: Discord
   block:
-    - name: repo
+    - name: Discord repo
       become: yes
       command: "dnf copr enable -y tcg/discord"
       args:
@@ -139,7 +141,9 @@
       vars:
         packages:
           - Discord-installer
+      register: discord_installer
     - name: Discord installer setup
+      when: discord_installer.changed
       become: yes
       systemd:
         name: discord-installer
@@ -180,7 +184,9 @@
       get_url:
         url: https://github.com/kika/fixedsys/releases/download/v3.02.9/FSEX302.ttf
         dest: ~/.fonts/FSEX302.tff
+      register: fixedsys_installed
     - name: Reload font cache
+      when: fixedsys_installed.changed
       command: "fc-cache"
 # Fedora cleanup
 - name: Autoremove unneeded packages installed as dependencies
@@ -189,7 +195,3 @@
     autoremove: true
     skip_broken: true
     update_cache: true
-- name: Enable Night Light
-  dconf:
-    key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
-    value: true

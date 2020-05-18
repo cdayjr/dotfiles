@@ -140,7 +140,7 @@ let g:neoformat_php_phpcsfixer = {
   \ }
 
 " Powerline
-set rtp+=$PYTHON_SITE/powerline/bindings/vim/
+set rtp+=$POWERLINE_VIM
 set laststatus=2
 set t_Co=256
 set noshowmode

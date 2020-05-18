@@ -111,6 +111,7 @@ export PYTHON_BASE="$(python -m site --user-base)"
 export PYTHON_SITE="$(python -m site --user-site)"
 export PATH="$PATH:$PYTHON_BASE/bin"
 
+
 # Rust / Cargo
 export PATH=$HOME/.cargo/bin:$PATH
 
@@ -151,12 +152,27 @@ alias ls='ls --color=auto'
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # color for grep
-export GREP_OPTIONS="--color=auto"
+alias grep="grep --color=auto"
 
 # Powerline
+if [ -d "/usr/share/powerline" ]; then
+  export POWERLINE_PYTHON_BINDINGS="/usr/share/powerline"
+else
+  export POWERLINE_PYTHON_BINDINGS="$PYTHON_SITE/powerline/bindings"
+fi
+export POWERLINE_VIM=""
+if [ -f "/usr/share/vim/vimfiles/plugin/powerline.vim" ]; then
+  export POWERLINE_VIM="/usr/share/vim/vimfiles/"
+else
+  export POWERLINE_VIM="$POWERLINE_PYTHON_BINDINGS/vim/"
+fi
+export POWERLINE_TMUX="/usr/share/tmux/powerline.conf";
+if ! [ -f "$POWERLINE_TMUX" ]; then
+  export POWERLINE_TMUX="$POWERLINE_PYTHON_BINDINGS/tmux/powerline.conf"
+fi
 if pip show powerline-status >/dev/null 2>&1 && command -v powerline-daemon >/dev/null 2>&1; then
   powerline-daemon -q
-  . "$(python -m site --user-site)/powerline/bindings/zsh/powerline.zsh"
+  . "$POWERLINE_PYTHON_BINDINGS/zsh/powerline.zsh"
 fi
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
