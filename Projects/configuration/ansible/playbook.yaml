@@ -26,10 +26,6 @@
         GOPATH: "{{ lookup('env','HOME') }}/.go"
     # Language package manager content, should be managed by a package config
     # file for contents rather than managed here
-    - name: Update npm packages
-      npm:
-        global: true
-        state: latest
     - name: Update pnpm packages
       command:
         cmd: "npx pnpm --global update"
