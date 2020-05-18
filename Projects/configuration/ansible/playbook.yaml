@@ -19,7 +19,7 @@
       name: Install and configure Fedora specific settings
       include_tasks: platform/Fedora.yaml
     - name: Install hostess cli
-      command: 
+      command:
         cmd: go get -u github.com/cbednarski/hostess
         creates: ~/.go/bin/hostess
       environment:
@@ -30,11 +30,16 @@
       npm:
         global: true
         state: latest
+    - name: Install pnpm
+      npm:
+        name: pnpm
+        global: true
+        state: present
     - name: Update pnpm packages
       command:
-        cmd: "pnpm -g update"
-      register: result
-      changed_when: "'Already up-to-date' not in result.stdout"
+        cmd: "npx pnpm --global update"
+      register: pnpm_result
+      changed_when: "'Already up-to-date' not in pnpm_result.stdout"
     - name: Update composer packages
       composer:
         command: update
