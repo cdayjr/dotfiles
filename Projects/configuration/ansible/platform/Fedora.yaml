@@ -111,7 +111,7 @@
     - name: Install ThinkPad repo
       become: true
       dnf:
-        name: "https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc{{ fedora_release.stdout }}.noarch.rpm"
+        name: "https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc{{ ansible_distribution_major_version }}.noarch.rpm"
         state: present
     - name: Install ThinkPad packages
       become: true
