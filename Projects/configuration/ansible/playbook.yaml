@@ -1,0 +1,44 @@
+- name: Workstation Setup
+  hosts: localhost
+  gather_facts: true
+  become: false
+  tasks:
+    # Gather and print out system details
+    - name: System details
+      debug:
+        msg: "{{ item }}"
+      with_items:
+        - "{{ ansible_distribution }}"
+        - "{{ ansible_distribution_release }}"
+        - "{{ ansible_distribution_version }}"
+        - "{{ ansible_distribution_major_version }}"
+    - when: ansible_distribution == 'MacOSX'
+      name: Install and configure macOS specific settings
+      include_tasks: platform/MacOSX.yaml
+    - when: ansible_distribution == 'Fedora'
+      name: Install and configure Fedora specific settings
+      include_tasks: platform/Fedora.yaml
+    - name: Install hostess cli
+      command: 
+        cmd: go get -u github.com/cbednarski/hostess
+        creates: ~/.go/bin/hostess
+      environment:
+        GOPATH: "{{ lookup('env','HOME') }}/.go"
+    # Language package manager content, should be managed by a package config
+    # file for contents rather than managed here
+    - name: Update npm packages
+      npm:
+        global: true
+        state: latest
+    - name: Update pnpm packages
+      command:
+        cmd: "pnpm -g update"
+      register: result
+      changed_when: "'Already up-to-date' not in result.stdout"
+    - name: Update composer packages
+      composer:
+        command: update
+        global_command: true
+      environment:
+        COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
+

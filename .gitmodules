@@ -1,0 +1,57 @@
+[submodule ".local/src/screenFetch"]
+	path = .local/src/screenFetch
+	url = https://github.com/KittyKatt/screenFetch
+[submodule ".vim/bundle/editorconfig-vim"]
+	path = .vim/bundle/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim
+[submodule ".vim/bundle/neoformat"]
+	path = .vim/bundle/neoformat
+	url = https://github.com/sbdchd/neoformat
+[submodule ".vim/bundle/emmet-vim"]
+	path = .vim/bundle/emmet-vim
+	url = https://github.com/mattn/emmet-vim
+[submodule ".vim/bundle/nerdtree"]
+	path = .vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree
+[submodule ".vim/bundle/rust.vim"]
+	path = .vim/bundle/rust.vim
+	url = https://github.com/rust-lang/rust.vim
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
+	url = https://github.com/vim-syntastic/syntastic.git
+[submodule ".vim/bundle/tsuquyomi"]
+	path = .vim/bundle/tsuquyomi
+	url = https://github.com/Quramy/tsuquyomi
+[submodule ".vim/bundle/typescript-vim"]
+	path = .vim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim
+[submodule ".vim/bundle/vim-colorschemes"]
+	path = .vim/bundle/vim-colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git
+[submodule ".vim/bundle/vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule ".vim/bundle/vim-liquid"]
+	path = .vim/bundle/vim-liquid
+	url = https://github.com/tpope/vim-liquid
+[submodule ".vim/bundle/vim-markdown"]
+	path = .vim/bundle/vim-markdown
+	url = https://github.com/plasticboy/vim-markdown
+[submodule ".vim/bundle/vim-twig"]
+	path = .vim/bundle/vim-twig
+	url = https://github.com/lumiliet/vim-twig
+[submodule "/Users/cday/.vim/bundle/vim-matchit"]
+	path = .vim/bundle/vim-matchit
+	url = https://github.com/adelarsq/vim-matchit
+[submodule ".vim/bundle/vim-go"]
+	path = .vim/bundle/vim-go
+	url = https://github.com/fatih/vim-go
+[submodule ".vim/bundle/vimproc.vim"]
+	path = .vim/bundle/vimproc.vim
+	url = https://github.com/Shougo/vimproc.vim
+[submodule ".vim/bundle/vim-vebugger"]
+	path = .vim/bundle/vim-vebugger
+	url = https://github.com/idanarye/vim-vebugger
+[submodule ".vim/bundle/vim-matchit"]
+	path = .vim/bundle/vim-matchit
+	url = https://github.com/adelarsq/vim-matchit

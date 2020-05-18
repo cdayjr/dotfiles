@@ -1,0 +1,100 @@
+- name: Install RPMFusion
+  become: true
+  dnf:
+    name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    state: present
+- name: Upgrade all DNF pacakges
+  become: true
+  dnf:
+    name: "*"
+    state: latest
+- name: Install "Development Tools" DNF package group
+  become: true
+  dnf:
+    name: "@Development Tools"
+    state: present
+- name: Install appstream-data for rpmfusion packages
+  become: true
+  dnf:
+    name: "@core"
+    state: present
+- name: Install multimedia plugins from RPMFusion
+  become: true
+  dnf:
+    name: "@multimedia"
+    state: present
+    install_weak_deps: false
+    exclude: PackageKit-gstreamer-plugin
+- name: Install sound and video complement packages from RPMFusion
+  become: true
+  dnf:
+    name: "@sound-and-video"
+    state: present
+- name: Install tainted rpmfusion packages
+  become: true
+  dnf:
+    name: rpmfusion-free-release-tainted
+    state: present
+- name: Install CLI packages
+  become: true
+  dnf:
+    name:
+      - ccze
+      - composer
+      - curl
+      - golang
+      - mosh
+      - mycli
+      - nmap
+      - p7zip
+      - php
+      - php-bcmath
+      - php-cli
+      - php-devel
+      - php-json
+      - php-mbstring
+      - powerline
+      - powerline-fonts
+      - rclone
+      - rsync
+      - tmux-powerline
+      - trash-cli
+      - unar
+      - vim
+      - vim-powerline
+      - weechat
+      - wget
+      - zsh
+    state: present
+- name: Install desktop packages
+  become: true
+  dnf:
+    name:
+      - calibre
+      - chromium
+      - chromium-libs-media-freeworld
+      - exfat-utils
+      - firefox
+      - fuse-exfat
+      - gimp
+      - gvfs-smb
+      - i3status
+      - keepassxc
+      - konsole
+      - lm_sesnors
+      - pandoc
+      - pinta
+      - python3-streamlink
+      - sway
+      - tlp
+      - tlp-rdw
+      - transmission
+      - wl-clipboard
+      - youtube-dl
+    state: present
+- name: Install font packages
+  become: true
+  dnf:
+    name:
+      - cascadia-code-fonts
+    state: present

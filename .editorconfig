@@ -1,0 +1,37 @@
+# EditorConfig:
+# - http://EditorConfig.org
+# - https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties
+
+# top-most EditorConfig file
+root = true
+
+# Some defaults for every file
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+tab_width = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+max_line_length = 80
+
+# text should be wrapped at 72 characters
+[*.md,gitcommit,*.txt]
+max_line_length = 72
+
+# Go's styleguide recommends tabs
+[*.go]
+indent_style = tab
+
+# Makefile command start with a tab, it's safest to just rely on tab indentation
+# throughout a makefile
+[{Makefile,**.mk}]
+indent_style = tab
+
+# PHP's styleguide recommends 4-space indentation
+[*.php{,3,4,5,7}]
+indent_size = 4
+indent_style = space
+tab_width = 4
+
