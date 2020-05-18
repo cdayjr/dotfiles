@@ -39,7 +39,7 @@
         COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
     - name: Setup PHPCodeSniffer configuration
       copy:
-        src: ~/Projects/configuration/php/CodeSniffer.conf
+        src: ~/.config/php/CodeSniffer.conf
         dest: "$COMPOSER_HOME/vendor/squizlabs/php_codesniffer/CodeSniffer.conf"
       environment:
         COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
