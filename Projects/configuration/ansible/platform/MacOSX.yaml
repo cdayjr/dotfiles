@@ -6,6 +6,8 @@
   homebrew_cask:
     update_homebrew: yes
     upgrade_all: yes
+    sudo_password: "{{ ansible_become_pass }}"
+- name: Update brew casks
 - name: Install "Development Tools" Homebrew equivalent package group
   homebrew:
     name:
@@ -80,6 +82,7 @@
       - synergy
       - the-unarchiver
     state: present
+    sudo_password: "{{ ansible_become_pass }}"
 - name: Setup font repository
   homebrew_tap:
     name: homebrew/cask-fonts
@@ -120,6 +123,7 @@
       - font-trebuchet-ms
       - font-verdana
     state: present
+    sudo_password: "{{ ansible_become_pass }}"
 - name: Install pip packages
   pip:
     name:
