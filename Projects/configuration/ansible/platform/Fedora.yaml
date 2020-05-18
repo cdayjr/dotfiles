@@ -92,9 +92,98 @@
       - wl-clipboard
       - youtube-dl
     state: present
+- name: Keybase Repo
+  become: true
+  dnf:
+    name: "https://prerelease.keybase.io/keybase_amd64.rpm"
+    state: present
+- name: Keybase setup
+  command:
+    cmd: keybase ctl autostart --enable
+- name: ThinkPad battery tools
+  block:
+    - name: Install ThinkPad repo
+      become: true
+      dnf:
+        name: "https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc{{ fedora_release.stdout }}.noarch.rpm"
+        state: present
+    - name: Install ThinkPad packages
+      become: true
+      package:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - akmod-tp_smapi
+          - akmod-acpi_call
+          - kernel-devel
+- name: Discord
+  block:
+    - name: repo
+      become: yes
+      command: "dnf copr enable -y tcg/discord"
+      args:
+        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:tcg:discord.repo
+        warn: false
+    - name: Discord installer
+      become: yes
+      package:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - Discord-installer
+    - name: Discord installer setup
+      become: yes
+      systemd:
+        name: discord-installer
+        enabled: yes
+        state: started
+- name: Install media packages
+  become: yes
+  package:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - flac123
+      - libdvdcss
+      - vlc
+      - mpv
+# Fonts
+- name: Fira Code Fonts Repo
+  become: true
+  command: "dnf copr enable -y cyfrost/packages"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cyfrost:packages.repo
+    warn: false
 - name: Install font packages
   become: true
   dnf:
     name:
       - cascadia-code-fonts
+      - fira-code-fonts
     state: present
+- name: Custom Fonts
+  block:
+    - name: Create .fonts diectory
+      file:
+        path: ~/.fonts
+        state: directory
+    - name: Install FIXEDSYS Excelsior font
+      get_url:
+        url: https://github.com/kika/fixedsys/releases/download/v3.02.9/FSEX302.ttf
+        dest: ~/.fonts/FSEX302.tff
+    - name: Reload font cache
+      command: "fc-cache"
+# Fedora cleanup
+- name: Autoremove unneeded packages installed as dependencies
+  become: true
+  dnf:
+    autoremove: true
+    skip_broken: true
+    update_cache: true
+- name: Enable Night Light
+  dconf:
+    key: /org/gnome/settings-daemon/plugins/color/night-light-enabled
+    value: true
