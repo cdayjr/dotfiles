@@ -30,11 +30,6 @@
       npm:
         global: true
         state: latest
-    - name: Install pnpm
-      npm:
-        name: pnpm
-        global: true
-        state: present
     - name: Update pnpm packages
       command:
         cmd: "npx pnpm --global update"
@@ -46,4 +41,9 @@
         global_command: true
       environment:
         COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
-
+    - name: Setup PHPCodeSniffer configuration
+      copy:
+        src: ~/Projects/configuration/php/CodeSniffer.conf
+        dest: "$COMPOSER_HOME/vendor/squizlabs/php_codesniffer/CodeSniffer.conf"
+      environment:
+        COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
