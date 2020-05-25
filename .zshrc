@@ -91,8 +91,8 @@ export MANPATH=$HOME/.local/share/man:$MANPATH
 ###
 
 # Node
-## npm packages
-export PATH=$HOME/.npm/bin:$PATH
+## pnpm packages
+export PATH="$HOME/.npm/pnpm-global/3/node_modules/.bin:$PATH"
 
 # Ruby
 export GEM_HOME="$HOME/.gem"
