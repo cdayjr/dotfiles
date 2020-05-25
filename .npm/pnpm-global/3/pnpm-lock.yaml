@@ -1,15 +1,15 @@
 dependencies:
-  pnpm: 4.14.2
+  pnpm: 4.14.4
   prettier: 2.0.5
 lockfileVersion: 5.1
 packages:
-  /pnpm/4.14.2:
+  /pnpm/4.14.4:
     dev: false
     engines:
       node: '>=10.13'
     hasBin: true
     resolution:
-      integrity: sha512-srFTvu4mm2tzo+bt1QkahH3JJnBDXPbjboYOPSZRwocoyGcTxYgGr0aUHg6non0i8eFzbhUFqQiqG+iCJ5spbA==
+      integrity: sha512-AH+vcfKJIlfKznH2vZj83utJ9g4vHjBK982OdinnBfWvYpHQ8opEMr9g1evAwlCW0Oim6V0sdolFvmV5AXc3Zw==
   /prettier/2.0.5:
     dev: false
     engines:
@@ -18,5 +18,5 @@ packages:
     resolution:
       integrity: sha512-7PtVymN48hGcO4fGjybyBSIWDsLU4H4XlvOHfq91pz9kkGlonzwTfYkaIEwiRg/dAJF9YlbsduBAgtYLi+8cFg==
 specifiers:
-  pnpm: ^4.14.2
+  pnpm: ^4.14.4
   prettier: ^2.0.5
