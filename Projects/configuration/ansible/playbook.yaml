@@ -26,11 +26,31 @@
         GOPATH: "{{ lookup('env','HOME') }}/.go"
     # Language package manager content, should be managed by a package config
     # file for contents rather than managed here
-    - name: Update pnpm packages
+    - name: Register npm prefix
       command:
-        cmd: "npx pnpm --global update"
-      register: pnpm_result
-      changed_when: "'Already up-to-date' not in pnpm_result.stdout"
+        cmd: "echo \"$HOME/.npm\""
+      register: npm_prefix
+      changed_when: false
+    - name: Get npm prefix
+      command:
+        cmd: "npm config --global get prefix"
+      register: npm_prefix_check
+      changed_when: false
+    - name: Set npm prefix
+      when: "npm_prefix.stdout != npm_prefix_check.stdout"
+      command:
+        cmd: "npm config set prefix {{ npm_prefix.stdout }}"
+      changed_when: true
+    - name: Get pnpm prefix
+      command:
+        cmd: "npm config --global get pnpm-prefix"
+      register: pnpm_prefix_check
+      changed_when: false
+    - name: Set pnpm prefix
+      when: "npm_prefix.stdout != pnpm_prefix_check.stdout"
+      command:
+        cmd: "npm config --global set pnpm-prefix {{ npm_prefix.stdout }}"
+      changed_when: true
     - name: Update composer packages
       composer:
         command: update
