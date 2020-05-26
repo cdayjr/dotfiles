@@ -182,3 +182,4 @@ fi
 #
 # Example aliases
 
+alias update="(cd $HOME/Projects/configuration/ansible && ansible-playbook -i inventory.yaml -K playbook.yaml)"
