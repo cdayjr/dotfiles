@@ -169,6 +169,11 @@ fi
 export POWERLINE_TMUX="/usr/share/tmux/powerline.conf";
 if ! [ -f "$POWERLINE_TMUX" ]; then
   export POWERLINE_TMUX="$POWERLINE_PYTHON_BINDINGS/tmux/powerline.conf"
+  if ! [ -f "$POWERLINE_TMUX" ]; then
+    # Handle case where tmux config isn't installed
+    export POWERLINE_TMUX="/tmp/powerline.conf"
+    touch "$POWERLINE_TMUX"
+  fi
 fi
 if pip show powerline-status >/dev/null 2>&1 && command -v powerline-daemon >/dev/null 2>&1; then
   powerline-daemon -q
