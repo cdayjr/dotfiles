@@ -1,3 +1,8 @@
+- name: Install YADM Repo
+  become: true
+  command:
+    cmd: "https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_{{ ansible_distribution_major_version }}/home:TheLocehiliosan:yadm.repo"
+    creates: /etc/yum.repos.d/home:TheLocehiliosan:yadm.repo
 - name: Install RPMFusion
   become: true
   dnf:
@@ -55,15 +60,19 @@
       - php-devel
       - php-json
       - php-mbstring
+      - powerline
       - powerline-fonts
       - rclone
       - rsync
       - rust
+      - tmux-powerline
       - trash-cli
       - unar
       - vim
+      - vim-powerline
       - weechat
       - wget
+      - yadm
       - zsh
     state: present
 - name: Set user shell
