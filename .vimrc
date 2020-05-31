@@ -51,6 +51,8 @@ nnoremap <leader>q :nohlsearch<CR>
 nnoremap <leader>s :syntax sync fromstart<CR>
 " Error past 120 characters
 match ErrorMsg '\%>120v.\+'
+" Ignore CSV files
+au BufRead,BufNewFile *.csv match
 " Colorscheme
 colorscheme molokai
 " indentation search
