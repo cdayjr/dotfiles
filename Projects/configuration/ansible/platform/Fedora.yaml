@@ -114,6 +114,7 @@
       - tlp-rdw
       - transmission
       - wl-clipboard
+      - xsel
       - youtube-dl
     state: present
 - name: Keybase Repo
