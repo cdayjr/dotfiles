@@ -1,0 +1,87 @@
+! all plugins
+URxvt*.perl-ext-common: default,clipboard
+
+! regular clipboard
+URxvt*.iso14755: false
+URxvt*.iso14755_52: false
+URxvt*.clipboard.autocopy: false
+URxvt*.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt*.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt*.keysym.Shift-Meta-Control-V: perl:clipboard:paste_escaped
+
+! transparent window
+!URxvt*.transparent: true
+!
+! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
+URxvt*.shading: 10
+URxvt*.scrollBar: false
+
+URxvt*.font: xft:Fira Code Retina:size=12:antialias=true
+
+! --- ~/.Xresources ------------------------------------------------------------
+! ------------------------------------------------------------------------------
+! --- generated with 4bit Terminal Color Scheme Designer -----------------------
+! ------------------------------------------------------------------------------
+! --- http://ciembor.github.com/4bit -------------------------------------------
+! ------------------------------------------------------------------------------
+
+! --- special colors ---
+
+URxvt*.background: #000000
+URxvt*.foreground: #dfdfdf
+
+! --- standard colors ---
+
+! black
+URxvt*.color0: #000000
+
+! bright_black
+URxvt*.color8: #1f1f1f
+
+! red
+URxvt*.color1: #5e1f1f
+
+! bright_red
+URxvt*.color9: #bb3e3e
+
+! green
+URxvt*.color2: #1f5e1f
+
+! bright_green
+URxvt*.color10: #3ebb3e
+
+! yellow
+URxvt*.color3: #5e5e1f
+
+! bright_yellow
+URxvt*.color11: #bbbb3e
+
+! blue
+URxvt*.color4: #1f1f5e
+
+! bright_blue
+URxvt*.color12: #3e3ebb
+
+! magenta
+URxvt*.color5: #5e1f5e
+
+! bright_magenta
+URxvt*.color13: #bb3ebb
+
+! cyan
+URxvt*.color6: #1f5e5e
+
+! bright_cyan
+URxvt*.color14: #3ebbbb
+
+! white
+URxvt*.color7: #bdbdbd
+
+! bright_white
+URxvt*.color15: #dfdfdf
+
+
+! ------------------------------------------------------------------------------
+! --- end of terminal colors section -------------------------------------------
+! ------------------------------------------------------------------------------
+

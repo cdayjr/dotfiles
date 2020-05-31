@@ -108,6 +108,7 @@
       - pinta
       - python3-streamlink
       - redshift-gtk
+      - rxvt-unicode
       - sway
       - tlp
       - tlp-rdw
