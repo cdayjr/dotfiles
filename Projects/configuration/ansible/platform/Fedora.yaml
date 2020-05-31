@@ -92,7 +92,11 @@
       - firefox
       - fuse-exfat
       - gimp
+      - gnome-tweaks
       - gvfs-smb
+      - i3
+      - i3lock
+      - i3status
       - i3status
       - keepassxc
       - konsole
