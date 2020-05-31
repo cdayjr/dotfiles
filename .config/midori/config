@@ -1,0 +1,8 @@
+[settings]
+last-window-width=1280
+last-window-height=781
+load-on-startup=MIDORI_STARTUP_HOMEPAGE
+
+[extensions]
+libadblock.so=true
+shortcuts.so=false
