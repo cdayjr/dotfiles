@@ -89,6 +89,7 @@
       - chromium
       - chromium-libs-media-freeworld
       - exfat-utils
+      - feh
       - firefox
       - fuse-exfat
       - gimp
@@ -105,6 +106,7 @@
       - pandoc
       - pinta
       - python3-streamlink
+      - redshift-gtk
       - sway
       - tlp
       - tlp-rdw
