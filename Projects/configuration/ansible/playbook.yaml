@@ -28,7 +28,7 @@
     # file for contents rather than managed here
     - name: Register npm prefix
       command:
-        cmd: "echo \"$HOME/.npm\""
+        cmd: 'echo "$HOME/.npm"'
       register: npm_prefix
       changed_when: false
     - name: Get npm prefix
@@ -63,3 +63,8 @@
         dest: "$COMPOSER_HOME/vendor/squizlabs/php_codesniffer/CodeSniffer.conf"
       environment:
         COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
+    - name: Update yadm submodules
+      command:
+        cmd: "yadm submodule update --init --remote --recursive"
+      register: yadm_update
+      changed_when: 'yadm_update.stdout != ""'
