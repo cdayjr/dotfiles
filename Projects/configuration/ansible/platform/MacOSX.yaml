@@ -79,6 +79,7 @@
       - slack
       - synergy
       - the-unarchiver
+      - transmission-remote-gui
     state: present
 - name: Setup font repository
   homebrew_tap:

@@ -111,7 +111,7 @@
       - sway
       - tlp
       - tlp-rdw
-      - transmission
+      - transmission-remote-gtk
       - wl-clipboard
       - xsel
       - youtube-dl
