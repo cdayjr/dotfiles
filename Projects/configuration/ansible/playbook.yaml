@@ -51,6 +51,11 @@
       command:
         cmd: "npm config --global set pnpm-prefix {{ npm_prefix.stdout }}"
       changed_when: true
+    - name: Update pnpm packages
+      command:
+        cmd: 'npx pnpm update --dir "$HOME/.npm/pnpm-global/3"'
+      register: pnpm_update
+      changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'
     - name: Update composer packages
       composer:
         command: update
