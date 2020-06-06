@@ -21,4 +21,8 @@ fi
 if command -v xmodmap >/dev/null; then
   xmodmap -e "keycode 37 = Escape NoSymbol Escape"
 fi
-
+# disable stty start/stop
+if command -v stty >/dev/null; then
+  stty start undef
+  stty stop undef
+fi
