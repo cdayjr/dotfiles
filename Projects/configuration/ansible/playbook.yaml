@@ -70,6 +70,6 @@
         COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
     - name: Update yadm submodules
       command:
-        cmd: "yadm submodule update --init --remote --recursive"
+        cmd: "yadm submodule update --init --remote"
       register: yadm_update
       changed_when: 'yadm_update.stdout != ""'
