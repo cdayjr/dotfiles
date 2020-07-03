@@ -194,6 +194,8 @@ for_window [class=".*"] border none
 for_window [class="Xfce4-notifyd"] floating enable
 
 # Startup
+## Set display
+exec --no-startup-id xrandr --output DP-1-2 --left-of eDP1
 ## Set background image
 exec --no-startup-id command -v feh && feh --bg-scale ~/.local/share/startup/background.png
 ## Startup Script
