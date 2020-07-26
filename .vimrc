@@ -81,6 +81,8 @@ au BufRead,BufNewFile *.txt setlocal textwidth=72
 " Wrap git commit messages at 72 characters
 au FileType gitcommit setlocal textwidth=72
 
+" Autoformat for rust
+let g:rustfmt_autosave = 1
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -90,6 +92,12 @@ let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+" Syntastic with tslint
+let g:syntastic_typescript_checkers = ['tslint', 'tsc']
+
+" Syntastic calm down w/ angular templates
+let g:syntastic_html_tidy_ignore_errors=[" attribute name ", " proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
 
 " Show max line from editorconfig
 let g:EditorConfig_max_line_indicator = "line"
@@ -139,6 +147,24 @@ let g:neoformat_php_phpcsfixer = {
   \ 'exe': 'php-cs-fixer',
   \ 'args': ['fix', '-q', '--config=/Users/cday/.php_cs.php'],
   \ 'replace': 1
+  \ }
+" Neoformat TypeScript
+let g:neoformat_typescript_prettier = {
+        \ 'exe': 'prettier',
+        \ 'args': ['--single-quote', '--stdin', '--stdin-filepath', '"%:p"', '--parser', 'typescript'],
+        \ 'stdin': 1
+  \ }
+let g:neoformat_javascript_prettier = {
+        \ 'exe': 'prettier',
+        \ 'args': ['--single-quote', '--stdin', '--stdin-filepath', '"%:p"'],
+        \ 'stdin': 1
+  \ }
+
+" Neoformat HTML
+let g:neoformat_html_prettier = {
+        \ 'exe': 'html',
+        \ 'args': ['--tab-width', '4', '--stdin', '--stdin-filepath', '"%:p"', '--parser', 'html'],
+        \ 'stdin': 1
   \ }
 
 " Powerline
