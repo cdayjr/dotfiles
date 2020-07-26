@@ -83,8 +83,13 @@ fi
 export PATH=$HOME/.local/bin:$PATH
 
 # Man files
-export MANPATH="/usr/local/man:$MANPATH"
-export MANPATH=$HOME/.local/share/man:$MANPATH
+if ! [ "$MANPATH" ]; then
+  export MANPATH="$(man -w)"
+fi
+if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
+  export MANPATH="$HOME/.local/share/man:$MANPATH"
+fi
+
 
 ###
 # Autocompletion setup
