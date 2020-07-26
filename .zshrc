@@ -15,6 +15,11 @@ zstyle ':completion:*' expand prefix suffix
 # load bashcompinit for some old bash completions
 autoload bashcompinit && bashcompinit
 
+# Set up yadm completions
+if [ -d /usr/share/doc/yadm/completion ]; then
+  fpath=("$HOME/.local/share/completions" $fpath)
+fi
+
 # Enable advanced auto completion
 if command -v brew >/dev/null 2>&1 && brew list zsh >/dev/null 2>&1; then
   # Brew install zsh to "insecure" directories, -i silently ignores the results
