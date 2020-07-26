@@ -99,7 +99,6 @@ let g:EditorConfig_max_line_indicator = "line"
 
 " Neoformat
 let g:neoformat_run_all_formatters = 1
-let g:neoformat_only_msg_on_error = 1
 
 " Neoformat toggle
 nnoremap <leader>n :call NeoformatToggle()<CR>
