@@ -1,5 +1,7 @@
 [alias]
   cleanup = "!f() { \
+      (git switch -c cleanup-repo-branch || git switch cleanup-repo-branch) && \
+      git branch -D master && \
       git reset --hard && \
       git clean -df && \
       git fetch -a && \
