@@ -81,8 +81,6 @@ au BufRead,BufNewFile *.txt setlocal textwidth=72
 " Wrap git commit messages at 72 characters
 au FileType gitcommit setlocal textwidth=72
 
-" Autoformat for rust
-let g:rustfmt_autosave = 1
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -92,9 +90,6 @@ let g:syntastic_always_populate_loc_list = 0
 let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" Syntastic with tslint
-let g:syntastic_typescript_checkers = ['tslint', 'tsc']
 
 " Syntastic calm down w/ angular templates
 let g:syntastic_html_tidy_ignore_errors=[" attribute name ", " proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
@@ -120,11 +115,15 @@ function! NeoformatToggle()
           \ 'trim_trailing_whitespace'
           \ ]
     EditorConfigReload
+		" Autoformat for rust
+		let g:rustfmt_autosave = 0
     echom "Auto formatters disabled"
   else
     let g:format_on_save = 1
     " re-enable editorconfig autoformatting rules
     let g:EditorConfig_disable_rules = []
+		" Autoformat for rust
+		let g:rustfmt_autosave = 1
     EditorConfigReload
     echom "Auto formatters enabled"
   endif
@@ -140,35 +139,13 @@ augroup fmt
   autocmd BufWritePre * :call NeoformatToggled()
 augroup END
 
-" Neoformat PHP
-" Toggle for php cs fixers
-let g:neoformat_enabled_php = ['phpcsfixer', 'phpcbf']
-let g:neoformat_php_phpcsfixer = {
-  \ 'exe': 'php-cs-fixer',
-  \ 'args': ['fix', '-q', '--config=/Users/cday/.php_cs.php'],
-  \ 'replace': 1
-  \ }
-" Neoformat TypeScript
-let g:neoformat_typescript_prettier = {
-        \ 'exe': 'prettier',
-        \ 'args': ['--single-quote', '--stdin', '--stdin-filepath', '"%:p"', '--parser', 'typescript'],
-        \ 'stdin': 1
-  \ }
-let g:neoformat_javascript_prettier = {
-        \ 'exe': 'prettier',
-        \ 'args': ['--single-quote', '--stdin', '--stdin-filepath', '"%:p"'],
-        \ 'stdin': 1
-  \ }
-
-" Neoformat HTML
-let g:neoformat_html_prettier = {
-        \ 'exe': 'html',
-        \ 'args': ['--tab-width', '4', '--stdin', '--stdin-filepath', '"%:p"', '--parser', 'html'],
-        \ 'stdin': 1
-  \ }
-
 " Powerline
 set rtp+=$POWERLINE_VIM
 set laststatus=2
 set t_Co=256
 set noshowmode
+
+" Source external files
+for f in split(glob('~/.local/share/includes/**/*.vim'), '\n')
+    exe 'source' f
+endfor

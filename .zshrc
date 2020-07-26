@@ -211,7 +211,7 @@ if pip show powerline-status >/dev/null 2>&1 && command -v powerline-daemon >/de
 fi
 
 # Includes
-INCLUDES=($(compgen -G "$HOME/.local/share/zsh-includes/**/*.zsh")) && \
+INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
   for INCLUDE in $INCLUDES; do
     source "$INCLUDE"
   done
@@ -223,4 +223,8 @@ INCLUDES=($(compgen -G "$HOME/.local/share/zsh-includes/**/*.zsh")) && \
 #
 # Example aliases
 
+## Update everything according to ansible directive
 alias update="(cd $HOME/Projects/configuration/ansible && ansible-playbook -i inventory.yaml -K playbook.yaml)"
+
+## Get submodules to match latest committed commit in parent repo
+alias fix-submodules="git submodule update --recursive -f"
