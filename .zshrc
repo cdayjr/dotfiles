@@ -93,6 +93,11 @@ export MANPATH=$HOME/.local/share/man:$MANPATH
 # Node
 ## pnpm packages
 export PATH="$HOME/.npm/pnpm-global/3/node_modules/.bin:$PATH"
+## n
+if command -v n >/dev/null 2>&1; then
+  export N_PREFIX="$HOME/.n"
+  export PATH="$N_PREFIX/bin:$PATH"
+fi
 
 # Ruby
 export GEM_HOME="$HOME/.gem"
@@ -104,9 +109,15 @@ export PATH="$GEM_HOME/bin:$PATH"
 export GOPATH=$HOME/.go
 export PATH=$GOPATH/bin:$PATH
 
+## Modules; required for 1.11 through 1.12
+export GO111MODULE=on
+
 # Python
-alias pip="/usr/bin/env pip3"
-alias python="/usr/bin/env python3"
+## Set python3 as python if default python is not 3
+if ! [[ "$(python -V)" =~ "Python 3" ]] && command -v python3 >/dev/null 2>&1; then
+  alias python="/usr/bin/env python3"
+fi
+alias pip="python -m pip"
 export PYTHON_BASE="$(python -m site --user-base)"
 export PYTHON_SITE="$(python -m site --user-site)"
 export PATH="$PATH:$PYTHON_BASE/bin"
