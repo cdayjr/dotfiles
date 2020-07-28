@@ -65,7 +65,7 @@
   homebrew_cask:
     name:
       - boostnote
-      - discord
+        #- discord
       - firefox
       - google-chrome
       - google-drive-file-stream
@@ -75,11 +75,11 @@
       - keepassxc
       - lastpass
       - microsoft-edge
-      - mounty
+        #- mounty
       - slack
-      - synergy
+        #- synergy
       - the-unarchiver
-      - transmission-remote-gui
+        #- transmission-remote-gui
     state: present
 - name: Setup font repository
   homebrew_tap:
