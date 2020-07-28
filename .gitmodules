@@ -58,3 +58,6 @@
 [submodule ".local/src/urxvt-perls"]
 	path = .local/src/urxvt-perls
 	url = https://github.com/muennich/urxvt-perls
+[submodule ".vim/bundle/csv.vim"]
+	path = .vim/bundle/csv.vim
+	url = https://github.com/chrisbra/csv.vim
