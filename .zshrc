@@ -143,7 +143,7 @@ export GO111MODULE=on
 
 # Python
 ## Set python3 as python if default python is not 3
-if ! [[ "$(python -V)" =~ "Python 3" ]] && command -v python3 >/dev/null 2>&1; then
+if ! [[ "$(python -V 2>/dev/null)" =~ "Python 3" ]] && command -v python3 >/dev/null 2>&1; then
   alias python="/usr/bin/env python3"
 fi
 alias pip="python -m pip"
