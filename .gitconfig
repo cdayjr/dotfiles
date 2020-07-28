@@ -18,6 +18,11 @@
 	submodule = log
 [fetch]
   recurseSubmodules = on-demand
+[filter "lfs"]
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
 [merge]
   tool = vimdiff
   conflictstyle = diff3
@@ -31,4 +36,5 @@
 	name = Chad Wade Day, Jr.
 	email = cdayjr@users.noreply.github.com
   signingkey = 9041D7756B13B2DB
-
+[include]
+  path = ~/.local/share/includes/medbridge-config/.gitconfig
