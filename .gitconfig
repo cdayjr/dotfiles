@@ -36,4 +36,4 @@
 	email = cdayjr@users.noreply.github.com
   signingkey = 9041D7756B13B2DB
 [include]
-  path = ~/.local/share/includes/medbridge-config/.gitconfig
+  path = ~/.local/share/includes/medbridge-config/gitconfig
