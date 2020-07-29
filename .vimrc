@@ -81,6 +81,11 @@ au BufRead,BufNewFile *.txt setlocal textwidth=72
 " Wrap git commit messages at 72 characters
 au FileType gitcommit setlocal textwidth=72
 
+" highlight custom gitconfig files
+au BufRead,BufNewFile */gitconfig setfiletype gitconfig
+" highlight custom sshconfig files
+au BufRead,BufNewFile */sshconfig setfiletype sshconfig
+
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
