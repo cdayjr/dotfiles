@@ -64,3 +64,6 @@
 [submodule ".vim/bundle/vim-helm"]
 	path = .vim/bundle/vim-helm
 	url = https://github.com/towolf/vim-helm
+[submodule ".vim/bundle/Jenkinsfile-vim-syntax"]
+	path = .vim/bundle/Jenkinsfile-vim-syntax
+	url = https://github.com/martinda/Jenkinsfile-vim-syntax
