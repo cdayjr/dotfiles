@@ -58,6 +58,7 @@
       changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'
     - name: Update composer packages
       composer:
+        no_dev: false
         command: update
         global_command: true
       environment:
