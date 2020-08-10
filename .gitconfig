@@ -11,6 +11,7 @@
       git remote prune origin && \
       git gc; \
     }; f"
+  mailmap-helper = shortlog --summary --numbered --email --all
 [commit]
 	gpgsign = true
 [diff]
