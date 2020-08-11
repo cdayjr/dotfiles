@@ -109,6 +109,7 @@
       - redshift-gtk
       - rxvt-unicode
       - sway
+      - synergy
       - tlp
       - tlp-rdw
       - transmission-remote-gtk
