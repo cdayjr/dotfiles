@@ -83,8 +83,10 @@ au FileType gitcommit setlocal textwidth=72
 
 " highlight custom gitconfig files
 au BufRead,BufNewFile */gitconfig setfiletype gitconfig
+au BufRead,BufNewFile *.gitconfig setfiletype gitconfig
 " highlight custom sshconfig files
 au BufRead,BufNewFile */sshconfig setfiletype sshconfig
+au BufRead,BufNewFile *.sshconfig setfiletype sshconfig
 
 " syntastic
 set statusline+=%#warningmsg#

@@ -38,5 +38,7 @@
   signingkey = 9041D7756B13B2DB
 [include]
   path = ~/.local/share/includes/medbridge-config/gitconfig
+[include]
+  path = ~/.local/share/includes/extra-config/gitconfig
 [pull]
 	ff = only
