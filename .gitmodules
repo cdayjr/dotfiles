@@ -67,3 +67,6 @@
 [submodule ".vim/bundle/Jenkinsfile-vim-syntax"]
 	path = .vim/bundle/Jenkinsfile-vim-syntax
 	url = https://github.com/martinda/Jenkinsfile-vim-syntax
+[submodule ".vim/bundle/ansible-vim"]
+	path = .vim/bundle/ansible-vim
+	url = https://github.com/pearofducks/ansible-vim
