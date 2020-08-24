@@ -2,7 +2,6 @@
   homebrew:
     update_homebrew: yes
     upgrade_all: yes
-    upgrade_options: --ignore-pinned
 - name: Update brew casks
   homebrew_cask:
     update_homebrew: yes
