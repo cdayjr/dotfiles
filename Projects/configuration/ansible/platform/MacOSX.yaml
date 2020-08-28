@@ -35,6 +35,7 @@
       - openssl
       - p7zip
       - php
+      - podman
       - python
       - rclone
       - rsync
@@ -67,6 +68,7 @@
       - boostnote
       - discord
       - firefox
+      - flux
       - google-chrome
       - google-drive-file-stream
       - imagealpha
