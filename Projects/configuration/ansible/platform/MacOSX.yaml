@@ -25,6 +25,7 @@
       - composer
       - coreutils
       - curl-openssl
+      - gh
       - gnupg
       - go
       - lesspipe
