@@ -1,13 +1,14 @@
 [alias]
   cleanup = "!f() { \
       (git switch -c cleanup-repo-branch || git switch cleanup-repo-branch) && \
-      (git branch -D master || echo No master branch found) && \
+      git branch -D main; \
+      git branch -D master; \
       git reset --hard && \
       git clean -df && \
       git fetch -a && \
-      git checkout master && \
+      (git checkout main || git checkout master) && \
       git submodule update --init --recursive -f && \
-      git branch | grep -v 'master' | grep -ve '^*' | xargs git branch -D && \
+      git branch | grep -ve '^*' | xargs git branch -D && \
       git remote prune origin && \
       git gc; \
     }; f"
