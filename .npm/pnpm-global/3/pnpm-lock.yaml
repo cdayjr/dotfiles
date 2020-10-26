@@ -1,8 +1,8 @@
 dependencies:
   http-server: 0.12.3
-  pnpm: 5.9.0
+  pnpm: 5.10.1
   prettier: 2.1.2
-lockfileVersion: 5.1
+lockfileVersion: 5.2
 packages:
   /async/2.6.3:
     dependencies:
@@ -118,13 +118,13 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-ur5UIdyw5Y7yEj9wLzhqXiy6GZ3Mwx0yGI+5sMn2r0N0v3cKJvUmFH5yPP+WXh9e0xfyzyJX95D8l088DNFj7A==
-  /pnpm/5.9.0:
+  /pnpm/5.10.1:
     dev: false
     engines:
       node: '>=10.16'
     hasBin: true
     resolution:
-      integrity: sha512-VrR/ISB3qCLGmw4xioqMdkWlyirdoah377rYKM+1FMUjuwgHa0481VYv/lUP4lRxaSEVsgTBCjV1v6HUsv270A==
+      integrity: sha512-XJ41/VU6cwFFugFi6V9y8WUO6S/eF3YRtOpX82xx25p3jW25cLHnvGn/TtC4XHwO/OZkCWOWkEV/AtDE5YKiSQ==
   /portfinder/1.0.28:
     dependencies:
       async: 2.6.3
