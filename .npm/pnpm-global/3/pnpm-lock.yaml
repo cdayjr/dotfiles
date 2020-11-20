@@ -1,7 +1,7 @@
 dependencies:
   http-server: 0.12.3
   pnpm: 5.13.1
-  prettier: 2.1.2
+  prettier: 2.2.0
 lockfileVersion: 5.2
 packages:
   /async/2.6.3:
@@ -135,13 +135,13 @@ packages:
       node: '>= 0.12.0'
     resolution:
       integrity: sha512-Se+2isanIcEqf2XMHjyUKskczxbPH7dQnlMjXX6+dybayyHvAf/TCgyMRlzf/B6QDhAEFOGes0pzRo3by4AbMA==
-  /prettier/2.1.2:
+  /prettier/2.2.0:
     dev: false
     engines:
       node: '>=10.13.0'
     hasBin: true
     resolution:
-      integrity: sha512-16c7K+x4qVlJg9rEbXl7HEGmQyZlG4R9AgP+oHKRMsMsuk8s+ATStlf1NpDqyBI1HpVyfjLOeMhH2LvuNvV5Vg==
+      integrity: sha512-yYerpkvseM4iKD/BXLYUkQV5aKt4tQPqaGW6EsZjzyu0r7sVZZNPJW4Y8MyKmicp6t42XUPcBVA+H6sB3gqndw==
   /qs/6.9.4:
     dev: false
     engines:
