@@ -1,8 +1,9 @@
-- name: Install YADM Repo
-  become: true
-  command:
-    cmd: "https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/Fedora_{{ ansible_distribution_major_version }}/home:TheLocehiliosan:yadm.repo"
-    creates: /etc/yum.repos.d/home:TheLocehiliosan:yadm.repo
+- name: Install YADM repo
+  become: yes
+  command: "dnf copr enable -y cdayjr/yadm"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cdayjr:yadm.repo
+    warn: false
 - name: Install RPMFusion
   become: true
   dnf:
