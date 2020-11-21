@@ -1,9 +1,24 @@
+- name: Install YADM Repo GPG key
+  become: true
+  rpm_key:
+    key: https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg
+    state: present
 - name: Install YADM repo
   become: yes
   command: "dnf copr enable -y cdayjr/yadm"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cdayjr:yadm.repo
     warn: false
+- name: Install distribution GPG keys
+  become: true
+  dnf:
+    name: "distribution-gpg-keys"
+    state: present
+- name: Install RPMFusion Repo GPG key
+  become: true
+  rpm_key:
+    key: "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}-primary"
+    state: present
 - name: Install RPMFusion
   become: true
   dnf:
@@ -130,6 +145,11 @@
   changed_when: "keybase_result.stdout != ''"
 - name: ThinkPad battery tools
   block:
+    - name: Install ThinkPad repo GPG key
+      become: true
+      rpm_key:
+        key: "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
+        state: present
     - name: Install ThinkPad repo
       become: true
       dnf:
