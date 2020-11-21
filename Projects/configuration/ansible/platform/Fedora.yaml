@@ -1,4 +1,4 @@
-- name: Install YADM Repo GPG key
+- name: Install YADM repo GPG key
   become: true
   rpm_key:
     key: https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg
@@ -14,15 +14,25 @@
   dnf:
     name: "distribution-gpg-keys"
     state: present
-- name: Install RPMFusion Repo GPG key
+- name: Install RPMFusion (free) repo GPG key
   become: true
   rpm_key:
     key: "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}-primary"
     state: present
-- name: Install RPMFusion
+- name: Install RPMFusion (free)
   become: true
   dnf:
     name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    state: present
+- name: Install RPMFusion (nonfree) repo GPG key
+  become: true
+  rpm_key:
+    key: "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
+    state: present
+- name: Install RPMFusion (nonfree)
+  become: true
+  dnf:
+    name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
 - name: Upgrade all DNF pacakges
   become: true
@@ -104,6 +114,7 @@
       - calibre
       - chromium
       - chromium-libs-media-freeworld
+      - discord
       - exfat-utils
       - feh
       - firefox
@@ -124,6 +135,7 @@
       - python3-streamlink
       - redshift-gtk
       - rxvt-unicode
+      - steam
       - sway
       - synergy
       - tlp
