@@ -1,0 +1,13 @@
+#########
+#
+# Currently there is a bug with ansible and homebrew casks that have a `-` in
+# them.
+#
+# Running this with this file should resolve this.
+#
+# $ ansible-galaxy collection install -r requirements.yaml
+#
+collections:
+  - name: https://github.com/ansible-collections/community.general
+    type: git
+    version: 4c379bd3b2147710c3e7a1d900cddf47a6b7cd42
