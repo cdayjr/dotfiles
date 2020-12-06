@@ -12,12 +12,8 @@
         - "{{ ansible_distribution_release }}"
         - "{{ ansible_distribution_version }}"
         - "{{ ansible_distribution_major_version }}"
-    - when: ansible_distribution == 'MacOSX'
-      name: Install and configure macOS specific settings
-      include_tasks: platform/MacOSX.yaml
-    - when: ansible_distribution == 'Fedora'
-      name: Install and configure Fedora specific settings
-      include_tasks: platform/Fedora.yaml
+    - name: Install and configure platform specific settings
+      include_tasks: "platform/{{ ansible_distribution }}.yaml"
     - name: Install hostess cli
       command:
         cmd: go get -u github.com/cbednarski/hostess
@@ -26,6 +22,24 @@
         GOPATH: "{{ lookup('env','HOME') }}/.go"
     # Language package manager content, should be managed by a package config
     # file for contents rather than managed here
+    - name: Register npm config file
+      command:
+        cmd: 'echo "$HOME/.npmrc"'
+      register: npm_globalconfig
+      changed_when: false
+    - name: Get npm globalconfig file
+      command:
+        cmd: "npm config --global get globalconfig"
+      register: npm_globalconfig_check
+      changed_when: false
+    # bizarre setting where you need to set the globalconfig in the file you're
+    # using for globalconfig
+    - name: Set npm globalconfig
+      when: "npm_globalconfig.stdout != npm_globalconfig_check.stdout"
+      lineinfile:
+        path: "{{ npm_globalconfig.stdout }}"
+        regexp: '^globalconfig'
+        line: "globalconfig={{ npm_globalconfig.stdout }}"
     - name: Register npm prefix
       command:
         cmd: 'echo "$HOME/.npm"'

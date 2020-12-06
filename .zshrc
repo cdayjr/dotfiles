@@ -220,6 +220,9 @@ if pip show powerline-status >/dev/null 2>&1 && command -v powerline-daemon >/de
   . "$POWERLINE_PYTHON_BINDINGS/zsh/powerline.zsh"
 fi
 
+# Support for vagrant access outside of a WSL environment
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+
 # Includes
 INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
   for INCLUDE in $INCLUDES; do
