@@ -131,4 +131,4 @@
       - powerline-status
       - powerline-gitstatus
     extra_args: --user
-    state: present
+    state: latest
