@@ -1,13 +1,12 @@
 #########
 #
-# Currently there is a bug with ansible and homebrew casks that have a `-` in
-# them.
+# Use ansible galaxy tools to use extensions to ansible
 #
-# Running this with this file should resolve this.
+# Run this to install dependencies:
 #
-# $ ansible-galaxy collection install -r requirements.yaml
+# ```sh
+# ansible-galaxy collection install -r requirements.yaml
+# ```
 #
 collections:
-  - name: https://github.com/ansible-collections/community.general
-    type: git
-    version: 4c379bd3b2147710c3e7a1d900cddf47a6b7cd42
+  - community.general

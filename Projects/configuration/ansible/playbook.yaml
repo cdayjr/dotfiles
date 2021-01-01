@@ -38,7 +38,7 @@
       when: "npm_globalconfig.stdout != npm_globalconfig_check.stdout"
       lineinfile:
         path: "{{ npm_globalconfig.stdout }}"
-        regexp: '^globalconfig'
+        regexp: "^globalconfig"
         line: "globalconfig={{ npm_globalconfig.stdout }}"
     - name: Register npm prefix
       command:
@@ -71,16 +71,10 @@
       register: pnpm_update
       changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'
     - name: Update composer packages
-      composer:
+      community.general.composer:
         no_dev: false
         command: update
         global_command: true
-      environment:
-        COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
-    - name: Setup PHPCodeSniffer configuration
-      copy:
-        src: ~/.config/php/CodeSniffer.conf
-        dest: "$COMPOSER_HOME/vendor/squizlabs/php_codesniffer/CodeSniffer.conf"
       environment:
         COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
     - name: Update yadm submodules
