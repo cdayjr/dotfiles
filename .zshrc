@@ -237,7 +237,12 @@ INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
 # Example aliases
 
 ## Update everything according to ansible directive
-alias update="(yadm pull origin main && cd $HOME/Projects/configuration/ansible && ansible-playbook -i inventory.yaml -K playbook.yaml)"
+alias update="(
+  yadm pull origin main &&
+  cd $HOME/Projects/configuration/ansible &&
+  ansible-galaxy collection install -r requirements.yaml &&
+  ansible-playbook -i inventory.yaml -K playbook.yaml
+)"
 
 ## Get submodules to match latest committed commit in parent repo
 alias fix-submodules="git submodule update --recursive -f"
