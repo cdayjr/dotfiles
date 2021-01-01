@@ -59,70 +59,68 @@
     name: "{{ lookup('env','USER') }}"
     shell: /usr/local/bin/zsh
     state: present
-# DISABLED until ansilble cask is updated
-#- name: Install Homebrew casks
-#  community.general.homebrew_cask:
-#    name:
-#      - boostnote
-#      - discord
-#      - firefox
-#      - flux
-#      - google-chrome
-#      - google-drive-file-stream
-#      - imagealpha
-#      - imageoptim
-#      - iterm2
-#      - keepassxc
-#      - lastpass
-#      - microsoft-edge
-#      - mounty
-#      - slack
-#      - synergy
-#      - the-unarchiver
-#      - transmission-remote-gui
-#      - xscreensaver
-#    state: present
+- name: Install Homebrew casks
+  community.general.homebrew_cask:
+    name:
+      - boostnote
+      - discord
+      - firefox
+      - flux
+      - google-chrome
+      - google-drive-file-stream
+      - imagealpha
+      - imageoptim
+      - iterm2
+      - keepassxc
+      - lastpass
+      - microsoft-edge
+      - mounty
+      - slack
+      - synergy
+      - the-unarchiver
+      - transmission-remote-gui
+      - xscreensaver
+    state: present
 - name: Setup font repository
   community.general.homebrew_tap:
     name: homebrew/cask-fonts
     state: present
-# DISABLED until ansilble cask is updated
-#- name: Install fonts
-#  community.general.homebrew_cask:
-#    name:
-#      - font-andale-mono
-#      - font-arial
-#      - font-arial-black
-#      - font-cascadia
-#      - font-cascadia-mono
-#      - font-cascadia-mono-pl
-#      - font-cascadia-pl
-#      - font-comic-neue
-#      - font-comic-sans-ms
-#      - font-consolas-for-powerline
-#      - font-courier-new
-#      - font-fantasque-sans-mono
-#      - font-fira-code
-#      - font-fira-mono
-#      - font-fira-mono-for-powerline
-#      - font-fira-sans
-#      - font-hasklig
-#      - font-impact
-#      - font-iosevka
-#      - font-iosevka-slab
-#      - font-source-code-pro
-#      - font-source-code-pro-for-powerline
-#      - font-source-han-code-jp
-#      - font-source-han-mono
-#      - font-source-han-noto-cjk
-#      - font-source-han-sans
-#      - font-source-han-serif
-#      - font-source-sans-pro
-#      - font-source-serif-pro
-#      - font-times-new-roman
-#      - font-trebuchet-ms
-#      - font-verdana
-#    state: present
+- name: Install fonts
+  community.general.homebrew_cask:
+    name:
+      - font-andale-mono
+      - font-arial
+      - font-arial-black
+      - font-cascadia
+      - font-cascadia-mono
+      - font-cascadia-mono-pl
+      - font-cascadia-pl
+      - font-comic-neue
+      - font-comic-sans-ms
+      - font-consolas-for-powerline
+      - font-courier-new
+      - font-fantasque-sans-mono
+      - font-fira-code
+      - font-fira-mono
+      - font-fira-mono-for-powerline
+      - font-fira-sans
+      - font-hasklig
+      - font-impact
+      - font-iosevka
+      - font-iosevka-slab
+      - font-source-code-pro
+      - font-source-code-pro-for-powerline
+      - font-source-han-code-jp
+      - font-source-han-mono
+      - font-source-han-noto-cjk
+      - font-source-han-sans
+      - font-source-han-serif
+      - font-source-sans-pro
+      - font-source-serif-pro
+      - font-times-new-roman
+      - font-trebuchet-ms
+      - font-verdana
+    state: present
 - name: Install pip packages
   pip:
     name:
