@@ -16,8 +16,8 @@ zstyle ':completion:*' expand prefix suffix
 autoload bashcompinit && bashcompinit
 
 # Set up yadm completions
-if [ -d /usr/share/doc/yadm/completion ]; then
-  fpath=("$HOME/.local/share/completions" $fpath)
+if [ -d /usr/share/doc/yadm/completion/zsh ]; then
+  fpath=(/usr/share/doc/yadm/completion/zsh $fpath)
 fi
 
 # Enable advanced auto completion
