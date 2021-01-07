@@ -240,7 +240,7 @@ INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
 alias update="(
   yadm pull origin main &&
   cd $HOME/Projects/configuration/ansible &&
-  ansible-galaxy collection install -r requirements.yaml &&
+  ansible-galaxy collection install --force-with-deps -r requirements.yaml &&
   ansible-playbook -i inventory.yaml -K playbook.yaml
 )"
 
