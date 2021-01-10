@@ -1,0 +1,32 @@
+---
+# Use npm user config
+- name: Register preferred npm prefix
+  command:
+    cmd: 'echo "$HOME/.npm"'
+  register: npm_prefix
+  changed_when: false
+- name: Get current npm prefix
+  command:
+    cmd: "npm config --user get prefix"
+  register: npm_prefix_check
+  changed_when: false
+- name: Set npm prefix
+  when: "npm_prefix.stdout != npm_prefix_check.stdout"
+  command:
+    cmd: "npm config --user set prefix {{ npm_prefix.stdout }}"
+  changed_when: true
+- name: Get current pnpm prefix
+  command:
+    cmd: "npm config --user get pnpm-prefix"
+  register: pnpm_prefix_check
+  changed_when: false
+- name: Set pnpm prefix
+  when: "npm_prefix.stdout != pnpm_prefix_check.stdout"
+  command:
+    cmd: "npm config --user set pnpm-prefix {{ npm_prefix.stdout }}"
+  changed_when: true
+- name: Update pnpm packages
+  command:
+    cmd: 'npx --user pnpm update --dir "$HOME/.npm/pnpm-global/3"'
+  register: pnpm_update
+  changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'

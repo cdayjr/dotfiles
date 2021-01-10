@@ -13,54 +13,18 @@
         GOPATH: "{{ lookup('env','HOME') }}/.go"
     # Language package manager content, should be managed by a package config
     # file for contents rather than managed here
-    - name: Register npm config file
-      command:
-        cmd: 'echo "$HOME/.npmrc"'
-      register: npm_globalconfig
+    - name: Register npm major version
+      shell:
+        cmd: |
+          npm --version | awk 'BEGIN { FS = "." } ; { print $1 }'
+      register: npm_version
       changed_when: false
-    - name: Get npm globalconfig file
-      command:
-        cmd: "npm config --global get globalconfig"
-      register: npm_globalconfig_check
-      changed_when: false
-    # bizarre setting where you need to set the globalconfig in the file you're
-    # using for globalconfig
-    - name: Set npm globalconfig
-      when: "npm_globalconfig.stdout != npm_globalconfig_check.stdout"
-      lineinfile:
-        path: "{{ npm_globalconfig.stdout }}"
-        regexp: "^globalconfig"
-        line: "globalconfig={{ npm_globalconfig.stdout }}"
-    - name: Register npm prefix
-      command:
-        cmd: 'echo "$HOME/.npm"'
-      register: npm_prefix
-      changed_when: false
-    - name: Get npm prefix
-      command:
-        cmd: "npm config --global get prefix"
-      register: npm_prefix_check
-      changed_when: false
-    - name: Set npm prefix
-      when: "npm_prefix.stdout != npm_prefix_check.stdout"
-      command:
-        cmd: "npm config set prefix {{ npm_prefix.stdout }}"
-      changed_when: true
-    - name: Get pnpm prefix
-      command:
-        cmd: "npm config --global get pnpm-prefix"
-      register: pnpm_prefix_check
-      changed_when: false
-    - name: Set pnpm prefix
-      when: "npm_prefix.stdout != pnpm_prefix_check.stdout"
-      command:
-        cmd: "npm config --global set pnpm-prefix {{ npm_prefix.stdout }}"
-      changed_when: true
-    - name: Update pnpm packages
-      command:
-        cmd: 'npx pnpm update --dir "$HOME/.npm/pnpm-global/3"'
-      register: pnpm_update
-      changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'
+    - name: NPM configuration (globalconfig) (versions <7)
+      include_tasks: "npm/globalconfig.yaml"
+      when: npm_version.stdout | int < 7
+    - name: NPM configuration (userconfig) (versions 7+)
+      include_tasks: "npm/userconfig.yaml"
+      when: npm_version.stdout | int >= 7
     - name: Update composer packages
       community.general.composer:
         no_dev: false
