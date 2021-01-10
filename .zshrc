@@ -223,6 +223,84 @@ fi
 # Support for vagrant access outside of a WSL environment
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 
+# Get latest release of a github repo
+# See
+# https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#releases
+get-latest-github() {
+  if ! command -v jq >/dev/null; then
+    # can't confirm version without jq
+    return 1
+  fi
+  local OWNER="$1"
+  local REPO="$2"
+  local RELEASE_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/releases?per_page=1")"
+  if [ "$?" -ne 0 ]; then
+    # curl error
+    return 1
+  fi
+  # return release name
+  echo "$RELEASE_JSON" | jq -r '.[0].name'
+  return 0
+}
+
+# Check if ansible communtiy.general is latest
+is-latest-community-general() {
+  if ! command -v jq >/dev/null; then
+    # can't confirm version without jq
+    return 1
+  fi
+  local LATEST_RELEASE="$(get-latest-github ansible-collections community.general)"
+  if [ "$?" -ne 0 ]; then
+    # could not get latest release, always update
+    return 1
+  fi
+  if ! [ -f "$HOME/.ansible/collections/ansible_collections/community/general/MANIFEST.json" ]; then
+    # could not find current release, always update
+    return 1
+  fi
+  local CURRENT_VERSION="$(cat "$HOME/.ansible/collections/ansible_collections/community/general/MANIFEST.json" | jq -r '.collection_info.version')"
+  # final check
+  test "$LATEST_RELEASE" = "$CURRENT_VERSION"
+  return "$?"
+}
+
+# remove previous update alias (replaced with function below)
+unalias update 2>/dev/null
+
+## update command
+update() {
+  if ! command -v yadm >/dev/null; then
+    >&2 echo "Please install yadm before running this script"
+    return 1
+  fi
+  if ! command -v ansible-galaxy >/dev/null; then
+    >&2 echo "Please install ansible before running this script"
+    return 1
+  fi
+  if ! command -v ansible-playbook >/dev/null; then
+    >&2 echo "Please install ansible before running this script"
+    return 1
+  fi
+  if [ -z "$IN_UPDATE" ]; then
+    # get latest zshrc and load it
+    IN_UPDATE="1"
+    yadm pull origin main
+    source "$HOME/.zshrc"
+    update
+    return 0
+  fi
+  unset IN_UPDATE
+  # run updates
+  local ANSIBLE_DIR="$HOME/Projects/configuration/ansible"
+  is-latest-community-general || ansible-galaxy collection install \
+    --force-with-deps \
+    --requirements-file "$ANSIBLE_DIR/requirements.yaml"
+  ansible-playbook \
+    --inventory-file "$ANSIBLE_DIR/inventory.yaml" \
+    --ask-become-pass \
+    "$ANSIBLE_DIR/playbook.yaml"
+}
+
 # Includes
 INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
   for INCLUDE in $INCLUDES; do
@@ -235,15 +313,6 @@ INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-
-## Update everything according to ansible directive
-alias update="(
-  yadm pull origin main &&
-  source ~/.zshrc &&
-  cd $HOME/Projects/configuration/ansible &&
-  ansible-galaxy collection install --force-with-deps -r requirements.yaml &&
-  ansible-playbook -i inventory.yaml -K playbook.yaml
-)"
 
 ## Get submodules to match latest committed commit in parent repo
 alias fix-submodules="git submodule update --recursive -f"
