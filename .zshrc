@@ -283,9 +283,9 @@ update() {
   fi
   if [ -z "$IN_UPDATE" ]; then
     # get latest zshrc and load it
-    IN_UPDATE="1"
     yadm pull origin main
     source "$HOME/.zshrc"
+    IN_UPDATE="1"
     update
     return 0
   fi
