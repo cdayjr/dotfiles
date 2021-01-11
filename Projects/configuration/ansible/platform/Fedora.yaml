@@ -13,7 +13,7 @@
   become: true
   dnf:
     name: "distribution-gpg-keys"
-    state: present
+    state: latest
 - name: Install RPMFusion (free) repo GPG key
   become: true
   rpm_key:
@@ -34,38 +34,33 @@
   dnf:
     name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
-- name: Upgrade all DNF pacakges
-  become: true
-  dnf:
-    name: "*"
-    state: latest
 - name: Install "Development Tools" DNF package group
   become: true
   dnf:
     name: "@Development Tools"
-    state: present
+    state: latest
 - name: Install appstream-data for rpmfusion packages
   become: true
   dnf:
     name: "@core"
-    state: present
+    state: latest
 - name: Install multimedia plugins from RPMFusion
   become: true
   dnf:
     name: "@multimedia"
-    state: present
+    state: latest
     install_weak_deps: false
     exclude: PackageKit-gstreamer-plugin
 - name: Install sound and video complement packages from RPMFusion
   become: true
   dnf:
     name: "@sound-and-video"
-    state: present
+    state: latest
 - name: Install tainted rpmfusion packages
   become: true
   dnf:
     name: rpmfusion-free-release-tainted
-    state: present
+    state: latest
 - name: Install CLI packages
   become: true
   dnf:
@@ -100,7 +95,7 @@
       - wget
       - yadm
       - zsh
-    state: present
+    state: latest
 - name: Set user shell
   become: true
   user:
@@ -144,7 +139,7 @@
       - wl-clipboard
       - xsel
       - youtube-dl
-    state: present
+    state: latest
 - name: Keybase Repo
   become: true
   dnf:
@@ -171,7 +166,7 @@
       become: true
       package:
         name: "{{ packages }}"
-        state: present
+        state: latest
       vars:
         packages:
           - akmod-tp_smapi
@@ -181,7 +176,7 @@
   become: yes
   package:
     name: "{{ packages }}"
-    state: present
+    state: latest
   vars:
     packages:
       - flac123
@@ -201,7 +196,7 @@
     name:
       - cascadia-code-fonts
       - fira-code-fonts
-    state: present
+    state: latest
 - name: Custom Fonts
   block:
     - name: Create .fonts diectory
@@ -216,7 +211,12 @@
     - name: Reload font cache
       when: fixedsys_installed.changed
       command: "fc-cache"
-# Fedora cleanup
+# Fedora final upgrades & cleanup
+- name: Upgrade all DNF pacakges
+  become: true
+  dnf:
+    name: "*"
+    state: latest
 - name: Autoremove unneeded packages installed as dependencies
   become: true
   dnf:

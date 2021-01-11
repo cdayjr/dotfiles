@@ -1,4 +1,4 @@
-- name: Update Homebrew and packages
+- name: Update Homebrew
   homebrew:
     update_homebrew: yes
     upgrade_all: yes
@@ -12,7 +12,7 @@
       - gpatch
       - patchutils
       - subversion
-    state: present
+    state: latest
 - name: Install Homebrew packages
   homebrew:
     name:
@@ -46,7 +46,7 @@
       - wget
       - yadm
       - zsh
-    state: present
+    state: latest
 - name: Add brew zsh to /etc/shells
   become: true
   lineinfile:
@@ -80,7 +80,8 @@
       - the-unarchiver
       - transmission-remote-gui
       - xscreensaver
-    state: present
+    state: latest
+    greedy: true
 - name: Setup font repository
   community.general.homebrew_tap:
     name: homebrew/cask-fonts
@@ -120,7 +121,10 @@
       - font-times-new-roman
       - font-trebuchet-ms
       - font-verdana
-    state: present
+    state: latest
+- name: Upgrade remaining homebrew packages
+  homebrew:
+    upgrade_all: yes
 - name: Install pip packages
   pip:
     name:
