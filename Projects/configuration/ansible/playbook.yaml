@@ -32,6 +32,64 @@
         global_command: true
       environment:
         COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
+    - name: package sources
+      git:
+        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
+        dest: ~/.local/src/{{ item.repo }}
+        depth: 1
+      loop:
+        - owner: kittykatt
+          repo: screenfetch
+        - owner: muennich
+          repo: urxvt-perls
+    - name: vim bundles
+      git:
+        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
+        dest: ~/.vim/bundle/{{ item.repo }}
+        depth: 1
+      loop:
+        - owner: editorconfig
+          repo: editorconfig-vim
+        - owner: sbdchd
+          repo: neoformat
+        - owner: mattn
+          repo: emmet-vim
+        - owner: scrooloose
+          repo: nerdtree
+        - owner: rust-lang
+          repo: rust.vim
+        - owner: vim-syntastic
+          repo: syntastic
+        - owner: quramy
+          repo: tsuquyomi
+        - owner: leafgarland
+          repo: typescript-vim
+        - owner: flazz
+          repo: vim-colorschemes
+        - owner: tpope
+          repo: vim-fugitive
+        - owner: tpope
+          repo: vim-liquid
+        - owner: plasticboy
+          repo: vim-markdown
+        - owner: lumiliet
+          repo: vim-twig
+        - owner: adelarsq
+          repo: vim-matchit
+        - owner: fatih
+          repo: vim-go
+        - owner: shougo
+          repo: vimproc.vim
+        - owner: idanarye
+          repo: vim-vebugger
+        - owner: chrisbra
+          repo: csv.vim
+        - owner: towolf
+          repo: vim-helm
+        - owner: martinda
+          repo: jenkinsfile-vim-syntax
+        - owner: pearofducks
+          repo: ansible-vim
     - name: Update yadm submodules
       command:
         cmd: "yadm submodule update --init --remote"
