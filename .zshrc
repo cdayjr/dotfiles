@@ -233,13 +233,13 @@ get-latest-github() {
   fi
   local OWNER="$1"
   local REPO="$2"
-  local RELEASE_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/releases?per_page=1")"
+  local RELEASE_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/releases/latest")"
   if [ "$?" -ne 0 ]; then
     # curl error
     return 1
   fi
   # return release name
-  echo "$RELEASE_JSON" | jq -r '.[0].name'
+  echo "$RELEASE_JSON" | jq -r '.tag_name'
   return 0
 }
 
