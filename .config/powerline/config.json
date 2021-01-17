@@ -2,10 +2,5 @@
   "common": {
     "default_top_theme": "powerline",
     "term_truecolor": true
-  },
-  "ext": {
-    "shell": {
-      "theme": "default_leftonly"
-    }
   }
 }
