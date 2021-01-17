@@ -80,6 +80,8 @@
           repo: tsuquyomi
         - owner: rust-lang
           repo: rust.vim
+        - owner: ryanoasis
+          repo: vim-devicons
         - owner: sbdchd
           repo: neoformat
         - owner: scrooloose
