@@ -71,6 +71,7 @@
       - curl
       - golang
       - golang
+      - lsd
       - mosh
       - mycli
       - nmap

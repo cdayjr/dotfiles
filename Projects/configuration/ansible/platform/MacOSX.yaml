@@ -26,6 +26,7 @@
       - go
       - imagemagick
       - lesspipe
+      - lsd
       - macvim
       - mosh
       - mycli

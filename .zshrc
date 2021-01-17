@@ -191,11 +191,16 @@ if command -v lesspipe >/dev/null 2>&1; then
   eval "$(SHELL=/bin/sh lesspipe)"
 fi
 
-# enable color support of ls and also add handy aliases
-if command -v dircolors >/dev/null 2>&1; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+if command -v lsd >/dev/null 2>&1; then
+  # Use lsd as ls alias
+  alias ls='lsd'
+else
+  # enable color support of ls and also add handy aliases
+  if command -v dircolors >/dev/null 2>&1; then
+      test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  fi
+  alias ls='ls --color=auto'
 fi
-alias ls='ls --color=auto'
 
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
