@@ -39,12 +39,12 @@
         depth: 1
         force: true # disregard local changes
       loop:
+        - owner: dexpota
+          repo: kitty-themes
         - owner: kittykatt
           repo: screenfetch
         - owner: muennich
           repo: urxvt-perls
-        - owner: dexpota
-          repo: kitty-themes
     - name: vim bundles
       git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
@@ -52,48 +52,48 @@
         depth: 1
         force: true # disregard local changes
       loop:
+        - owner: adelarsq
+          repo: vim-matchit
+        - owner: chrisbra
+          repo: csv.vim
         - owner: editorconfig
           repo: editorconfig-vim
-        - owner: sbdchd
-          repo: neoformat
-        - owner: mattn
-          repo: emmet-vim
-        - owner: scrooloose
-          repo: nerdtree
-        - owner: rust-lang
-          repo: rust.vim
-        - owner: vim-syntastic
-          repo: syntastic
-        - owner: quramy
-          repo: tsuquyomi
-        - owner: leafgarland
-          repo: typescript-vim
+        - owner: fatih
+          repo: vim-go
         - owner: flazz
           repo: vim-colorschemes
+        - owner: idanarye
+          repo: vim-vebugger
+        - owner: leafgarland
+          repo: typescript-vim
+        - owner: lumiliet
+          repo: vim-twig
+        - owner: martinda
+          repo: jenkinsfile-vim-syntax
+        - owner: mattn
+          repo: emmet-vim
+        - owner: pearofducks
+          repo: ansible-vim
+        - owner: plasticboy
+          repo: vim-markdown
+        - owner: quramy
+          repo: tsuquyomi
+        - owner: rust-lang
+          repo: rust.vim
+        - owner: sbdchd
+          repo: neoformat
+        - owner: scrooloose
+          repo: nerdtree
+        - owner: shougo
+          repo: vimproc.vim
+        - owner: towolf
+          repo: vim-helm
         - owner: tpope
           repo: vim-fugitive
         - owner: tpope
           repo: vim-liquid
-        - owner: plasticboy
-          repo: vim-markdown
-        - owner: lumiliet
-          repo: vim-twig
-        - owner: adelarsq
-          repo: vim-matchit
-        - owner: fatih
-          repo: vim-go
-        - owner: shougo
-          repo: vimproc.vim
-        - owner: idanarye
-          repo: vim-vebugger
-        - owner: chrisbra
-          repo: csv.vim
-        - owner: towolf
-          repo: vim-helm
-        - owner: martinda
-          repo: jenkinsfile-vim-syntax
-        - owner: pearofducks
-          repo: ansible-vim
+        - owner: vim-syntastic
+          repo: syntastic
     - name: Update yadm submodules
       command:
         cmd: "yadm submodule update --init --remote"
