@@ -189,19 +189,7 @@
       - vlc
       - mpv
 # Fonts
-- name: Fedora Beter Fonts Repo
-  become: true
-  command: "dnf copr enable -y ramot/fedora-better-fonts"
-  args:
-    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:ramot:fedora-better-fonts.repo
-    warn: false
-- name: Fira Code Fonts Repo
-  become: true
-  command: "dnf copr enable -y cyfrost/packages"
-  args:
-    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cyfrost:packages.repo
-    warn: false
-- name: Install font packages
+- name: Install base font packages
   become: true
   dnf:
     name:
@@ -225,9 +213,7 @@
       - cascadia-mono-pl-fonts
       - comic-neue-angular-fonts
       - comic-neue-fonts
-      - courier-prime-fonts
       - dejavu-fonts-all
-      - fira-code-fonts
       - fontawesome-fonts
       - google-android-emoji-fonts
       - google-arimo-fonts
@@ -523,6 +509,37 @@
       - wine-webdings-fonts
       - wine-wingdings-fonts
     state: latest
+- name: Fedora Beter Fonts Repo
+  become: true
+  command: "dnf copr enable -y dawid/better_fonts"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:dawid:better_fonts.repo
+    warn: false
+  when: ansible_distribution_major_version | int >= 32
+  register: better_fonts_repo
+- name: Install fonts from better fonts repo
+  become: true
+  dnf:
+    name:
+      - courier-prime-fonts
+      - ubuntu-fonts
+    state: latest
+  when: better_fonts_repo is not skipped
+- name: Fira Code Fonts Repo
+  become: true
+  command: "dnf copr enable -y cyfrost/packages"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cyfrost:packages.repo
+    warn: false
+  when: ansible_distribution_major_version | int >= 32
+  register: cyfrost_packages_repo
+- name: Install fonts from cyfrost packages
+  become: true
+  dnf:
+    name:
+      - fira-code-fonts
+    state: latest
+  when: cyfrost_packages_repo is not skipped
 - name: Manual Font Installation
   block:
     - name: Create local fonts diectory
