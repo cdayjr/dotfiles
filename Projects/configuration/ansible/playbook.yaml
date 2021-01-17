@@ -54,6 +54,8 @@
       loop:
         - owner: adelarsq
           repo: vim-matchit
+        - owner: cespare
+          repo: vim-toml
         - owner: chrisbra
           repo: csv.vim
         - owner: editorconfig
