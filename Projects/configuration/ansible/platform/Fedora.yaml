@@ -71,10 +71,10 @@
       - ccze
       - composer
       - curl
+      - exa
       - fd-find
       - golang
       - jq
-      - lsd
       - mosh
       - mycli
       - nmap

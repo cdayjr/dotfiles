@@ -22,6 +22,7 @@
       - composer
       - coreutils
       - curl-openssl
+      - exa
       - fd
       - gh
       - gnupg
@@ -29,7 +30,6 @@
       - imagemagick
       - jq
       - lesspipe
-      - lsd
       - macvim
       - mosh
       - mycli
