@@ -25,6 +25,7 @@
       - gnupg
       - go
       - imagemagick
+      - jq
       - lesspipe
       - lsd
       - macvim
