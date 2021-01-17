@@ -602,3 +602,5 @@
   loop:
     - package: sd
       bin: sd
+    - package: du-dust
+      bin: dust
