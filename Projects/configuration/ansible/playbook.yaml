@@ -5,6 +5,15 @@
   tasks:
     - name: Install and configure platform specific settings
       include_tasks: "platform/{{ ansible_distribution }}.yaml"
+    - name: Install cargo update tool
+      command:
+        cmd: cargo install cargo-update
+        creates: ~/.cargo/bin/cargo-install-update
+    - name: Update cargo packages
+      command:
+        cmd: cargo install-update --all
+      register: cargo_update
+      changed_when: cargo_update.stdout.find('No packages need updating.') == -1
     - name: Install hostess cli
       command:
         cmd: go get -u github.com/cbednarski/hostess
