@@ -91,6 +91,7 @@
       - procs
       - python3-github3py
       - rclone
+      - ripgrep
       - rsync
       - rust
       - tmux-powerline

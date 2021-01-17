@@ -41,6 +41,7 @@
       - procs
       - python
       - rclone
+      - ripgrep
       - rsync
       - rust
       - sd
