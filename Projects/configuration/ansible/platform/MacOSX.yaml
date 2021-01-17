@@ -16,6 +16,7 @@
 - name: Install Homebrew packages
   homebrew:
     name:
+      - bat
       - ccze
       - cmake
       - composer
