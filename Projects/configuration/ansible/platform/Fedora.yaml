@@ -578,3 +578,10 @@
     autoremove: true
     skip_broken: true
     update_cache: true
+- name: Install cargo packages
+  command:
+    cmd: "cargo install {{ item.package }}"
+    creates: "~/.cargo/bin/{{ item.bin }}"
+  loop:
+    - package: sd
+      bin: sd

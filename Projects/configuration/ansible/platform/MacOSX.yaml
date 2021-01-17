@@ -43,6 +43,7 @@
       - rclone
       - rsync
       - rust
+      - sd
       - smimesign
       - speedtest-cli
       - tmux
