@@ -1,3 +1,5 @@
+" set encoding
+set encoding=UTF-8
 " pathogen
 execute pathogen#infect()
 " Press F2 to switch between paste and nopaste mode
