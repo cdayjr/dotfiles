@@ -24,6 +24,7 @@
       - gh
       - gnupg
       - go
+      - imagemagick
       - lesspipe
       - macvim
       - mosh
@@ -72,6 +73,7 @@
       - imageoptim
       - iterm2
       - keepassxc
+      - kitty
       - lastpass
       - microsoft-edge
       - mounty

@@ -65,6 +65,7 @@
   become: true
   dnf:
     name:
+      - ImageMagick
       - ccze
       - composer
       - curl
@@ -124,6 +125,7 @@
       - i3status
       - i3status
       - keepassxc
+      - kitty
       - konsole
       - lm_sensors
       - pandoc

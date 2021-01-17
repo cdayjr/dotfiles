@@ -29,6 +29,15 @@ else
   autoload -Uz compinit && compinit
 fi
 
+# Setup kitty terminal features
+if command -v kitty >/dev/null 2>&1 && [ "$TERM" = "xterm-kitty" ]; then
+  kitty + complete setup zsh | source /dev/stdin
+  alias c="kitty +kitten clipboard"
+  alias d="kitty +kitten diff"
+  alias i="kitty +kitten icat"
+  alias u="kitty +kitten unicode_input"
+fi
+
 # Enable command correction
 setopt CORRECT
 setopt CORRECT_ALL

@@ -43,6 +43,8 @@
           repo: screenfetch
         - owner: muennich
           repo: urxvt-perls
+        - owner: dexpota
+          repo: kitty-themes
     - name: vim bundles
       git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
