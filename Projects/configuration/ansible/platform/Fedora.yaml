@@ -522,117 +522,26 @@
       - wine-webdings-fonts
       - wine-wingdings-fonts
     state: latest
-- name: Custom Fonts
+- name: Manual Font Installation
   block:
     - name: Create local fonts diectory
       file:
         path: ~/.local/share/fonts
         state: directory
-    - name: Install 3270 font
-      block:
-        - name: Get latest release of 3270
-          uri:
-            headers:
-              Accept: application/vnd.github.v3+json
-            url: https://api.github.com/repos/rbanffy/3270font/releases/latest
-          register: font_3270_github_latest_release
-        - name: Check if 3270 font is installed
-          stat:
-            path: "~/.local/share/fonts/3270-Regular-{{ latest }}.otf"
-          vars:
-            latest: "{{ font_3270_github_latest_release.json.tag_name }}"
-          register: font_3270_exists
-        - name: Install 3270 font
-          when: font_3270_exists.stat.exists == False
-          block:
-            - name: Create temporary file to store 3270
-              ansible.builtin.tempfile:
-                state: directory
-                suffix: font-3270
-              register: font_3270_temp
-            - name: Download and Extract 3270 font
-              unarchive:
-                src: "{{ download_url }}"
-                dest: "{{ font_3270_temp.path }}"
-                remote_src: true
-              vars:
-                query: "assets[0].browser_download_url"
-                download_url: "{{ font_3270_github_latest_release.json | community.general.json_query(query) }}"
-            - name: Install 3270 font
-              copy:
-                src: "{{ font_3270_temp.path }}/{{ item }}.otf"
-                dest: "~/.local/share/fonts/{{ item }}-{{ latest }}.otf"
-              register: font_3270_installed
-              loop:
-                - "3270-Regular"
-                - "3270Condensed-Regular"
-                - "3270SemiCondensed-Regular"
-              vars:
-                latest: "{{ font_3270_github_latest_release.json.tag_name }}"
-            - name: Remove temporary 3270 files
-              file:
-                path: "{{ font_3270_temp.path }}"
-                state: absent
-            - name: Cleanup old 3270 fonts
-              when: font_3270_installed.changed
-              block:
-                - name: Find non-latest 3270 font
-                  find:
-                    excludes:
-                      - "^3270.*-{{ latest | regex_escape('posix_basic') }}\\.otf$"
-                    paths: "~/.local/share/fonts/"
-                    patterns: "^3270.*\\.otf$"
-                    use_regex: true
-                  vars:
-                    latest: "{{ font_3270_github_latest_release.json.tag_name }}"
-                  register: old_3270_fonts
-                - name: Remove old 3270 fonts
-                  file:
-                    path: "{{ item.path }}"
-                    state: absent
-                  with_items: "{{ old_3270_fonts.files }}"
-    - name: Install Fixedsys Excelsior font
-      block:
-        - name: Get latest release of Fixedsys Excelsior
-          uri:
-            headers:
-              Accept: application/vnd.github.v3+json
-            url: https://api.github.com/repos/kika/fixedsys/releases/latest
-          register: font_fe_github_latest_release
-        - name: Install Fixedsys Excelsior font
-          get_url:
-            url: "{{ download_url }}"
-            dest: "~/.local/share/fonts/fixedsys-excelsior-{{ latest }}.tff"
-          register: font_fe_installed
-          vars:
-            latest: "{{ font_fe_github_latest_release.json.tag_name }}"
-            remote_filename: "FSEX{{ latest | regex_replace('^v?(\\d+)\\.(\\d+).*$', '\\1\\2') }}.ttf"
-            query: "assets[?name=='{{ remote_filename }}'].browser_download_url | [0]"
-            download_url: "{{ font_fe_github_latest_release.json | community.general.json_query(query) }}"
-        - name: Cleanup old Fixedsys Excelsior fonts
-          when: font_fe_installed.changed
-          block:
-            - name: Find non-latest Fixedsys Excelsior font
-              find:
-                excludes:
-                  - "fixedsys-excelsior-{{ latest | regex_escape('posix_basic') }}.tff"
-                paths: "~/.local/share/fonts/"
-                patterns: "^fixedsys-excelsior.*\\.tff$"
-                use_regex: true
-              vars:
-                latest: "{{ font_fe_github_latest_release.json.tag_name }}"
-              register: old_fixedsys_excelsior_fonts
-            - name: Remove old Fixedsys Excelsior font
-              file:
-                path: "{{ item.path }}"
-                state: absent
-              with_items: "{{ old_fixedsys_excelsior_fonts.files }}"
+    - name: Install manual fonts
+      include_tasks: "{{ ansible_distribution }}/fonts/{{ font_item }}.yaml"
+      loop:
+        - "3270"
+        - fixedsys_excelsior
+        - nerd_fonts
+      loop_control:
+        loop_var: font_item
     - name: Collect new font installations
       set_fact:
         new_font_installs:
-          - font_3270_installed.changed
-          - font_agave_installed.changed
-          - font_fe_installed.changed
+          - "{{ font_3270_installed.changed }}"
+          - "{{ font_fixedsys_excelsior_installed.changed }}"
+          - "{{ font_nerd_fonts_installed.changed }}"
     - name: Reload font cache
       when: "True in new_font_installs"
       command: "fc-cache -f"

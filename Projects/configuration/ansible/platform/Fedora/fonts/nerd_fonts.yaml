@@ -1,0 +1,45 @@
+- name: Install nerd fonts
+  block:
+    - name: Get latest release of nerd fonts
+      uri:
+        headers:
+          Accept: application/vnd.github.v3+json
+        url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
+      register: font_nf_github_latest_release
+    - name: Check if nerd fonts is installed
+      stat:
+        path: "~/.local/share/fonts/nerd-fonts-{{ latest }}"
+      vars:
+        latest: "{{ font_nf_github_latest_release.json.tag_name }}"
+      register: font_nf_exists
+    - name: Install nerd fonts
+      when: font_nf_exists.stat.exists == False
+      block:
+        - name: Download and Extract nerd fonts
+          unarchive:
+            src: "{{ item }}"
+            dest: "~/.local/share/fonts/nerd-fonts-{{ latest }}/"
+            remote_src: true
+          loop: "{{ download_urls }}"
+          vars:
+            query: "assets[*].browser_download_url"
+            download_urls: "{{ font_nf_github_latest_release.json | community.general.json_query(query) }}"
+          register: font_nerd_fonts_installed
+        - name: Cleanup old nerd fonts
+          when: font_nerd_fonts_installed.changed
+          block:
+            - name: Find non-latest nerd fonts
+              find:
+                excludes:
+                  - "^nerd-fonts-{{ latest | regex_escape('posix_basic') }}$"
+                paths: "~/.local/share/fonts/"
+                patterns: "^nerd-fonts.*$"
+                use_regex: true
+              vars:
+                latest: "{{ font_nf_github_latest_release.json.tag_name }}"
+              register: old_nerd_fonts
+            - name: Remove old nerd fonts
+              file:
+                path: "{{ item.path }}"
+                state: absent
+              with_items: "{{ old_nerd_fonts.files }}"
