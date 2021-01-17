@@ -91,6 +91,17 @@
       - xscreensaver
     state: latest
     greedy: true
+- name: Setup bottom repository
+  community.general.homebrew_tap:
+    name: clementtsang/bottom
+    state: present
+  register: bottom_repo
+- name: Install bottom from bottom repo
+  homebrew:
+    name:
+      - clementtsang/bottom/bottom
+    state: latest
+  when: bottom_repo is not skipped
 - name: Setup font repository
   community.general.homebrew_tap:
     name: homebrew/cask-fonts

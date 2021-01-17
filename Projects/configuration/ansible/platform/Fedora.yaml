@@ -110,6 +110,21 @@
     name: "{{ lookup('env','USER') }}"
     shell: /usr/bin/zsh
     state: present
+- name: bottom Repo
+  become: true
+  command: "dnf copr enable -y atim/bottom"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:bottom.repo
+    warn: false
+  when: ansible_distribution_major_version | int >= 32
+  register: bottom_repo
+- name: Install bottom from bottom repo
+  become: true
+  dnf:
+    name:
+      - bottom
+    state: latest
+  when: bottom_repo is not skipped
 - name: Install desktop packages
   become: true
   dnf:
