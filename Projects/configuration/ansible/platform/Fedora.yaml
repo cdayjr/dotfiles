@@ -70,7 +70,7 @@
       - ccze
       - composer
       - curl
-      - golang
+      - fd-find
       - golang
       - jq
       - lsd

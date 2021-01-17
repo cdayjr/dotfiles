@@ -22,6 +22,7 @@
       - composer
       - coreutils
       - curl-openssl
+      - fd
       - gh
       - gnupg
       - go
