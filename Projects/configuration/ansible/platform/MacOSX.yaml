@@ -48,6 +48,7 @@
       - smimesign
       - speedtest-cli
       - tmux
+      - tokei
       - unar
       - watch
       - weechat

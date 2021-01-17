@@ -95,6 +95,7 @@
       - rsync
       - rust
       - tmux-powerline
+      - tokei
       - trash-cli
       - unar
       - vim
