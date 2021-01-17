@@ -38,6 +38,7 @@
       - p7zip
       - php
       - podman
+      - procs
       - python
       - rclone
       - rsync

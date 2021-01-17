@@ -87,6 +87,7 @@
       - php-mbstring
       - powerline
       - powerline-fonts
+      - procs
       - python3-github3py
       - rclone
       - rsync
