@@ -69,6 +69,17 @@
     name: "{{ lookup('env','USER') }}"
     shell: /usr/local/bin/zsh
     state: present
+- name: Setup bottom repository
+  community.general.homebrew_tap:
+    name: clementtsang/bottom
+    state: present
+  register: bottom_repo
+- name: Install bottom from bottom repo
+  homebrew:
+    name:
+      - clementtsang/bottom/bottom
+    state: latest
+  when: bottom_repo is not skipped
 - name: Install Homebrew casks
   community.general.homebrew_cask:
     name:
@@ -93,17 +104,17 @@
       - xscreensaver
     state: latest
     greedy: true
-- name: Setup bottom repository
+- name: Setup firefox developer repository
   community.general.homebrew_tap:
-    name: clementtsang/bottom
+    name: homebrew/cask-versions
     state: present
-  register: bottom_repo
-- name: Install bottom from bottom repo
+  register: cask_versions_repo
+- name: Install firefox-developer-edition from casks versions repo
   homebrew:
     name:
-      - clementtsang/bottom/bottom
+      - homebrew/cask-versions/firefox-developer-edition
     state: latest
-  when: bottom_repo is not skipped
+  when: cask_versions_repo is not skipped
 - name: Setup font repository
   community.general.homebrew_tap:
     name: homebrew/cask-fonts
