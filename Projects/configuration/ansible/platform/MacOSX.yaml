@@ -242,7 +242,8 @@
       - font-monoid-nerd-font
       - font-mononoki
       - font-mononoki-nerd-font
-      - font-mplus
+      # disabled due to host being down
+      #- font-mplus
       - font-mplus-nerd-font
       - font-noto-color-emoji
       - font-noto-emoji
