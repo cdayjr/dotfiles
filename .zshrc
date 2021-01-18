@@ -38,6 +38,9 @@ if command -v kitty >/dev/null 2>&1 && [ "$TERM" = "xterm-kitty" ]; then
   alias u="kitty +kitten unicode_input"
 fi
 
+# enable vim mode
+set -o vi
+
 # Enable command correction
 setopt CORRECT
 setopt CORRECT_ALL
