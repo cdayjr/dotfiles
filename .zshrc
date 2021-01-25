@@ -183,9 +183,6 @@ export GPG_TTY=$(tty)
 # Force it to believe the terminal supports 256 colors
 alias tmux='tmux -2'
 
-# Vim
-export EDITOR="$(which vim)"
-
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
 
@@ -323,6 +320,9 @@ INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
   for INCLUDE in $INCLUDES; do
     source "$INCLUDE"
   done
+
+# Set editor
+export EDITOR="$(which vim)"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
