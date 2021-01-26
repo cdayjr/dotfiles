@@ -1,33 +1,29 @@
-- name: Install YADM repo GPG key
+- name: Install distribution GPG keys
+  become: true
+  dnf:
+    name: "distribution-gpg-keys"
+    state: latest
+- name: Install GPG keys
   become: true
   rpm_key:
-    key: https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg
+    key: "{{ item }}"
     state: present
+  loop:
+    - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}-primary"
+    - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
+    - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
+    - "https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg"
+    - "https://keybase.io/docs/server_security/code_signing_key.asc"
 - name: Install YADM repo
   become: yes
   command: "dnf copr enable -y cdayjr/yadm"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cdayjr:yadm.repo
     warn: false
-- name: Install distribution GPG keys
-  become: true
-  dnf:
-    name: "distribution-gpg-keys"
-    state: latest
-- name: Install RPMFusion (free) repo GPG key
-  become: true
-  rpm_key:
-    key: "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}-primary"
-    state: present
 - name: Install RPMFusion (free)
   become: true
   dnf:
     name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
-    state: present
-- name: Install RPMFusion (nonfree) repo GPG key
-  become: true
-  rpm_key:
-    key: "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
     state: present
 - name: Install RPMFusion (nonfree)
   become: true
@@ -177,11 +173,6 @@
   changed_when: "keybase_result.stdout != ''"
 - name: ThinkPad battery tools
   block:
-    - name: Install ThinkPad repo GPG key
-      become: true
-      rpm_key:
-        key: "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
-        state: present
     - name: Install ThinkPad repo
       become: true
       dnf:
