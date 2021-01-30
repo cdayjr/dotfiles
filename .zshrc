@@ -322,7 +322,7 @@ INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
   done
 
 # Set editor
-export EDITOR="$(which vim)"
+export EDITOR="/usr/bin/env vim"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
