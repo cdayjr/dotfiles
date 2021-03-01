@@ -9,32 +9,36 @@ root = true
 [*]
 charset = utf-8
 end_of_line = lf
+# 2 spaces is the default prettier indentation, and we should follow convention
+# over configuration for tooling where possible.
+# YAML files also rely on 2 spaces for indentation.
 indent_size = 2
-tab_width = 2
 indent_style = space
 insert_final_newline = true
-trim_trailing_whitespace = true
 max_line_length = 80
+tab_width = 2
+trim_trailing_whitespace = true
 
 # text should be wrapped at 72 characters
 [*.md,gitcommit,*.txt]
 max_line_length = 72
+trim_trailing_whitespace = false
 
-# Go's styleguide recommends tabs
-[*.go]
-indent_style = tab
-
-# Makefile command start with a tab, it's safest to just rely on tab indentation
-# throughout a makefile
-[{Makefile,**.mk}]
-indent_style = tab
-
-# PHP's styleguide recommends 4-space indentation
-[*.php{,3,4,5,7}]
+# PSR-12 enforces 4 space indentation
+[*.php,*.phar]
 indent_size = 4
 indent_style = space
 tab_width = 4
 
+# Go's styleguide uses tabs for indentation
+[*.go]
+indent_style = tab
+
+# Makefile by default uses a tab to signify a command,
+# it's easiest to think of this as the indentation
+[{Makefile,**.mk}]
+indent_style = tab
+
 # CSV files can have any line length
 [*.csv]
-max_line_length = 0
+max_line_length = off
