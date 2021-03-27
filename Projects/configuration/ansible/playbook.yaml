@@ -1,7 +1,10 @@
-- name: Workstation Setup
+- name: Environment Setup
   hosts: localhost
   gather_facts: true
   become: false
+  vars:
+    linux_desktop: "{{ ('XDG_CURRENT_DESKTOP' in ansible_env) and (ansible_env.XDG_CURRENT_DESKTOP|length > 0) }}"
+    thinkpad: "{{ ansible_product_version is regex('ThinkPad') }}"
   tasks:
     - name: Install and configure platform specific settings
       include_tasks: "platform/{{ ansible_distribution }}.yaml"
