@@ -306,11 +306,29 @@ update() {
   unset IN_UPDATE
   # run updates
   local ANSIBLE_DIR="$HOME/Projects/configuration/ansible"
+  local INVENTORY_FILE="$ANSIBLE_DIR/inventory.yaml"
+  if [ -z "$XDG_CONFIG_HOME" ]; then
+    local XDG_CONFIG_HOME="$HOME/.config"
+    if [ -f "$XDG_CONFIG_HOME/ansible/hosts" ]; then
+      INVENTORY_FILE="$XDG_CONFIG_HOME/ansible/hosts"
+    else
+      (
+        # loop through XDG_CONFIG_DIRS
+        local IFS=:
+        for POSSIBLE_CONFIG_DIR in $XDG_CONFIG_DIRS; do
+          if [ -f "$POSSIBLE_CONFIG_DIR/ansible/hosts" ]; then
+            INVENTORY_FILE="$POSSIBLE_CONFIG_DIR/ansible/hosts"
+            break
+          fi
+        done
+      )
+    fi
+  fi
   is-latest-community-general || ansible-galaxy collection install \
     --force-with-deps \
     --requirements-file "$ANSIBLE_DIR/requirements.yaml"
   ansible-playbook \
-    --inventory-file "$ANSIBLE_DIR/inventory.yaml" \
+    --inventory-file "$INVENTORY_FILE" \
     --ask-become-pass \
     "$ANSIBLE_DIR/playbook.yaml"
 }
