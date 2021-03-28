@@ -321,18 +321,16 @@ get_config_file() {
 
 ## update command
 update() {
-  if ! command -v yadm >/dev/null; then
-    >&2 echo "Please install yadm before running this script"
-    return 1
-  fi
-  if ! command -v ansible-galaxy >/dev/null; then
-    >&2 echo "Please install ansible before running this script"
-    return 1
-  fi
-  if ! command -v ansible-playbook >/dev/null; then
-    >&2 echo "Please install ansible before running this script"
-    return 1
-  fi
+  local DEPENDENCIES=()
+  DEPENDENCIES+=("yadm")
+  DEPENDENCIES+=("ansible-galaxy")
+  DEPENDENCIES+=("ansible-playbook")
+  for DEPENDENCY in ${DEPENDENCIES[@]}; do
+    if ! command -v "$DEPENDENCY" >/dev/null; then
+      >&2 echo "Please install $DEPENDENCY before running this script"
+      return 1
+    fi
+  done
   if [ -z "$IN_UPDATE" ]; then
     # get latest zshrc and load it
     yadm pull origin main
