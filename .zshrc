@@ -307,22 +307,26 @@ update() {
   # run updates
   local ANSIBLE_DIR="$HOME/Projects/configuration/ansible"
   local INVENTORY_FILE="$ANSIBLE_DIR/inventory.yaml"
+  # Check for local config override,
+  # per xdg specification
+  # https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
   if [ -z "$XDG_CONFIG_HOME" ]; then
     local XDG_CONFIG_HOME="$HOME/.config"
-    if [ -f "$XDG_CONFIG_HOME/ansible/hosts" ]; then
-      INVENTORY_FILE="$XDG_CONFIG_HOME/ansible/hosts"
-    else
-      (
-        # loop through XDG_CONFIG_DIRS
-        local IFS=:
-        for POSSIBLE_CONFIG_DIR in $XDG_CONFIG_DIRS; do
-          if [ -f "$POSSIBLE_CONFIG_DIR/ansible/hosts" ]; then
-            INVENTORY_FILE="$POSSIBLE_CONFIG_DIR/ansible/hosts"
-            break
-          fi
-        done
-      )
+  fi
+  if [ -f "$XDG_CONFIG_HOME/ansible/hosts" ]; then
+    INVENTORY_FILE="$XDG_CONFIG_HOME/ansible/hosts"
+  else
+    if [ -z "$XDG_CONFIG_DIRS" ]; then
+      local XDG_CONFIG_DIRS="/etc/xdg"
     fi
+    # loop through XDG_CONFIG_DIRS
+    local IFS=:
+    for POSSIBLE_CONFIG_DIR in $XDG_CONFIG_DIRS; do
+      if [ -f "$POSSIBLE_CONFIG_DIR/ansible/hosts" ]; then
+        INVENTORY_FILE="$POSSIBLE_CONFIG_DIR/ansible/hosts"
+        break
+      fi
+    done
   fi
   is-latest-community-general || ansible-galaxy collection install \
     --force-with-deps \
