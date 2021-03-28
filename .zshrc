@@ -21,7 +21,7 @@ if [ -d /usr/share/doc/yadm/completion/zsh ]; then
 fi
 
 # Enable advanced auto completion
-if command -v brew >/dev/null 2>&1 && brew list zsh >/dev/null 2>&1; then
+if command -v brew >/dev/null 2>&1 && [ -n "$ZSH_VERSION" ]; then
   # Brew install zsh to "insecure" directories, -i silently ignores the results
   # of those security checks
   autoload -Uz compinit && compinit -i
@@ -108,7 +108,6 @@ fi
 if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
   export MANPATH="$HOME/.local/share/man:$MANPATH"
 fi
-
 
 ###
 # Autocompletion setup
