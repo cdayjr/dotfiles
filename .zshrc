@@ -173,6 +173,11 @@ export COMPOSER_HOME="$HOME/.config/composer"
 export PATH="$PATH:$COMPOSER_HOME/vendor/bin"
 alias php="/usr/bin/env php -c $HOME/.config/php/php.ini"
 
+# OpenJDK on macOS
+if [ -d "/usr/local/opt/openjdk/bin" ]; then
+  export PATH="/usr/local/opt/openjdk/bin:$PATH"
+fi
+
 ##
 # User configuration
 ###
