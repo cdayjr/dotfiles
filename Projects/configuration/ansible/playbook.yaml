@@ -117,7 +117,7 @@
   become: false
   tasks:
     - name: Ensure yadm is up to date
-      command:
-        cmd: "yadm pull origin main"
+      shell:
+        cmd: "yadm fetch -a && yadm reset --hard && yadm merge origin/main"
       register: yadm_update
       changed_when: "yadm_update.stdout is not regex('Already up to date')"
