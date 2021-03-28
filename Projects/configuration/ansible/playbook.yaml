@@ -22,7 +22,7 @@
         cmd: go get -u github.com/cbednarski/hostess
         creates: ~/.go/bin/hostess
       environment:
-        GOPATH: "{{ lookup('env','HOME') }}/.go"
+        GOPATH: "{{ ansible_env.HOME }}/.go"
     # Language package manager content, should be managed by a package config
     # file for contents rather than managed here
     - name: Register npm major version
@@ -43,7 +43,7 @@
         command: update
         global_command: true
       environment:
-        COMPOSER_HOME: "{{ lookup('env','HOME') }}/.config/composer"
+        COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
     - name: package sources
       git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
