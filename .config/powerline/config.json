@@ -1,6 +1,5 @@
 {
   "common": {
-    "default_top_theme": "powerline",
-    "term_truecolor": true
+    "default_top_theme": "powerline"
   }
 }
