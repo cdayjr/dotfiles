@@ -281,6 +281,38 @@ is-latest-community-general() {
 # remove previous update alias (replaced with function below)
 unalias update 2>/dev/null
 
+get_config_file() {
+  local FILE="$1"
+  # Check for local config override,
+  # per xdg specification
+  # https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+  local POSSIBLE_CONFIG_DIRS=()
+  if [ -n "$XDG_CONFIG_HOME" ]; then
+    POSSIBLE_CONFIG_DIRS+=("$XDG_CONFIG_HOME")
+  else
+    POSSIBLE_CONFIG_DIRS+=("$HOME/.config")
+  fi
+  if [ -z "$XDG_CONFIG_DIRS" ]; then
+    POSSIBLE_CONFIG_DIRS+=("/etc/xdg")
+  else
+    # loop through XDG_CONFIG_DIRS
+    local IFS=":"
+    local XDG_CONFIG_DIR=""
+    for XDG_CONFIG_DIR in $XDG_CONFIG_DIRS; do
+      POSSIBLE_CONFIG_DIRS+=("$XDG_CONFIG_DIR")
+    done
+  fi
+  local POSSIBLE_CONFIG_DIR=""
+  for POSSIBLE_CONFIG_DIR in ${POSSIBLE_CONFIG_DIRS[@]}; do
+    if [ -f "$POSSIBLE_CONFIG_DIR/$FILE" ]; then
+      echo "$POSSIBLE_CONFIG_DIR/$FILE"
+      return 0
+    fi
+  done
+  # not found
+  return 1
+}
+
 ## update command
 update() {
   if ! command -v yadm >/dev/null; then
@@ -307,26 +339,9 @@ update() {
   # run updates
   local ANSIBLE_DIR="$HOME/Projects/configuration/ansible"
   local INVENTORY_FILE="$ANSIBLE_DIR/inventory.yaml"
-  # Check for local config override,
-  # per xdg specification
-  # https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-  if [ -z "$XDG_CONFIG_HOME" ]; then
-    local XDG_CONFIG_HOME="$HOME/.config"
-  fi
-  if [ -f "$XDG_CONFIG_HOME/ansible/hosts" ]; then
-    INVENTORY_FILE="$XDG_CONFIG_HOME/ansible/hosts"
-  else
-    if [ -z "$XDG_CONFIG_DIRS" ]; then
-      local XDG_CONFIG_DIRS="/etc/xdg"
-    fi
-    # loop through XDG_CONFIG_DIRS
-    local IFS=:
-    for POSSIBLE_CONFIG_DIR in $XDG_CONFIG_DIRS; do
-      if [ -f "$POSSIBLE_CONFIG_DIR/ansible/hosts" ]; then
-        INVENTORY_FILE="$POSSIBLE_CONFIG_DIR/ansible/hosts"
-        break
-      fi
-    done
+  local INVENTORY_OVERRIDE="$(get_config_file "/ansible/hosts")"
+  if [ -n "$INVENTORY_OVERRIDE" ]; then
+    INVENTORY_FILE="$INVENTORY_OVERRIDE"
   fi
   is-latest-community-general || ansible-galaxy collection install \
     --force-with-deps \
