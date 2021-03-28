@@ -113,6 +113,7 @@
 - name: Non-local updates
   # localhost takes care of itself outside of ansible
   hosts: "!localhost"
+  gather_facts: false
   become: false
   tasks:
     - name: Ensure yadm is up to date
