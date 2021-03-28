@@ -110,8 +110,13 @@
           repo: vim-liquid
         - owner: vim-syntastic
           repo: syntastic
-    - name: Update yadm submodules
+- name: Non-local updates
+  # localhost takes care of itself outside of ansible
+  hosts: "!localhost"
+  become: false
+  tasks:
+    - name: Ensure yadm is up to date
       command:
-        cmd: "yadm submodule update --init --remote"
+        cmd: "yadm pull origin main"
       register: yadm_update
-      changed_when: 'yadm_update.stdout != ""'
+      changed_when: "yadm_update.stdout is not regex('Already up to date')"
