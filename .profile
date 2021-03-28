@@ -3,11 +3,11 @@
 # Load settings for i3
 # Set terminal for i3-sensible-terminal
 if command -v kitty >/dev/null 2>&1; then
-  export TERMINAL=$(command -v kitty)
+  export TERMINAL="$(command -v kitty)"
 elif command -v urxvt256c >/dev/null 2>&1; then
-  export TERMINAL=$(command -v urxvt256c)
+  export TERMINAL="$(command -v urxvt256c)"
 elif command -v konsole >/dev/null 2>&1; then
-  export TERMINAL=$(command -v konsole)
+  export TERMINAL="$(command -v konsole)"
 fi
 # Set urxvt perl libraries path
 export URXVT_PERL_LIB="$HOME/.local/src/urxvt-perls/deprecated/:$HOME/.local/src/urxvt-perls/"
