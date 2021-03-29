@@ -198,6 +198,8 @@
     - name: Initialize keybase variables
       command:
         cmd: keybase ctl init
+      args:
+        creates: "{{ ansible_env.XDG_CONFIG_HOME | default('~/.config') }}/keybase/keybase.autogen.env"
     - name: Start keybase services
       ansible.builtin.systemd:
         scope: user
