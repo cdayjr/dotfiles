@@ -23,9 +23,10 @@
   loop:
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}-primary"
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
-    - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
+    - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
     - "https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg"
     - "https://keybase.io/docs/server_security/code_signing_key.asc"
+    - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
 - name: Install YADM repo
   become: yes
   command: "dnf copr enable -y cdayjr/yadm"
@@ -43,6 +44,13 @@
   dnf:
     name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
+- name: Install GitHub CLI repo
+  become: true
+  command:
+    cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
+  args:
+    creates: "/etc/yum.repos.d/gh-cli.repo"
+    warn: false
 - name: Install "Development Tools" DNF package group
   become: true
   dnf:
@@ -88,6 +96,7 @@
       - exfat-utils
       - fd-find
       - fuse-exfat
+      - gh
       - golang
       - jq
       - mosh
