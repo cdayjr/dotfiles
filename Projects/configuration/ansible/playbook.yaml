@@ -1,5 +1,39 @@
+- name: Ansible pre-requisites setup
+  hosts: posix
+  gather_facts: false
+  become: false
+  tasks:
+    - name: Install packages
+      become: true
+      package:
+        name:
+          - git
+          - python
+        state: latest
+    - name: Install pip packages
+      pip:
+        name:
+          - netaddr
+          - pretty
+        extra_args: --user
+        state: latest
+    - name: package sources
+      git:
+        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
+        dest: ~/.local/src/{{ item.repo }}
+        depth: 1
+        force: true # disregard local changes
+      loop:
+        - owner: dexpota
+          repo: kitty-themes
+        - owner: kittykatt
+          repo: screenfetch
+        - owner: muennich
+          repo: urxvt-perls
+        - owner: lxhunter
+          repo: ansible-filter-plugins
 - name: Environment Setup
-  hosts: all
+  hosts: posix
   gather_facts: true
   become: false
   vars:
@@ -44,19 +78,6 @@
         global_command: true
       environment:
         COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
-    - name: package sources
-      git:
-        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
-        dest: ~/.local/src/{{ item.repo }}
-        depth: 1
-        force: true # disregard local changes
-      loop:
-        - owner: dexpota
-          repo: kitty-themes
-        - owner: kittykatt
-          repo: screenfetch
-        - owner: muennich
-          repo: urxvt-perls
     - name: vim bundles
       git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
@@ -112,7 +133,7 @@
           repo: syntastic
 - name: Non-local updates
   # localhost takes care of itself outside of ansible
-  hosts: "!localhost"
+  hosts: "posix:!localhost"
   gather_facts: false
   become: false
   tasks:
