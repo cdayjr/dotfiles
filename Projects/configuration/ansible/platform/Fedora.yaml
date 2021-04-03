@@ -23,6 +23,7 @@
   loop:
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}-primary"
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
+    # GitHub CLI Repo
     - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
     - "https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg"
     - "https://keybase.io/docs/server_security/code_signing_key.asc"
@@ -111,7 +112,6 @@
       - php-json
       - php-mbstring
       - powerline
-      - powerline-fonts
       - procs
       - python3-github3py
       - rclone
@@ -120,7 +120,6 @@
       - rust
       - tmux-powerline
       - tokei
-      - trash-cli
       - unar
       - vim
       - vim-powerline
@@ -177,6 +176,7 @@
       - mpv
       - pandoc
       - pinta
+      - powerline-fonts
       - python3-streamlink
       - redshift-gtk
       - remmina
@@ -187,6 +187,7 @@
       - tlp
       - tlp-rdw
       - transmission-remote-gtk
+      - trash-cli
       - vlc
       - wl-clipboard
       - xsel
