@@ -298,21 +298,18 @@ is-latest-ansible-requirements() {
       LATEST_RELEASE="$(get-latest-github ansible-collections $REQUIREMENT_NAMESPACE.$REQUIREMENT | sed 's/^[vV]*//g')"
     fi
     if [ "$?" -ne 0 ]; then
-      # could not get latest release, always update
-      echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT could not get latest release"
+      >&2 echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT could not get latest release"
       return 1
     fi
     if ! [ -f "$HOME/.ansible/collections/ansible_collections/$REQUIREMENT_NAMESPACE/$REQUIREMENT/MANIFEST.json" ]; then
-      # could not find current release, always update
-      echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT could not find current release"
+      >&2 echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT could not find current release"
       return 1
     fi
     # remove leading `v` if present
     local CURRENT_VERSION="$(cat "$HOME/.ansible/collections/ansible_collections/$REQUIREMENT_NAMESPACE/$REQUIREMENT/MANIFEST.json" | jq -r '.collection_info.version' | sed 's/^[vV]*//g')"
     # final check
     if [ "$LATEST_RELEASE" != "$CURRENT_VERSION" ]; then
-      echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT non latest, have $CURRENT_VERSION want $LATEST_RELEASE"
-      # Non-latest version, update
+      >&2 echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT non latest, have $CURRENT_VERSION want $LATEST_RELEASE"
       return 1
     fi
   done
