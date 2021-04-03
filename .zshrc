@@ -406,3 +406,19 @@ export EDITOR="/usr/bin/env vim"
 
 ## Get submodules to match latest committed commit in parent repo
 alias fix-submodules="git submodule update --recursive -f"
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# Attach tmux when ssh session starts, exit when it exits
+if  then
+  if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) \
+    && command -v tmux &> /dev/null \
+    && [ -n "$PS1" ] \
+    && [[ ! "$TERM" =~ screen ]] \
+    && [[ ! "$TERM" =~ tmux ]] \
+    && [ -z "$TMUX" ]; then
+    exec tmux new -A -s default && exit
+  fi
+fi
