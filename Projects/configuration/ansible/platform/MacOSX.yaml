@@ -1,9 +1,9 @@
 - name: Update Homebrew
-  homebrew:
+  community.general.homebrew:
     update_homebrew: yes
     upgrade_all: yes
 - name: Install "Development Tools" Homebrew equivalent package group
-  homebrew:
+  community.general.homebrew:
     name:
       - diffstat
       - doxygen
@@ -14,7 +14,7 @@
       - subversion
     state: latest
 - name: Install Homebrew packages
-  homebrew:
+  community.general.homebrew:
     name:
       - bat
       - ccze
@@ -59,13 +59,13 @@
     state: latest
 - name: Add brew zsh to /etc/shells
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     name: /etc/shells
     line: /usr/local/bin/zsh
     state: present
 - name: Set user shell
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ lookup('env','USER') }}"
     shell: /usr/local/bin/zsh
     state: present
@@ -75,7 +75,7 @@
     state: present
   register: bottom_repo
 - name: Install bottom from bottom repo
-  homebrew:
+  community.general.homebrew:
     name:
       - clementtsang/bottom/bottom
     state: latest
@@ -206,10 +206,10 @@
       - font-victor-mono-nerd-font
     state: latest
 - name: Upgrade remaining homebrew packages
-  homebrew:
+  community.general.homebrew:
     upgrade_all: yes
 - name: Install pip packages
-  pip:
+  ansible.builtin.pip:
     name:
       - powerline-status
       - powerline-gitstatus

@@ -1,13 +1,13 @@
 - name: Install nerd fonts
   block:
     - name: Get latest release of nerd fonts
-      uri:
+      ansible.builtin.uri:
         headers:
           Accept: application/vnd.github.v3+json
         url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
       register: font_nf_github_latest_release
     - name: Check if nerd fonts is installed
-      file:
+      ansible.builtin.file:
         path: "~/.local/share/fonts/nerd-fonts-{{ latest }}"
         state: directory
       vars:
@@ -18,7 +18,7 @@
       when: font_nf_exists is changed
       block:
         - name: Download and Extract nerd fonts
-          unarchive:
+          ansible.builtin.unarchive:
             src: "{{ item }}"
             dest: "~/.local/share/fonts/nerd-fonts-{{ latest }}/"
             remote_src: true
@@ -32,7 +32,7 @@
           when: font_nerd_fonts_installed.changed
           block:
             - name: Find non-latest nerd fonts
-              find:
+              ansible.builtin.find:
                 excludes:
                   - "^nerd-fonts-{{ latest | regex_escape('posix_basic') }}$"
                 paths: "~/.local/share/fonts/"
@@ -42,7 +42,7 @@
                 latest: "{{ font_nf_github_latest_release.json.tag_name }}"
               register: old_nerd_fonts
             - name: Remove old nerd fonts
-              file:
+              ansible.builtin.file:
                 path: "{{ item.path }}"
                 state: absent
               with_items: "{{ old_nerd_fonts.files }}"

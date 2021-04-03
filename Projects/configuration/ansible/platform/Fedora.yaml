@@ -2,22 +2,22 @@
   when: not linux_desktop
   failed_when: false
   changed_when: false # command result is not a change
-  shell:
+  ansible.builtin.shell:
     cmd: "loginctl show-user {{ ansible_user_id }} -p Linger | grep -q 'Linger=yes'"
   register: check_linger
 - name: Enable linger for user
   when: (not linux_desktop) and (check_linger.rc != 0)
   become: true
-  command:
+  ansible.builtin.command:
     cmd: "loginctl enable-linger {{ ansible_user_id }}"
 - name: Install distribution GPG keys
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "distribution-gpg-keys"
     state: latest
 - name: Install GPG keys
   become: true
-  rpm_key:
+  ansible.builtin.rpm_key:
     key: "{{ item }}"
     state: present
   loop:
@@ -29,43 +29,43 @@
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
 - name: Install YADM repo
   become: yes
-  command: "dnf copr enable -y cdayjr/yadm"
+  ansible.builtin.command: "dnf copr enable -y cdayjr/yadm"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cdayjr:yadm.repo
     warn: false
 - name: Install RPMFusion (free)
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
 - name: Install RPMFusion (nonfree)
   when: linux_desktop
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
     state: present
 - name: Install GitHub CLI repo
   become: true
-  command:
+  ansible.builtin.command:
     cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
   args:
     creates: "/etc/yum.repos.d/gh-cli.repo"
     warn: false
 - name: Install "Development Tools" DNF package group
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "@Development Tools"
     state: latest
 - name: Install appstream-data for rpmfusion packages
   when: linux_desktop
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "@core"
     state: latest
 - name: Install multimedia plugins from RPMFusion
   when: linux_desktop
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "@multimedia"
     state: latest
     install_weak_deps: false
@@ -73,18 +73,18 @@
 - name: Install sound and video complement packages from RPMFusion
   when: linux_desktop
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "@sound-and-video"
     state: latest
 - name: Install tainted rpmfusion packages
   when: linux_desktop
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: rpmfusion-free-release-tainted
     state: latest
 - name: Install CLI packages
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name:
       - ImageMagick
       - bat
@@ -132,13 +132,13 @@
     state: latest
 - name: Set user shell
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ lookup('env','USER') }}"
     shell: /usr/bin/zsh
     state: present
 - name: bottom Repo
   become: true
-  command: "dnf copr enable -y atim/bottom"
+  ansible.builtin.command: "dnf copr enable -y atim/bottom"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:bottom.repo
     warn: false
@@ -146,7 +146,7 @@
   register: bottom_repo
 - name: Install bottom from bottom repo
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name:
       - bottom
     state: latest
@@ -154,7 +154,7 @@
 - name: Install desktop packages
   when: linux_desktop
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name:
       - calibre
       - chromium
@@ -193,12 +193,12 @@
     state: latest
 - name: Keybase Repo
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "https://prerelease.keybase.io/keybase_amd64.rpm"
     state: present
 - name: Keybase setup for workstation
   when: linux_desktop
-  command:
+  ansible.builtin.command:
     cmd: keybase ctl autostart --enable
   register: keybase_result
   changed_when: "keybase_result.stdout != ''"
@@ -206,7 +206,7 @@
   when: not linux_desktop
   block:
     - name: Initialize keybase variables
-      command:
+      ansible.builtin.command:
         cmd: keybase ctl init
       args:
         creates: "{{ ansible_env.XDG_CONFIG_HOME | default('~/.config') }}/keybase/keybase.autogen.env"
@@ -225,33 +225,29 @@
   block:
     - name: Install ThinkPad repo
       become: true
-      dnf:
+      ansible.builtin.dnf:
         name: "https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc{{ ansible_distribution_major_version }}.noarch.rpm"
         state: present
     - name: Install ThinkPad packages
       become: true
-      package:
-        name: "{{ packages }}"
-        state: latest
-      vars:
-        packages:
+      ansible.builtin.dnf:
+        name:
           - akmod-tp_smapi
           - akmod-acpi_call
           - kernel-devel
+        state: latest
 - name: Install media packages
   become: yes
-  package:
-    name: "{{ packages }}"
-    state: latest
-  vars:
-    packages:
+  ansible.builtin.dnf:
+    name:
       - flac123
       - libdvdcss
+    state: latest
 # Fonts
 - name: Install base font packages
   when: linux_desktop
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name:
       - adobe-source-code-pro-fonts
       - adobe-source-sans-pro-fonts
@@ -314,7 +310,7 @@
     state: latest
 - name: Fedora Beter Fonts Repo
   become: true
-  command: "dnf copr enable -y dawid/better_fonts"
+  ansible.builtin.command: "dnf copr enable -y dawid/better_fonts"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:dawid:better_fonts.repo
     warn: false
@@ -322,7 +318,7 @@
   register: better_fonts_repo
 - name: Install fonts from better fonts repo
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name:
       - courier-prime-fonts
       - ubuntu-fonts
@@ -331,14 +327,14 @@
 - name: Fira Code Fonts Repo
   when: linux_desktop and (ansible_distribution_major_version | int >= 32)
   become: true
-  command: "dnf copr enable -y cyfrost/packages"
+  ansible.builtin.command: "dnf copr enable -y cyfrost/packages"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cyfrost:packages.repo
     warn: false
   register: cyfrost_packages_repo
 - name: Install fonts from cyfrost packages
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name:
       - fira-code-fonts
     state: latest
@@ -347,7 +343,7 @@
   when: linux_desktop
   block:
     - name: Create local fonts diectory
-      file:
+      ansible.builtin.file:
         path: ~/.local/share/fonts
         state: directory
     - name: Install manual fonts
@@ -359,28 +355,28 @@
       loop_control:
         loop_var: font_item
     - name: Collect new font installations
-      set_fact:
+      ansible.builtin.set_fact:
         new_font_installs:
           - "{{ font_3270_installed.changed }}"
           - "{{ font_fixedsys_excelsior_installed.changed }}"
           - "{{ font_nerd_fonts_installed.changed }}"
     - name: Reload font cache
       when: "True in new_font_installs"
-      command: "fc-cache -f"
+      ansible.builtin.command: "fc-cache -f"
 # Fedora final upgrades & cleanup
 - name: Upgrade all DNF pacakges
   become: true
-  dnf:
+  ansible.builtin.dnf:
     name: "*"
     state: latest
 - name: Autoremove unneeded packages installed as dependencies
   become: true
-  dnf:
+  ansible.builtin.dnf:
     autoremove: true
     skip_broken: true
     update_cache: true
 - name: Install cargo packages
-  command:
+  ansible.builtin.command:
     cmd: "cargo install {{ item.package }}"
     creates: "~/.cargo/bin/{{ item.bin }}"
   loop:

@@ -2,17 +2,17 @@
 # Use npm global config
 # for before userconfig exists
 - name: Register preferred npm prefix
-  command:
+  ansible.builtin.command:
     cmd: 'echo "$HOME/.npm"'
   register: npm_prefix
   changed_when: false
 - name: Register npm config file
-  command:
+  ansible.builtin.command:
     cmd: 'echo "$HOME/.npmrc"'
   register: npm_globalconfig
   changed_when: false
 - name: Get npm globalconfig file
-  command:
+  ansible.builtin.command:
     cmd: "npm config --global get globalconfig"
   register: npm_globalconfig_check
   changed_when: false
@@ -20,32 +20,32 @@
 # you're using for globalconfig
 - name: Set npm globalconfig
   when: "npm_globalconfig.stdout != npm_globalconfig_check.stdout"
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ npm_globalconfig.stdout }}"
     regexp: "^globalconfig"
     line: "globalconfig={{ npm_globalconfig.stdout }}"
 - name: Get current npm prefix
-  command:
+  ansible.builtin.command:
     cmd: "npm config --global get prefix"
   register: npm_prefix_check
   changed_when: false
 - name: Set npm prefix
   when: "npm_prefix.stdout != npm_prefix_check.stdout"
-  command:
+  ansible.builtin.command:
     cmd: "npm config --global set prefix {{ npm_prefix.stdout }}"
   changed_when: true
 - name: Get current pnpm prefix
-  command:
+  ansible.builtin.command:
     cmd: "npm config --global get pnpm-prefix"
   register: pnpm_prefix_check
   changed_when: false
 - name: Set pnpm prefix
   when: "npm_prefix.stdout != pnpm_prefix_check.stdout"
-  command:
+  ansible.builtin.command:
     cmd: "npm config --global set pnpm-prefix {{ npm_prefix.stdout }}"
   changed_when: true
 - name: Update pnpm packages
-  command:
+  ansible.builtin.command:
     cmd: 'npx pnpm update --dir "$HOME/.npm/pnpm-global/3"'
   register: pnpm_update
   changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'

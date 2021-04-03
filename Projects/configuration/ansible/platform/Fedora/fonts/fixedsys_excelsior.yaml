@@ -1,13 +1,13 @@
 - name: Install Fixedsys Excelsior font
   block:
     - name: Get latest release of Fixedsys Excelsior
-      uri:
+      ansible.builtin.uri:
         headers:
           Accept: application/vnd.github.v3+json
         url: https://api.github.com/repos/kika/fixedsys/releases/latest
       register: font_fe_github_latest_release
     - name: Install Fixedsys Excelsior font
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ download_url }}"
         dest: "~/.local/share/fonts/fixedsys-excelsior-{{ latest }}.tff"
       register: font_fixedsys_excelsior_installed
@@ -20,7 +20,7 @@
       when: font_fixedsys_excelsior_installed.changed
       block:
         - name: Find non-latest Fixedsys Excelsior font
-          find:
+          ansible.builtin.find:
             excludes:
               - "fixedsys-excelsior-{{ latest | regex_escape('posix_basic') }}.tff"
             paths: "~/.local/share/fonts/"
@@ -30,7 +30,7 @@
             latest: "{{ font_fe_github_latest_release.json.tag_name }}"
           register: old_fixedsys_excelsior_fonts
         - name: Remove old Fixedsys Excelsior font
-          file:
+          ansible.builtin.file:
             path: "{{ item.path }}"
             state: absent
           with_items: "{{ old_fixedsys_excelsior_fonts.files }}"

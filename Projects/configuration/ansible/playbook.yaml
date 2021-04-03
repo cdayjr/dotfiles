@@ -1,24 +1,35 @@
 - name: Ansible pre-requisites setup
   hosts: posix
-  gather_facts: false
+  gather_facts: true
+  vars:
+    macOS: "{{ ansible_distribution == 'MacOSX' }}"
   become: false
   tasks:
-    - name: Install packages
+    - name: Install non-macOS packages
       become: true
-      package:
+      when: not macOS
+      ansible.builtin.package:
+        name:
+          - git
+          - python
+        state: latest
+    - name: Install macOS packages
+      become: true
+      when: macOS
+      community.general.homebrew:
         name:
           - git
           - python
         state: latest
     - name: Install pip packages
-      pip:
+      ansible.builtin.pip:
         name:
           - netaddr
           - pretty
         extra_args: --user
         state: latest
     - name: package sources
-      git:
+      ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
         dest: ~/.local/src/{{ item.repo }}
         depth: 1
@@ -43,16 +54,16 @@
     - name: Install and configure platform specific settings
       include_tasks: "platform/{{ ansible_distribution }}.yaml"
     - name: Install cargo update tool
-      command:
+      ansible.builtin.command:
         cmd: cargo install cargo-update
         creates: ~/.cargo/bin/cargo-install-update
     - name: Update cargo packages
-      command:
+      ansible.builtin.command:
         cmd: cargo install-update --all
       register: cargo_update
       changed_when: cargo_update.stdout.find('No packages need updating.') == -1
     - name: Install hostess cli
-      command:
+      ansible.builtin.command:
         cmd: go get -u github.com/cbednarski/hostess
         creates: ~/.go/bin/hostess
       environment:
@@ -60,7 +71,7 @@
     # Language package manager content, should be managed by a package config
     # file for contents rather than managed here
     - name: Register npm major version
-      shell:
+      ansible.builtin.shell:
         cmd: |
           npm --version | awk 'BEGIN { FS = "." } ; { print $1 }'
       register: npm_version
@@ -79,7 +90,7 @@
       environment:
         COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
     - name: vim bundles
-      git:
+      ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
         dest: ~/.vim/bundle/{{ item.repo }}
         depth: 1
@@ -138,7 +149,7 @@
   become: false
   tasks:
     - name: Ensure yadm is up to date
-      shell:
+      ansible.builtin.shell:
         cmd: "yadm fetch -a && yadm reset --hard && yadm merge origin/main"
       register: yadm_update
       changed_when: "yadm_update.stdout is not regex('Already up to date')"
