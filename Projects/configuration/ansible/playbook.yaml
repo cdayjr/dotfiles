@@ -12,7 +12,7 @@
         name:
           - git
           - python
-        state: latest
+        state: present
     - name: Install macOS packages
       become: true
       when: macOS
@@ -20,7 +20,7 @@
         name:
           - git
           - python
-        state: latest
+        state: present
     - name: Install pip packages
       ansible.builtin.pip:
         name:
