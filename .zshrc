@@ -263,25 +263,60 @@ get-latest-github() {
   return 0
 }
 
-# Check if ansible communtiy.general is latest
-is-latest-community-general() {
+# Check if ansible requirements are latest
+is-latest-ansible-requirements() {
   if ! command -v jq >/dev/null; then
     # can't confirm version without jq
     return 1
   fi
-  local LATEST_RELEASE="$(get-latest-github ansible-collections community.general)"
-  if [ "$?" -ne 0 ]; then
-    # could not get latest release, always update
-    return 1
-  fi
-  if ! [ -f "$HOME/.ansible/collections/ansible_collections/community/general/MANIFEST.json" ]; then
-    # could not find current release, always update
-    return 1
-  fi
-  local CURRENT_VERSION="$(cat "$HOME/.ansible/collections/ansible_collections/community/general/MANIFEST.json" | jq -r '.collection_info.version')"
-  # final check
-  test "$LATEST_RELEASE" = "$CURRENT_VERSION"
-  return "$?"
+  local REQUIREMENT_NAMESPACES=()
+  local REQUIREMENTS=()
+  local REPO_OVERRIDES=()
+  # ansible.windows
+  REQUIREMENT_NAMESPACES+=("ansible")
+  REQUIREMENTS+=("windows")
+  REPO_OVERRIDES+=("")
+  # chocolatey.chocolatey
+  REQUIREMENT_NAMESPACES+=("chocolatey")
+  REQUIREMENTS+=("chocolatey")
+  REPO_OVERRIDES+=("chocolatey/chocolatey-ansible")
+  # community.general
+  REQUIREMENT_NAMESPACES+=("community")
+  REQUIREMENTS+=("general")
+  REPO_OVERRIDES+=("")
+  for ((i = 1; i <= $#REQUIREMENTS; i++)); do
+    local REQUIREMENT="${REQUIREMENTS[$i]}"
+    local REQUIREMENT_NAMESPACE="${REQUIREMENT_NAMESPACES[$i]}"
+    local REPO_OVERRIDE="${REPO_OVERRIDES[$i]}"
+    local LATEST_RELEASE=""
+    # in both cases, remove leading `v` if present
+    if [ -n "$REPO_OVERRIDE" ]; then
+      # split repo override by slash and pass as owner/repo arguments to latest
+      # release
+      LATEST_RELEASE="$(get-latest-github $(echo $REPO_OVERRIDE | awk '{split($0,a,"/"); print a[1],a[2]}') | sed 's/^[vV]*//g')"
+    else
+      LATEST_RELEASE="$(get-latest-github ansible-collections $REQUIREMENT_NAMESPACE.$REQUIREMENT | sed 's/^[vV]*//g')"
+    fi
+    if [ "$?" -ne 0 ]; then
+      # could not get latest release, always update
+      echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT could not get latest release"
+      return 1
+    fi
+    if ! [ -f "$HOME/.ansible/collections/ansible_collections/$REQUIREMENT_NAMESPACE/$REQUIREMENT/MANIFEST.json" ]; then
+      # could not find current release, always update
+      echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT could not find current release"
+      return 1
+    fi
+    # remove leading `v` if present
+    local CURRENT_VERSION="$(cat "$HOME/.ansible/collections/ansible_collections/$REQUIREMENT_NAMESPACE/$REQUIREMENT/MANIFEST.json" | jq -r '.collection_info.version' | sed 's/^[vV]*//g')"
+    # final check
+    if [ "$LATEST_RELEASE" != "$CURRENT_VERSION" ]; then
+      echo "$REQUIREMENT_NAMESPACE.$REQUIREMENT non latest, have $CURRENT_VERSION want $LATEST_RELEASE"
+      # Non-latest version, update
+      return 1
+    fi
+  done
+  return 0
 }
 
 # remove previous update alias (replaced with function below)
@@ -347,7 +382,7 @@ update() {
   if [ -n "$INVENTORY_OVERRIDE" ]; then
     INVENTORY_FILE="$INVENTORY_OVERRIDE"
   fi
-  is-latest-community-general || ansible-galaxy collection install \
+  is-latest-ansible-requirements || ansible-galaxy collection install \
     --force-with-deps \
     --requirements-file "$ANSIBLE_DIR/requirements.yaml"
   ansible-playbook \
