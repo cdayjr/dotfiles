@@ -21,13 +21,6 @@
           - git
           - python
         state: present
-    - name: Install pip packages
-      ansible.builtin.pip:
-        name:
-          - netaddr
-          - pretty
-        extra_args: --user
-        state: latest
     - name: package sources
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
@@ -41,8 +34,6 @@
           repo: screenfetch
         - owner: muennich
           repo: urxvt-perls
-        - owner: lxhunter
-          repo: ansible-filter-plugins
 - name: Environment Setup
   hosts: posix
   gather_facts: true
