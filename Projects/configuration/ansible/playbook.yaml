@@ -34,6 +34,9 @@
       include_tasks: "npm/userconfig.yaml"
       when: npm_version.stdout | int >= 7
     - name: Update composer packages
+      # composer requires a moderm amount of memory to update,
+      # so only run on systems with 2gb or more
+      when: ansible_memtotal_mb >= 2048
       community.general.composer:
         no_dev: false
         command: update
