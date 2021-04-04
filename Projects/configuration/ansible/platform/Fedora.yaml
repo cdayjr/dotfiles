@@ -387,3 +387,12 @@
       bin: sd
     - package: du-dust
       bin: dust
+- name: Install cargo update tool
+  ansible.builtin.command:
+    cmd: cargo install cargo-update
+    creates: ~/.cargo/bin/cargo-install-update
+- name: Update cargo packages
+  ansible.builtin.command:
+    cmd: cargo install-update --all
+  register: cargo_update
+  changed_when: cargo_update.stdout.find('No packages need updating.') == -1
