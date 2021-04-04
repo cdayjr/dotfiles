@@ -22,9 +22,10 @@
 - name: Set npm globalconfig
   when: "npm_globalconfig.stdout != npm_globalconfig_check.stdout"
   ansible.builtin.lineinfile:
+    create: true
+    line: "globalconfig={{ npm_globalconfig.stdout }}"
     path: "{{ npm_globalconfig.stdout }}"
     regexp: "^globalconfig"
-    line: "globalconfig={{ npm_globalconfig.stdout }}"
 - name: Get current npm prefix
   ansible.builtin.command:
     cmd: "npm config --global get prefix"

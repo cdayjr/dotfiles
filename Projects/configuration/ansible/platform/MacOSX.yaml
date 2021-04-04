@@ -62,6 +62,7 @@
 - name: Add brew zsh to /etc/shells
   become: true
   ansible.builtin.lineinfile:
+    create: true
     name: /etc/shells
     line: /usr/local/bin/zsh
     state: present
