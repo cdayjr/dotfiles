@@ -1,3 +1,4 @@
+# vi:syntax=yaml.ansible
 #########
 #
 # Use ansible galaxy tools to use extensions to ansible
@@ -8,6 +9,7 @@
 # ansible-galaxy collection install -r requirements.yaml
 # ```
 #
+---
 collections:
   - ansible.windows
   - chocolatey.chocolatey

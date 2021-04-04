@@ -1,39 +1,5 @@
-- name: Ansible pre-requisites setup
-  hosts: posix
-  gather_facts: true
-  vars:
-    macOS: "{{ ansible_distribution == 'MacOSX' }}"
-  become: false
-  tasks:
-    - name: Install non-macOS packages
-      become: true
-      when: not macOS
-      ansible.builtin.package:
-        name:
-          - git
-          - python
-        state: present
-    - name: Install macOS packages
-      become: true
-      when: macOS
-      community.general.homebrew:
-        name:
-          - git
-          - python
-        state: present
-    - name: package sources
-      ansible.builtin.git:
-        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
-        dest: ~/.local/src/{{ item.repo }}
-        depth: 1
-        force: true # disregard local changes
-      loop:
-        - owner: dexpota
-          repo: kitty-themes
-        - owner: kittykatt
-          repo: screenfetch
-        - owner: muennich
-          repo: urxvt-perls
+# vi:syntax=yaml.ansible
+---
 - name: Environment Setup
   hosts: posix
   gather_facts: true
@@ -80,6 +46,19 @@
         global_command: true
       environment:
         COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
+    - name: package sources
+      ansible.builtin.git:
+        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
+        dest: ~/.local/src/{{ item.repo }}
+        depth: 1
+        force: true # disregard local changes
+      loop:
+        - owner: dexpota
+          repo: kitty-themes
+        - owner: kittykatt
+          repo: screenfetch
+        - owner: muennich
+          repo: urxvt-perls
     - name: vim bundles
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}

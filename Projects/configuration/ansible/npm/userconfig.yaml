@@ -1,3 +1,4 @@
+# vi:syntax=yaml.ansible
 ---
 # Use npm user config
 - name: Register preferred npm prefix

@@ -1,3 +1,5 @@
+# vi:syntax=yaml.ansible
+---
 all:
   children:
     posix:

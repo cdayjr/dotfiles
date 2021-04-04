@@ -1,3 +1,4 @@
+# vi:syntax=yaml.ansible
 ---
 # Use npm global config
 # for before userconfig exists

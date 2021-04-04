@@ -1,3 +1,5 @@
+# vi:syntax=yaml.ansible
+---
 - name: Check linger for user
   when: not linux_desktop
   failed_when: false

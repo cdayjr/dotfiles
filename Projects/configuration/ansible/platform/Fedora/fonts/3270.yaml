@@ -1,3 +1,5 @@
+# vi:syntax=yaml.ansible
+---
 - name: Install 3270 font
   block:
     - name: Get latest release of 3270

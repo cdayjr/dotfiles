@@ -1,3 +1,5 @@
+# vi:syntax=yaml.ansible
+---
 - name: Install nerd fonts
   block:
     - name: Get latest release of nerd fonts

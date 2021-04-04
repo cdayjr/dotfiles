@@ -1,3 +1,5 @@
+# vi:syntax=yaml.ansible
+---
 - name: Install Fixedsys Excelsior font
   block:
     - name: Get latest release of Fixedsys Excelsior
