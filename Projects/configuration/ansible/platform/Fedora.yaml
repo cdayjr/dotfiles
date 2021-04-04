@@ -16,7 +16,7 @@
   become: true
   ansible.builtin.dnf:
     name: "distribution-gpg-keys"
-    state: latest
+    state: present
 - name: Install GPG keys
   become: true
   ansible.builtin.rpm_key:
@@ -58,19 +58,19 @@
   become: true
   ansible.builtin.dnf:
     name: "@Development Tools"
-    state: latest
+    state: present
 - name: Install appstream-data for rpmfusion packages
   when: linux_desktop
   become: true
   ansible.builtin.dnf:
     name: "@core"
-    state: latest
+    state: present
 - name: Install multimedia plugins from RPMFusion
   when: linux_desktop
   become: true
   ansible.builtin.dnf:
     name: "@multimedia"
-    state: latest
+    state: present
     install_weak_deps: false
     exclude: PackageKit-gstreamer-plugin
 - name: Install sound and video complement packages from RPMFusion
@@ -78,13 +78,13 @@
   become: true
   ansible.builtin.dnf:
     name: "@sound-and-video"
-    state: latest
+    state: present
 - name: Install tainted rpmfusion packages
   when: linux_desktop
   become: true
   ansible.builtin.dnf:
     name: rpmfusion-free-release-tainted
-    state: latest
+    state: present
 - name: Install CLI packages
   become: true
   ansible.builtin.dnf:
@@ -130,7 +130,7 @@
       - yadm
       - youtube-dl
       - zsh
-    state: latest
+    state: present
 - name: Set user shell
   become: true
   ansible.builtin.user:
@@ -150,7 +150,7 @@
   ansible.builtin.dnf:
     name:
       - bottom
-    state: latest
+    state: present
   when: bottom_repo is not skipped
 - name: Install desktop packages
   when: linux_desktop
@@ -193,7 +193,7 @@
       - vlc
       - wl-clipboard
       - xsel
-    state: latest
+    state: present
 - name: Keybase Repo
   become: true
   ansible.builtin.dnf:
@@ -238,14 +238,14 @@
           - akmod-tp_smapi
           - akmod-acpi_call
           - kernel-devel
-        state: latest
+        state: present
 - name: Install media packages
   become: yes
   ansible.builtin.dnf:
     name:
       - flac123
       - libdvdcss
-    state: latest
+    state: present
 # Fonts
 - name: Install base font packages
   when: linux_desktop
@@ -310,7 +310,7 @@
       - wine-times-new-roman-fonts
       - wine-webdings-fonts
       - wine-wingdings-fonts
-    state: latest
+    state: present
 - name: Fedora Beter Fonts Repo
   become: true
   ansible.builtin.command: "dnf copr enable -y dawid/better_fonts"
@@ -325,7 +325,7 @@
     name:
       - courier-prime-fonts
       - ubuntu-fonts
-    state: latest
+    state: present
   when: better_fonts_repo is not skipped
 - name: Fira Code Fonts Repo
   when: linux_desktop and (ansible_distribution_major_version | int >= 32)
@@ -340,7 +340,7 @@
   ansible.builtin.dnf:
     name:
       - fira-code-fonts
-    state: latest
+    state: present
   when: cyfrost_packages_repo is not skipped
 - name: Manual Font Installation
   when: linux_desktop

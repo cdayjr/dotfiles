@@ -14,7 +14,7 @@
       - gpatch
       - patchutils
       - subversion
-    state: latest
+    state: present
 - name: Install Homebrew packages
   community.general.homebrew:
     name:
@@ -58,7 +58,7 @@
       - wget
       - yadm
       - zsh
-    state: latest
+    state: present
 - name: Add brew zsh to /etc/shells
   become: true
   ansible.builtin.lineinfile:
@@ -80,7 +80,7 @@
   community.general.homebrew:
     name:
       - clementtsang/bottom/bottom
-    state: latest
+    state: present
   when: bottom_repo is not skipped
 - name: Install Homebrew casks
   community.general.homebrew_cask:
@@ -104,7 +104,7 @@
       - the-unarchiver
       - transmission-remote-gui
       - xscreensaver
-    state: latest
+    state: present
     greedy: true
 - name: Setup firefox developer repository
   community.general.homebrew_tap:
@@ -206,7 +206,7 @@
       - font-verdana
       - font-victor-mono
       - font-victor-mono-nerd-font
-    state: latest
+    state: present
 - name: Upgrade remaining homebrew packages
   community.general.homebrew:
     upgrade_all: yes
@@ -216,4 +216,4 @@
       - powerline-status
       - powerline-gitstatus
     extra_args: --user
-    state: latest
+    state: present
