@@ -1,0 +1,137 @@
+# vi:syntax=yaml.ansible
+---
+- name: Check linger for user
+  failed_when: false
+  changed_when: false # command result is not a change
+  ansible.builtin.shell:
+    cmd: "loginctl show-user {{ ansible_user_id }} -p Linger | grep -q 'Linger=yes'"
+  register: check_linger
+- name: Enable linger for user
+  when: check_linger.rc != 0
+  become: true
+  ansible.builtin.command:
+    cmd: "loginctl enable-linger {{ ansible_user_id }}"
+- name: Install dnf package manager
+  become: yes
+  ansible.builtin.yum:
+    name:
+      - dnf
+      - dnf-plugins-core
+    state: present
+- name: Install distribution GPG keys
+  become: true
+  ansible.builtin.dnf:
+    name: "distribution-gpg-keys"
+    state: latest
+- name: Install GPG keys
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ item }}"
+    state: present
+  loop:
+    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version}}"
+    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-remi"
+    - "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-{{ ansible_distribution_major_version}}"
+    # GitHub CLI repo
+    - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
+- name: Install EPEL
+  become: true
+  ansible.builtin.yum:
+    name: epel-release
+    state: present
+- name: Install YADM repo
+  become: yes
+  ansible.builtin.command: "dnf copr enable -y cdayjr/yadm"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cdayjr:yadm.repo
+    warn: false
+- name: Install GitHub CLI repo
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
+  args:
+    creates: "/etc/yum.repos.d/gh-cli.repo"
+    warn: false
+- name: Install "Development Tools" DNF package group
+  become: true
+  ansible.builtin.dnf:
+    name: "@Development Tools"
+    state: latest
+- name: Install CLI packages
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - ImageMagick
+      - ccze
+      - composer
+      - curl
+      - file
+      - gh
+      - golang
+      - jq
+      - mosh
+      - nmap
+      - nodejs
+      - p7zip
+      - php
+      - php-bcmath
+      - php-cli
+      - php-devel
+      - php-json
+      - php-mbstring
+      - python3
+      - rclone
+      - rsync
+      - unar
+      - vim
+      - weechat
+      - wget
+      - yadm
+      - youtube-dl
+      - zsh
+    state: latest
+- name: Set user shell
+  become: true
+  ansible.builtin.user:
+    name: "{{ lookup('env','USER') }}"
+    shell: /usr/bin/zsh
+    state: present
+- name: bottom Repo
+  become: true
+  ansible.builtin.command: "dnf copr enable -y atim/bottom"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:bottom.repo
+    warn: false
+  when: ansible_distribution_major_version | int >= 7
+  register: bottom_repo
+- name: Install bottom from bottom repo
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - bottom
+    state: latest
+  when: bottom_repo is not skipped
+# Final upgrades & cleanup
+- name: Upgrade all DNF pacakges
+  become: true
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+- name: Autoremove unneeded packages installed as dependencies
+  become: true
+  ansible.builtin.dnf:
+    autoremove: true
+    skip_broken: true
+    update_cache: true
+- name: Install pip packages
+  ansible.builtin.pip:
+    name:
+      - github3.py
+      - mycli
+      - powerline-gitstatus
+      - powerline-status
+    extra_args: --user
+    state: latest
+  vars:
+    # python3 is installed and available here, so we should use it
+    ansible_python_interpreter: /usr/bin/env python3
