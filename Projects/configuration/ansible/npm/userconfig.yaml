@@ -1,20 +1,15 @@
 # vi:syntax=yaml.ansible
 ---
 # Use npm user config
-- name: Register preferred npm prefix
-  ansible.builtin.command:
-    cmd: 'echo "$HOME/.npm"'
-  register: npm_prefix
-  changed_when: false
 - name: Get current npm prefix
   ansible.builtin.command:
     cmd: "npm config --user get prefix"
   register: npm_prefix_check
   changed_when: false
 - name: Set npm prefix
-  when: "npm_prefix.stdout != npm_prefix_check.stdout"
+  when: "'/'.join((ansible_env.HOME,'.npm')) != npm_prefix_check.stdout"
   ansible.builtin.command:
-    cmd: "npm config --user set prefix {{ npm_prefix.stdout }}"
+    cmd: "npm config --user set prefix {{ ansible_env.HOME }}/.npm"
   changed_when: true
 - name: Get current pnpm prefix
   ansible.builtin.command:
@@ -22,11 +17,16 @@
   register: pnpm_prefix_check
   changed_when: false
 - name: Set pnpm prefix
-  when: "npm_prefix.stdout != pnpm_prefix_check.stdout"
+  when: "'/'.join((ansible_env.HOME,'.npm')) != pnpm_prefix_check.stdout"
   ansible.builtin.command:
-    cmd: "npm config --user set pnpm-prefix {{ npm_prefix.stdout }}"
+    cmd: "npm config --user set pnpm-prefix {{ ansible_env.HOME }}/.npm"
   changed_when: true
+- name: Check if pnpm directory exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.npm/pnpm-global/3"
+  register: pnpm_directory
 - name: Update pnpm packages
+  when: pnpm_directory.stat.isdir is defined and pnpm_directory.stat.isdir
   ansible.builtin.command:
     cmd: 'npx --user pnpm update --dir "$HOME/.npm/pnpm-global/3"'
   register: pnpm_update
