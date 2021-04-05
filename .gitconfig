@@ -42,8 +42,8 @@
 [include]
   path = ~/.local/share/includes/extra-config/gitconfig
 [pull]
-	ff = only
+  ff = only
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [core]
-	autocrlf = true
+  autocrlf = input
