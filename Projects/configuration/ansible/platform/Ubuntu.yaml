@@ -1,0 +1,57 @@
+# Used for WSL, so only CLI packages and related stuff is installed
+- name: Install CLI packages
+  become: true
+  apt:
+    name:
+      - ccze
+      - composer
+      - curl
+      - golang
+      - mosh
+      - mycli
+      - nmap
+      - nodejs
+      - npm
+      - p7zip
+      - php
+      - php-bcmath
+      - php-cli
+      - php-dev
+      - php-json
+      - php-mbstring
+      - python3
+      - python3-pip
+      - rclone
+      - rsync
+      - rustc
+      - trash-cli
+      - unar
+      - vim
+      - weechat
+      - wget
+      - yadm
+      - zsh
+    state: present
+- name: Set user shell
+  become: true
+  user:
+    name: "{{ lookup('env','USER') }}"
+    shell: /usr/bin/zsh
+    state: present
+- name: Upgrade all apt pacakges
+  become: true
+  apt:
+    name: "*"
+    state: latest
+    update_cache: true
+- name: Autoremove unneeded packages installed as dependencies
+  become: true
+  apt:
+    autoremove: true
+- name: Install pip packages
+  pip:
+    name:
+      - powerline-status
+      - powerline-gitstatus
+    extra_args: --user
+    state: present
