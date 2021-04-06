@@ -259,7 +259,7 @@ get-latest-github() {
     return 1
   fi
   # return release name
-  echo "$RELEASE_JSON" | jq -r '[.[].tag_name]|sort|reverse[0]'
+  echo "$RELEASE_JSON" | tr '\r\n' ' ' | jq -r '[.[].tag_name]|sort|reverse[0]'
   return 0
 }
 
