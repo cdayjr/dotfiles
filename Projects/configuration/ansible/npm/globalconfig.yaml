@@ -40,8 +40,14 @@
   ansible.builtin.stat:
     path: "{{ ansible_env.HOME }}/.npm/pnpm-global/3"
   register: pnpm_directory
+- name: Register node major version
+  ansible.builtin.shell:
+    cmd: |
+      node --version | sed 's/^v//g' | awk 'BEGIN { FS = "." } ; { print $1 }'
+  register: node_version
+  changed_when: false
 - name: Update pnpm packages
-  when: pnpm_directory.stat.isdir is defined and pnpm_directory.stat.isdir
+  when: (node_version.stdout | int >= 12) and pnpm_directory.stat.isdir is defined and pnpm_directory.stat.isdir
   ansible.builtin.command:
     cmd: 'npx pnpm update --dir "$HOME/.npm/pnpm-global/3"'
   register: pnpm_update
