@@ -244,8 +244,11 @@ fi
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 
 # Get latest release of a github repo
-# See
+# Checks the tag names for published releases and falls back to tags if no
+# published releases exist. Removes leading `v` from tag names and strips
+# invalid JSON that comes back from the GitHub API
 # https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#releases
+# https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#tags
 get-latest-github() {
   if ! command -v jq >/dev/null; then
     # can't confirm version without jq
@@ -258,8 +261,18 @@ get-latest-github() {
     # curl error
     return 1
   fi
-  # return release name
-  echo "$RELEASE_JSON" | tr '\r\n' ' ' | jq -r '[.[].tag_name]|sort|reverse[0]'
+  if [ "$(echo "$RELEASE_JSON" | tr '\r\n' ' ' | jq length)" -ne 0 ]; then
+    # return latest release tag name
+    echo "$RELEASE_JSON" | tr '\r\n' ' ' | jq -r '.[].tag_name' | sed 's/^v//' | sort --version-sort --reverse | head -n 1
+  else
+    # check tags if no published releases exist
+    local TAG_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/tags")"
+    if [ "$?" -ne 0 ]; then
+      # curl error
+      return 1
+    fi
+    echo "$TAG_JSON" | tr '\r\n' ' ' | jq -r '.[].name' | sed 's/^v//' | sort --version-sort --reverse | head -n 1
+  fi
   return 0
 }
 
@@ -272,6 +285,10 @@ is-latest-ansible-requirements() {
   local REQUIREMENT_NAMESPACES=()
   local REQUIREMENTS=()
   local REPO_OVERRIDES=()
+  # ansible.posix
+  REQUIREMENT_NAMESPACES+=("ansible")
+  REQUIREMENTS+=("posix")
+  REPO_OVERRIDES+=("")
   # ansible.windows
   REQUIREMENT_NAMESPACES+=("ansible")
   REQUIREMENTS+=("windows")
@@ -284,6 +301,11 @@ is-latest-ansible-requirements() {
   REQUIREMENT_NAMESPACES+=("community")
   REQUIREMENTS+=("general")
   REPO_OVERRIDES+=("")
+  # community.windows
+  REQUIREMENT_NAMESPACES+=("community")
+  REQUIREMENTS+=("windows")
+  REPO_OVERRIDES+=("")
+
   for ((i = 1; i <= $#REQUIREMENTS; i++)); do
     local REQUIREMENT="${REQUIREMENTS[$i]}"
     local REQUIREMENT_NAMESPACE="${REQUIREMENT_NAMESPACES[$i]}"

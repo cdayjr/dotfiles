@@ -408,24 +408,35 @@
 - name: Enable cockpit service
   when: not linux_desktop
   become: true
-  service:
+  ansible.builtin.service:
     name: cockpit.socket
     enabled: true
   notify:
     - restart_cockpit
+- name: Enable pcp services
+  when: not linux_desktop
+  become: true
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+  loop:
+    - pmcd
+    - pmlogger
+  notify:
+    - restart_pcp
 - name: Configure sshd
   when: not linux_desktop
   block:
     - name: Enable sshd service
       become: true
-      service:
+      ansible.builtin.service:
         name: sshd
         enabled: true
       notify:
         - restart_sshd
     - name: Enable password login
       become: true
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
         state: present
         regexp: "^PasswordAuthentication"
@@ -434,7 +445,7 @@
         - restart_sshd
     - name: Disable root password login
       become: true
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /etc/ssh/sshd_config
         state: present
         regexp: "^#?PermitRootLogin"
@@ -445,7 +456,7 @@
   block:
     - name: Enable firewalld service
       become: true
-      service:
+      ansible.builtin.service:
         name: firewalld
         enabled: true
       notify:
@@ -453,7 +464,7 @@
     - name: Enable ssh over firewall
       when: not linux_desktop
       become: true
-      firewalld:
+      ansible.posix.firewalld:
         zone: public
         service: ssh
         permanent: yes
@@ -463,7 +474,7 @@
     - name: Enable mosh over firewall
       when: not linux_desktop
       become: true
-      firewalld:
+      ansible.posix.firewalld:
         zone: public
         service: mosh
         permanent: yes
@@ -473,7 +484,7 @@
     - name: Enable cockpit over firewall
       when: not linux_desktop
       become: true
-      firewalld:
+      ansible.posix.firewalld:
         zone: public
         service: cockpit
         permanent: yes

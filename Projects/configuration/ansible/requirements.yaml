@@ -11,6 +11,8 @@
 #
 ---
 collections:
+  - ansible.posix
   - ansible.windows
   - chocolatey.chocolatey
   - community.general
+  - community.windows

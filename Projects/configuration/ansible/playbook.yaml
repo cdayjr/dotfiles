@@ -13,18 +13,26 @@
   handlers:
     - name: restart_cockpit
       become: true
-      service:
+      ansible.builtin.service:
         name: cockpit
-        state: restarted
-    - name: restart_sshd
-      become: true
-      service:
-        name: sshd
         state: restarted
     - name: restart_firewalld
       become: true
-      service:
+      ansible.builtin.service:
         name: firewalld
+        state: restarted
+    - name: restart_pcp
+      become: true
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - pmcd
+        - pmlogger
+    - name: restart_sshd
+      become: true
+      ansible.builtin.service:
+        name: sshd
         state: restarted
   tasks:
     - name: Install and configure platform specific settings
@@ -201,7 +209,7 @@
         type: dword
         state: present
     - name: Firewall rule to allow remote desktop
-      win_firewall_rule:
+      community.windows.win_firewall_rule:
         name: Remote Desktop
         action: allow
         state: present
