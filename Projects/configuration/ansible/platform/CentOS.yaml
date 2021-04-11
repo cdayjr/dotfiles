@@ -95,6 +95,7 @@
   ansible.builtin.dnf:
     name:
       - cockpit
+      - cockpit-pcp
       - openssh-server
     state: present
 - name: Set user shell
