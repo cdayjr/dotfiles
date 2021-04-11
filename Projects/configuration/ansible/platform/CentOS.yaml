@@ -90,6 +90,13 @@
       - youtube-dl
       - zsh
     state: latest
+- name: Install server packages
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - cockpit
+      - openssh-server
+    state: present
 - name: Set user shell
   become: true
   ansible.builtin.user:
@@ -135,3 +142,73 @@
   vars:
     # python3 is installed and available here, so we should use it
     ansible_python_interpreter: /usr/bin/env python3
+- name: Enable cockpit service
+  become: true
+  service:
+    name: cockpit.socket
+    enabled: true
+  notify:
+    - restart_cockpit
+- name: Configure sshd
+  block:
+    - name: Enable sshd service
+      become: true
+      service:
+        name: sshd
+        enabled: true
+      notify:
+        - restart_sshd
+    - name: Enable password login
+      become: true
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication yes"
+      notify:
+        - restart_sshd
+    - name: Disable root password login
+      become: true
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: "^#?PermitRootLogin"
+        line: "PermitRootLogin without-password"
+      notify:
+        - restart_sshd
+- name: Configure firewalld
+  block:
+    - name: Enable firewalld service
+      become: true
+      service:
+        name: firewalld
+        enabled: true
+      notify:
+        - restart_firewalld
+    - name: Enable ssh over firewall
+      become: true
+      firewalld:
+        zone: public
+        service: ssh
+        permanent: yes
+        state: enabled
+      notify:
+        - restart_firewalld
+    - name: Enable mosh over firewall
+      become: true
+      firewalld:
+        zone: public
+        service: mosh
+        permanent: yes
+        state: enabled
+      notify:
+        - restart_firewalld
+    - name: Enable cockpit over firewall
+      become: true
+      firewalld:
+        zone: public
+        service: cockpit
+        permanent: yes
+        state: enabled
+      notify:
+        - restart_firewalld

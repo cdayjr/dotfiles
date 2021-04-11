@@ -10,6 +10,22 @@
   vars:
     linux_desktop: "{{ ('XDG_CURRENT_DESKTOP' in ansible_env) and (ansible_env.XDG_CURRENT_DESKTOP|length > 0) }}"
     thinkpad: "{{ ansible_product_version is regex('ThinkPad') }}"
+  handlers:
+    - name: restart_cockpit
+      become: true
+      service:
+        name: cockpit
+        state: restarted
+    - name: restart_sshd
+      become: true
+      service:
+        name: sshd
+        state: restarted
+    - name: restart_firewalld
+      become: true
+      service:
+        name: firewalld
+        state: restarted
   tasks:
     - name: Install and configure platform specific settings
       include_tasks: "platform/{{ ansible_distribution }}.yaml"

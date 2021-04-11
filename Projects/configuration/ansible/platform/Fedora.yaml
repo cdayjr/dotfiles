@@ -152,6 +152,14 @@
       - bottom
     state: present
   when: bottom_repo is not skipped
+- name: Install server packages
+  when: not linux_desktop
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - cockpit
+      - openssh-server
+    state: present
 - name: Install desktop packages
   when: linux_desktop
   become: true
@@ -396,3 +404,78 @@
     cmd: cargo install-update --all
   register: cargo_update
   changed_when: cargo_update.stdout.find('No packages need updating.') == -1
+- name: Enable cockpit service
+  when: not linux_desktop
+  become: true
+  service:
+    name: cockpit.socket
+    enabled: true
+  notify:
+    - restart_cockpit
+- name: Configure sshd
+  when: not linux_desktop
+  block:
+    - name: Enable sshd service
+      become: true
+      service:
+        name: sshd
+        enabled: true
+      notify:
+        - restart_sshd
+    - name: Enable password login
+      become: true
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication yes"
+      notify:
+        - restart_sshd
+    - name: Disable root password login
+      become: true
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: "^#?PermitRootLogin"
+        line: "PermitRootLogin without-password"
+      notify:
+        - restart_sshd
+- name: Configure firewalld
+  block:
+    - name: Enable firewalld service
+      become: true
+      service:
+        name: firewalld
+        enabled: true
+      notify:
+        - restart_firewalld
+    - name: Enable ssh over firewall
+      when: not linux_desktop
+      become: true
+      firewalld:
+        zone: public
+        service: ssh
+        permanent: yes
+        state: enabled
+      notify:
+        - restart_firewalld
+    - name: Enable mosh over firewall
+      when: not linux_desktop
+      become: true
+      firewalld:
+        zone: public
+        service: mosh
+        permanent: yes
+        state: enabled
+      notify:
+        - restart_firewalld
+    - name: Enable cockpit over firewall
+      when: not linux_desktop
+      become: true
+      firewalld:
+        zone: public
+        service: cockpit
+        permanent: yes
+        state: enabled
+      notify:
+        - restart_firewalld
