@@ -1,5 +1,93 @@
 # vi:syntax=yaml.ansible
 ---
+- name: Windows setup
+  hosts: windows
+  gather_facts: false
+  become: false
+  tasks:
+    # python modules will not work on a windows host,
+    # see https://docs.ansible.com/ansible/latest/user_guide/windows_faq.html#can-i-run-python-modules-on-windows-hosts
+    - name: Install Windows packages
+      chocolatey.chocolatey.win_chocolatey:
+        name:
+          - 7zip
+          - Firefox
+          - Minikube
+          - discord
+          - docker
+          - docker-cli
+          - foobar2000
+          - git
+          - keepassxc
+          - keybase
+          - kubernetes-cli
+          - mpv
+          - obs
+          - openjdk
+          - powershell-core
+          - python
+          - sharpkeys
+          - synergy
+          - vim
+          - vlc
+          - vscode
+          - winscp
+          - wsl2
+        state: present
+    - name: install the Win32-OpenSSH service
+      chocolatey.chocolatey.win_chocolatey:
+        name: openssh
+        package_params: /SSHServerFeature
+        state: present
+    # TODO: ensure key is installed, permission set
+    # https://docs.ansible.com/ansible/2.9/modules/win_acl_module.html#win-acl-module
+    # https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication/50502015#50502015
+    - name: Set the default shell to PowerShell
+      ansible.windows.win_regedit:
+        path: HKLM:\SOFTWARE\OpenSSH
+        name: DefaultShell
+        data: 'C:\Program Files\powershell\7\pwsh.exe'
+        type: string
+        state: present
+    - name: Enable remote desktop
+      ansible.windows.win_regedit:
+        path: 'HKLM:\System\CurrentControlSet\Control\Terminal Server'
+        name: fDenyTSConnections
+        data: 0
+        type: dword
+        state: present
+    - name: Firewall rule to allow remote desktop
+      community.windows.win_firewall_rule:
+        name: Remote Desktop
+        action: allow
+        state: present
+        enabled: yes
+    - name: Upgrade installed packages
+      chocolatey.chocolatey.win_chocolatey:
+        name: all
+        state: latest
+    - name: Start WSL and get IP address
+      win_command: "wsl hostname -I"
+      changed_when: false
+      register: wsl_hostname
+    - name: Add portproxy to wsl
+      win_command: "netsh interface portproxy add v4tov4 listenaddress=0.0.0.0 listenport=8022 connectaddress={{ wsl_hostname.stdout | trim }} connectport=8022"
+      # there doesn't seem to be a difference between adding an existing rule or
+      # not in terms of feedback
+      changed_when: false
+    - name: Add firewall rule for wsl
+      community.windows.win_firewall_rule:
+        name: WSL SSH
+        localport: 8022
+        action: allow
+        direction: in
+        protocol: tcp
+        profiles: domain,private,public
+        state: present
+        enabled: yes
+    - name: Start WSL SSH
+      win_command: "wsl -u root service ssh start"
+      changed_when: false
 - name: Environment Setup
   hosts: posix
   gather_facts: true
@@ -152,69 +240,3 @@
         cmd: "yadm fetch -a && yadm reset --hard && yadm merge origin/main"
       register: yadm_update
       changed_when: "yadm_update.stdout is not regex('Already up to date')"
-- name: Windows setup
-  hosts: windows
-  gather_facts: false
-  become: false
-  tasks:
-    # python modules will not work on a windows host,
-    # see https://docs.ansible.com/ansible/latest/user_guide/windows_faq.html#can-i-run-python-modules-on-windows-hosts
-    - name: Install Windows packages
-      chocolatey.chocolatey.win_chocolatey:
-        name:
-          - 7zip
-          - Firefox
-          - Minikube
-          - discord
-          - docker
-          - docker-cli
-          - foobar2000
-          - git
-          - keepassxc
-          - keybase
-          - kubernetes-cli
-          - mpv
-          - obs
-          - openjdk
-          - powershell-core
-          - python
-          - sharpkeys
-          - synergy
-          - vim
-          - vlc
-          - vscode
-          - winscp
-          - wsl2
-        state: present
-    - name: install the Win32-OpenSSH service
-      chocolatey.chocolatey.win_chocolatey:
-        name: openssh
-        package_params: /SSHServerFeature
-        state: present
-    # TODO: ensure key is installed, permission set
-    # https://docs.ansible.com/ansible/2.9/modules/win_acl_module.html#win-acl-module
-    # https://stackoverflow.com/questions/16212816/setting-up-openssh-for-windows-using-public-key-authentication/50502015#50502015
-    - name: Set the default shell to PowerShell
-      ansible.windows.win_regedit:
-        path: HKLM:\SOFTWARE\OpenSSH
-        name: DefaultShell
-        data: 'C:\Program Files\powershell\7\pwsh.exe'
-        type: string
-        state: present
-    - name: Enable remote desktop
-      ansible.windows.win_regedit:
-        path: 'HKLM:\System\CurrentControlSet\Control\Terminal Server'
-        name: fDenyTSConnections
-        data: 0
-        type: dword
-        state: present
-    - name: Firewall rule to allow remote desktop
-      community.windows.win_firewall_rule:
-        name: Remote Desktop
-        action: allow
-        state: present
-        enabled: yes
-    - name: Upgrade installed packages
-      chocolatey.chocolatey.win_chocolatey:
-        name: all
-        state: latest
