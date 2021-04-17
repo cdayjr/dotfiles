@@ -56,7 +56,7 @@
   become: true
   ansible.builtin.dnf:
     name: "@Development Tools"
-    state: latest
+    state: present
 - name: Install CLI packages
   become: true
   ansible.builtin.dnf:
@@ -89,7 +89,7 @@
       - yadm
       - youtube-dl
       - zsh
-    state: latest
+    state: present
 - name: Install server packages
   become: true
   ansible.builtin.dnf:
@@ -117,7 +117,7 @@
   ansible.builtin.dnf:
     name:
       - bottom
-    state: latest
+    state: present
   when: bottom_repo is not skipped
 # Final upgrades & cleanup
 - name: Upgrade all DNF pacakges

@@ -16,7 +16,7 @@
   become: true
   ansible.builtin.dnf:
     name: "distribution-gpg-keys"
-    state: present
+    state: latest
 - name: Install GPG keys
   become: true
   ansible.builtin.rpm_key:
