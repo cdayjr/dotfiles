@@ -70,13 +70,13 @@
       win_command: "wsl hostname -I"
       changed_when: false
       register: wsl_hostname
-    - name: Add portproxy to wsl for IPv4
+    - name: Add portproxy to wsl for ssh IPv4
       win_command: "netsh interface portproxy add v4tov4 listenport=8022 connectaddress={{ wsl_hostname.stdout | trim }} connectport=8022"
       changed_when: false
-    - name: Add portproxy to wsl for IPv6
+    - name: Add portproxy to wsl for ssh IPv6
       win_command: "netsh interface portproxy add v6tov4 listenport=8022 connectaddress={{ wsl_hostname.stdout | trim }} connectport=8022"
       changed_when: false
-    - name: Add firewall rule for wsl
+    - name: Add firewall rule for wsl ssh
       community.windows.win_firewall_rule:
         name: WSL SSH
         localport: 8022
@@ -89,6 +89,24 @@
     - name: Start WSL SSH
       win_command: "wsl -u root service ssh start"
       changed_when: false
+    - name: Add portproxy to wsl for mosh
+      # mosh uses 60000..61000 but this means running this command 1001 times,
+      # which hangs this process and you only need a small amount of ports if
+      # you only forsee a small amount of connections, so we limit that
+      win_shell: "60000..60005 | % { netsh routing ip nat add portmapping udp 0.0.0.0 $_ {{ wsl_hostname.stdout | trim }} $_ }"
+      # there doesn't seem to be a difference between adding an existing rule or
+      # not in terms of feedback
+      changed_when: false
+    - name: Add firewall rule for wsl mosh
+      community.windows.win_firewall_rule:
+        name: WSL Mosh
+        localport: 60000-61000
+        action: allow
+        direction: in
+        protocol: udp
+        profiles: domain,private,public
+        state: present
+        enabled: yes
 - name: Environment Setup
   hosts: posix
   gather_facts: true
