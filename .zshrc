@@ -405,7 +405,6 @@ update() {
     --force-with-deps \
     --requirements-file "$ANSIBLE_DIR/requirements.yaml"
   ansible-playbook \
-    --ask-become-pass \
     --ask-vault-pass \
     --inventory-file "$INVENTORY_FILE" \
     "$ANSIBLE_DIR/playbook.yaml"
