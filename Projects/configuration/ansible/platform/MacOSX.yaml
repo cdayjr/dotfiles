@@ -107,7 +107,7 @@
       - transmission-remote-gui
       - xscreensaver
     state: present
-    sudo_password: "{{ ansible_become_pass }}"
+    sudo_password: "{{ ansible_become_password }}"
 - name: Setup firefox developer repository
   community.general.homebrew_tap:
     name: homebrew/cask-versions
@@ -118,7 +118,7 @@
     name:
       - homebrew/cask-versions/firefox-developer-edition
     state: installed
-    sudo_password: "{{ ansible_become_pass }}"
+    sudo_password: "{{ ansible_become_password }}"
   when: cask_versions_repo is not skipped
 - name: Setup font repository
   community.general.homebrew_tap:
@@ -210,7 +210,7 @@
       - font-victor-mono
       - font-victor-mono-nerd-font
     state: present
-    sudo_password: "{{ ansible_become_pass }}"
+    sudo_password: "{{ ansible_become_password }}"
 - name: Upgrade remaining homebrew packages
   community.general.homebrew:
     upgrade_all: yes
