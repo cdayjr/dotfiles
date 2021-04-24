@@ -3,7 +3,6 @@
 - name: Update Homebrew
   community.general.homebrew:
     update_homebrew: yes
-    upgrade_all: yes
 - name: Install "Development Tools" Homebrew equivalent package group
   community.general.homebrew:
     name:
@@ -211,6 +210,11 @@
       - font-victor-mono-nerd-font
     state: present
     sudo_password: "{{ ansible_become_password }}"
+- name: Upgrade all casks
+  community.general.homebrew_cask:
+    greedy: true
+    sudo_password: "{{ ansible_become_password }}"
+    upgrade_all: true
 - name: Upgrade remaining homebrew packages
   community.general.homebrew:
     upgrade_all: yes
