@@ -338,9 +338,6 @@ is-latest-ansible-requirements() {
   return 0
 }
 
-# remove previous update alias (replaced with function below)
-unalias update 2>/dev/null
-
 get_config_file() {
   local FILE="$1"
   # Check for local config override,
@@ -373,8 +370,17 @@ get_config_file() {
   return 1
 }
 
-## update command
+# remove previous update alias (replaced with function below)
+unalias update 2>/dev/null
+
+# update command
+# usage:
+# ```sh
+# update [host]
+# ```
+# host - A specific host to update, updates all if not provided
 update() {
+  local HOST="$1"
   local DEPENDENCIES=()
   DEPENDENCIES+=("yadm")
   DEPENDENCIES+=("ansible-galaxy")
@@ -390,7 +396,7 @@ update() {
     yadm pull origin main
     source "$HOME/.zshrc"
     IN_UPDATE="1"
-    update
+    update "$HOST"
     return 0
   fi
   unset IN_UPDATE
@@ -404,10 +410,18 @@ update() {
   is-latest-ansible-requirements || ansible-galaxy collection install \
     --force-with-deps \
     --requirements-file "$ANSIBLE_DIR/requirements.yaml"
-  ansible-playbook \
-    --ask-vault-pass \
-    --inventory-file "$INVENTORY_FILE" \
-    "$ANSIBLE_DIR/playbook.yaml"
+  if [ -n "$HOST" ]; then
+    ansible-playbook \
+      --ask-vault-pass \
+      --inventory-file "$INVENTORY_FILE" \
+      --limit "$HOST" \
+      "$ANSIBLE_DIR/playbook.yaml"
+  else
+    ansible-playbook \
+      --ask-vault-pass \
+      --inventory-file "$INVENTORY_FILE" \
+      "$ANSIBLE_DIR/playbook.yaml"
+  fi
 }
 
 # Includes
