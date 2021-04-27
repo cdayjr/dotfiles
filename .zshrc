@@ -244,9 +244,8 @@ fi
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 
 # Get latest release of a github repo
-# Checks the tag names for published releases and falls back to tags if no
-# published releases exist. Removes leading `v` from tag names and strips
-# invalid JSON that comes back from the GitHub API
+# Checks the tags for the latest release. Removes leading `v` from tag names and
+# strips invalid JSON that comes back from the GitHub API
 # https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#releases
 # https://docs.github.com/en/free-pro-team@latest/rest/reference/repos#tags
 get-latest-github() {
@@ -256,23 +255,13 @@ get-latest-github() {
   fi
   local OWNER="$1"
   local REPO="$2"
-  local RELEASE_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/releases")"
+  local TAG_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/tags")"
   if [ "$?" -ne 0 ]; then
     # curl error
     return 1
   fi
-  if [ "$(echo "$RELEASE_JSON" | tr '\r\n' ' ' | jq length)" -ne 0 ]; then
-    # return latest release tag name
-    echo "$RELEASE_JSON" | tr '\r\n' ' ' | jq -r '.[].tag_name' | sed 's/^v//' | sort --version-sort --reverse | head -n 1
-  else
-    # check tags if no published releases exist
-    local TAG_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/tags")"
-    if [ "$?" -ne 0 ]; then
-      # curl error
-      return 1
-    fi
-    echo "$TAG_JSON" | tr '\r\n' ' ' | jq -r '.[].name' | sed 's/^v//' | sort --version-sort --reverse | head -n 1
-  fi
+  # return latest tag
+  echo "$TAG_JSON" | tr '\r\n' ' ' | jq -r '.[].name' | sed 's/^v//' | sort --version-sort --reverse | head -n 1
   return 0
 }
 
