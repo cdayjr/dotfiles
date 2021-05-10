@@ -225,3 +225,11 @@
       - powerline-gitstatus
     extra_args: --user
     state: present
+- name: Disable Microsoft Required Data Notice
+  become: true
+  community.general.osx_defaults:
+    domain: /Library/Preferences/com.microsoft.autoupdate2
+    key: AcknowledgedDataCollectionPolicy
+    type: string
+    value: RequiredDataOnly
+    state: present
