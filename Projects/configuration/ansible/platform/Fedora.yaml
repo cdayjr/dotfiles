@@ -91,6 +91,7 @@
     name:
       - ImageMagick
       - bat
+      - bc
       - cargo
       - ccze
       - composer

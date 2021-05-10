@@ -3,6 +3,7 @@
   become: true
   apt:
     name:
+      - bc
       - ccze
       - composer
       - curl
