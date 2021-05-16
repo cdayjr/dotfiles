@@ -223,6 +223,70 @@
           repo: vim-liquid
         - owner: vim-syntastic
           repo: syntastic
+- name: Media server setup
+  hosts: media-server
+  gather_facts: false
+  become: false
+  handlers:
+    - name: restart_plex
+      become: true
+      ansible.builtin.service:
+        name: plexmediaserver
+        state: restarted
+    - name: restart_transmission
+      become: true
+      ansible.builtin.service:
+        name: transmission-daemon
+        state: restarted
+    - name: restart_firewalld
+      become: true
+      ansible.builtin.service:
+        name: firewalld
+        state: restarted
+  tasks:
+    - name: Add Plex Yum repo
+      become: true
+      ansible.builtin.yum_repository:
+        name: plex
+        description: Plex Yum Repository
+        baseurl: https://downloads.plex.tv/repo/rpm/$basearch/
+        gpgkey: https://downloads.plex.tv/plex-keys/PlexSign.key
+        gpgcheck: true
+    - name: Install media server packages
+      become: true
+      ansible.builtin.dnf:
+        name:
+          - plexmediaserver
+          - transmission-daemon
+        state: latest
+    - name: Enable plex over firewall
+      become: true
+      ansible.posix.firewalld:
+        zone: public
+        service: plex
+        permanent: yes
+        state: enabled
+      notify: restart_firewalld
+    - name: Enable transmission over firewall
+      become: true
+      ansible.posix.firewalld:
+        zone: public
+        service: transmission-client
+        permanent: yes
+        state: enabled
+      notify: restart_firewalld
+    - name: Enable plex service
+      become: true
+      ansible.builtin.service:
+        name: plexmediaserver
+        enabled: true
+      notify: restart_plex
+    - name: Enable transmission daemon
+      become: true
+      ansible.builtin.service:
+        name: transmission-daemon
+        enabled: true
+      notify: restart_transmission
 - name: Non-local updates
   # localhost takes care of itself outside of ansible
   hosts: "posix:!localhost"

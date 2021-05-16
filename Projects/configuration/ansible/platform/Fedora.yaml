@@ -80,7 +80,6 @@
     name: "@sound-and-video"
     state: present
 - name: Install tainted rpmfusion packages
-  when: linux_desktop
   become: true
   ansible.builtin.dnf:
     name: rpmfusion-free-release-tainted
@@ -159,7 +158,17 @@
   ansible.builtin.dnf:
     name:
       - cockpit
+      - cockpit-bridge
+      - cockpit-machines
+      - cockpit-networkmanager
       - cockpit-pcp
+      - cockpit-podman
+      - cockpit-selinux
+      - cockpit-session-recording
+      - cockpit-sosreport
+      - cockpit-storaged
+      - cockpit-system
+      - cockpit-ws
       - openssh-server
     state: present
 - name: Install desktop packages
