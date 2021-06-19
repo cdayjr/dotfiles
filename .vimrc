@@ -1,7 +1,5 @@
 " set encoding
 set encoding=UTF-8
-" pathogen
-execute pathogen#infect()
 " Press F2 to switch between paste and nopaste mode
 set pastetoggle=<F2>
 " Helpful line# column# indicator
@@ -89,19 +87,6 @@ au BufRead,BufNewFile *.gitconfig setfiletype gitconfig
 " highlight custom sshconfig files
 au BufRead,BufNewFile */sshconfig setfiletype sshconfig
 au BufRead,BufNewFile *.sshconfig setfiletype sshconfig
-
-" syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" Syntastic calm down w/ angular templates
-let g:syntastic_html_tidy_ignore_errors=[" attribute name ", " proprietary attribute " ,"trimming empty \<", "inserting implicit ", "unescaped \&" , "lacks \"action", "lacks value", "lacks \"src", "is not recognized!", "discarding unexpected", "replacing obsolete "]
 
 " Show max line from editorconfig
 let g:EditorConfig_max_line_indicator = "line"

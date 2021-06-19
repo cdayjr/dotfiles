@@ -173,7 +173,7 @@
     - name: vim bundles
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
-        dest: ~/.vim/bundle/{{ item.repo }}
+        dest: ~/.vim/pack/git-plugins/start/{{ item.repo }}
         depth: 1
         force: true # disregard local changes
       loop:
@@ -221,8 +221,8 @@
           repo: vim-fugitive
         - owner: tpope
           repo: vim-liquid
-        - owner: vim-syntastic
-          repo: syntastic
+        - owner: dense-analysis
+          repo: ale
 - name: Media server setup
   hosts: media-server
   gather_facts: false
