@@ -91,46 +91,22 @@ au BufRead,BufNewFile *.sshconfig setfiletype sshconfig
 " Show max line from editorconfig
 let g:EditorConfig_max_line_indicator = "line"
 
-" Neoformat
-let g:neoformat_run_all_formatters = 1
-
-" Neoformat toggle
-nnoremap <leader>n :call NeoformatToggle()<CR>
-let g:format_on_save = 1
-function! NeoformatToggle()
-  if g:format_on_save
-    let g:format_on_save = 0
-    " Disable editorconfig autoformatting rules as well
-    let g:EditorConfig_disable_rules = [
-          \ 'charset',
-          \ 'end_of_line',
-          \ 'insert_final_newline',
-          \ 'trim_trailing_whitespace'
-          \ ]
-    EditorConfigReload
-		" Autoformat for rust
-		let g:rustfmt_autosave = 0
-    echom "Auto formatters disabled"
-  else
-    let g:format_on_save = 1
-    " re-enable editorconfig autoformatting rules
-    let g:EditorConfig_disable_rules = []
-		" Autoformat for rust
-		let g:rustfmt_autosave = 1
-    EditorConfigReload
-    echom "Auto formatters enabled"
-  endif
-endfunction
-function! NeoformatToggled()
-  if g:format_on_save
-    Neoformat
-  endif
-endfunction
-" Neoformat on save
-augroup fmt
-  autocmd!
-  autocmd BufWritePre * :call NeoformatToggled()
-augroup END
+" Ale configration
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint', 'prettier'],
+\   'typescript': ['eslint', 'prettier'],
+\   'html': ['prettier'],
+\   'scss': ['prettier'],
+\   'css': ['prettier'],
+\   'yaml': ['prettier'],
+\   'json': ['prettier'],
+\   'markdown': ['prettier'],
+\   'php': ['php-cs-fixer', 'phpcbf'],
+\}
+let g:ale_completion_autoimport = 1
+let g:ale_completion_enabled = 1
 
 " Powerline
 set rtp+=$POWERLINE_VIM

@@ -209,8 +209,6 @@
           repo: rust.vim
         - owner: ryanoasis
           repo: vim-devicons
-        - owner: sbdchd
-          repo: neoformat
         - owner: scrooloose
           repo: nerdtree
         - owner: shougo
