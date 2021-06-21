@@ -103,10 +103,11 @@ let g:ale_fixers = {
 \   'yaml': ['prettier'],
 \   'json': ['prettier'],
 \   'markdown': ['prettier'],
-\   'php': ['php-cs-fixer', 'phpcbf'],
+\   'php': ['php_cs_fixer', 'phpcbf'],
 \}
 let g:ale_completion_autoimport = 1
 let g:ale_completion_enabled = 1
+nnoremap <leader>f :ALEFix<CR>
 
 " Powerline
 set rtp+=$POWERLINE_VIM
