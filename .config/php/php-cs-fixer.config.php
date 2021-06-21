@@ -6,6 +6,7 @@ return PhpCsFixer\Config::create()
             '@PSR1' => true,
             '@PSR2' => true,
             '@Symfony' => true,
+            '@PSR12' => true,
             '@PHP71Migration' => true,
             '@PHP70Migration' => true,
             '@PHP56Migration' => true,
