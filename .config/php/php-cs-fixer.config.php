@@ -141,6 +141,8 @@ return PhpCsFixer\Config::create()
             'concat_space' => [
                 'spacing' => 'one',
             ],
+            // Prefer single quotes
+            'single_quote' => true,
         ]
     )
     ->setFinder(
