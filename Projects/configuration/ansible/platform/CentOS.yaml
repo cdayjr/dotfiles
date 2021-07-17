@@ -1,5 +1,13 @@
 # vi:syntax=yaml.ansible
 ---
+- name: Install dnf package manager
+  become: yes
+  ansible.builtin.yum:
+    name:
+      - dnf
+      - dnf-plugins-core
+      - python2-dnf
+    state: present
 - name: Check linger for user
   failed_when: false
   changed_when: false # command result is not a change
@@ -11,16 +19,9 @@
   become: true
   ansible.builtin.command:
     cmd: "loginctl enable-linger {{ ansible_user_id }}"
-- name: Install dnf package manager
-  become: yes
-  ansible.builtin.yum:
-    name:
-      - dnf
-      - dnf-plugins-core
-    state: present
 - name: Install distribution GPG keys
   become: true
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name: "distribution-gpg-keys"
     state: latest
 - name: Install GPG keys
@@ -34,6 +35,8 @@
     - "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-{{ ansible_distribution_major_version}}"
     # GitHub CLI repo
     - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
+    # GitLab Runner key
+    - "https://packages.gitlab.com/runner/gitlab-runner/gpgkey"
 - name: Install EPEL
   become: true
   ansible.builtin.yum:
@@ -59,7 +62,7 @@
     state: present
 - name: Install CLI packages
   become: true
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name:
       - ImageMagick
       - bc
@@ -93,7 +96,7 @@
     state: present
 - name: Install server packages
   become: true
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name:
       - cockpit
       - cockpit-pcp
@@ -115,20 +118,20 @@
   register: bottom_repo
 - name: Install bottom from bottom repo
   become: true
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name:
       - bottom
     state: present
   when: bottom_repo is not skipped
 # Final upgrades & cleanup
-- name: Upgrade all DNF pacakges
+- name: Upgrade all yum pacakges
   become: true
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     name: "*"
     state: latest
 - name: Autoremove unneeded packages installed as dependencies
   become: true
-  ansible.builtin.dnf:
+  ansible.builtin.yum:
     autoremove: true
     skip_broken: true
     update_cache: true
@@ -142,7 +145,6 @@
     extra_args: --user
     state: latest
   vars:
-    # python3 is installed and available here, so we should use it
     ansible_python_interpreter: /usr/bin/env python3
 - name: Enable cockpit service
   when: not linux_desktop
