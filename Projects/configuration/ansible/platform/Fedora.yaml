@@ -198,7 +198,9 @@
       - pandoc
       - pinta
       - powerline-fonts
+      - python3-pyside2
       - python3-streamlink
+      - python3-twisted
       - redshift-gtk
       - remmina
       - rxvt-unicode
