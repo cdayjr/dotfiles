@@ -36,7 +36,7 @@
     # GitHub CLI repo
     - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
     # GitLab Runner key
-    - "https://packages.gitlab.com/runner/gitlab-runner/gpgkey"
+    - "https://packages.gitlab.com/gpg.key"
 - name: Install EPEL
   become: true
   ansible.builtin.yum:
