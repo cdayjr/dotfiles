@@ -447,3 +447,11 @@ if  then
     exec tmux new -A -s default && exit
   fi
 fi
+
+# Restart macOS sshd
+restart-macos-sshd() {
+  if command -v launchctl >/dev/null 2>&1; then
+    sudo launchctl unload  /System/Library/LaunchDaemons/ssh.plist && \
+      sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+  fi
+}

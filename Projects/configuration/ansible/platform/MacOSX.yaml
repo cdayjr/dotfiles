@@ -1,5 +1,13 @@
 # vi:syntax=yaml.ansible
 ---
+- name: Ensure SSH User environments are enabled
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#PermitUserEnvironment no"
+    line: PermitUserEnvironment yes
+  notify:
+    - restart_sshd
 - name: Update Homebrew
   community.general.homebrew:
     update_homebrew: yes
