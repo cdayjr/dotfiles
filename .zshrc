@@ -169,6 +169,7 @@ export PATH="$PATH:$PYTHON_BASE/bin"
 export PATH=$HOME/.cargo/bin:$PATH
 
 # Composer / PHP
+[[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
 export COMPOSER_HOME="$HOME/.config/composer"
 export PATH="$PATH:$COMPOSER_HOME/vendor/bin"
 alias php="/usr/bin/env php -c $HOME/.config/php/php.ini"
