@@ -30,6 +30,12 @@ indent_size = 4
 indent_style = space
 tab_width = 4
 
+# Rust style is 4 spaces
+[*.rs]
+indent_size = 4
+indent_style = space
+tab_width = 4
+
 # Go's styleguide uses tabs for indentation
 [*.go]
 indent_style = tab
