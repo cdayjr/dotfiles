@@ -93,6 +93,9 @@ let g:EditorConfig_max_line_indicator = "line"
 
 " Ale configration
 let g:ale_fix_on_save = 1
+let g:ale_linters = {
+\   'json': ['jq', 'jsonlint', 'spectral'],
+\}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint', 'prettier'],
