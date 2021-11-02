@@ -183,6 +183,9 @@ fi
 # User configuration
 ###
 
+# Ensure shell is set to zsh
+export SHELL=$(which zsh)
+
 ## GPG
 export GPG_TTY=$(tty)
 
