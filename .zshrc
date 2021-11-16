@@ -88,11 +88,6 @@ export LANG=en_US.UTF-8
 # Path setup
 ###
 
-# Brew installed applications
-if command -v brew >/dev/null 2>&1; then
-  export PATH="/usr/local/sbin:$PATH"
-fi
-
 # GNU Coreutils on macOS
 if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
   export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
