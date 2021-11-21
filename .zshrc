@@ -129,7 +129,7 @@ fi
 
 # Node
 ## pnpm packages
-export PATH="$HOME/.npm/pnpm-global/3/node_modules/.bin:$PATH"
+export PATH="$HOME/.npm/pnpm-global/5/node_modules/.bin:$PATH"
 ## n
 if command -v n >/dev/null 2>&1; then
   export N_PREFIX="$HOME/.n"
