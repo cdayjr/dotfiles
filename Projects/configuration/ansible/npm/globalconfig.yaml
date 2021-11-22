@@ -38,7 +38,7 @@
   changed_when: true
 - name: Check if pnpm directory exists
   ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.npm/pnpm-global/3"
+    path: "{{ ansible_env.HOME }}/.npm/pnpm-global/5"
   register: pnpm_directory
 - name: Register node major version
   ansible.builtin.shell:
@@ -49,6 +49,6 @@
 - name: Update pnpm packages
   when: (node_version.stdout | int >= 12) and pnpm_directory.stat.isdir is defined and pnpm_directory.stat.isdir
   ansible.builtin.command:
-    cmd: 'npx pnpm update --dir "$HOME/.npm/pnpm-global/3"'
+    cmd: 'npx pnpm update --dir "$HOME/.npm/pnpm-global/5"'
   register: pnpm_update
   changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'
