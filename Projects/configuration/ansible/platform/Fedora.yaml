@@ -116,6 +116,7 @@
       - powerline
       - procs
       - python3-github3py
+      - python3-pip
       - rclone
       - ripgrep
       - rsync
