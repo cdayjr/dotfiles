@@ -11,29 +11,7 @@
   ansible.builtin.command:
     cmd: "npm config --user set prefix {{ ansible_env.HOME }}/.npm"
   changed_when: true
-- name: Get current pnpm prefix
-  ansible.builtin.command:
-    cmd: "npm config --user get pnpm-prefix"
-  register: pnpm_prefix_check
-  changed_when: false
-- name: Set pnpm prefix
-  when: "'/'.join((ansible_env.HOME,'.npm')) != pnpm_prefix_check.stdout"
-  ansible.builtin.command:
-    cmd: "npm config --user set pnpm-prefix {{ ansible_env.HOME }}/.npm"
-  changed_when: true
-- name: Check if pnpm directory exists
-  ansible.builtin.stat:
-    path: "{{ ansible_env.HOME }}/.npm/pnpm-global/5"
-  register: pnpm_directory
-- name: Register node major version
-  ansible.builtin.shell:
-    cmd: |
-      node --version | sed 's/^v//g' | awk 'BEGIN { FS = "." } ; { print $1 }'
-  register: node_version
-  changed_when: false
-- name: Update pnpm packages
-  when: (node_version.stdout | int >= 12) and pnpm_directory.stat.isdir is defined and pnpm_directory.stat.isdir
-  ansible.builtin.command:
-    cmd: 'npx --user pnpm update --dir "$HOME/.npm/pnpm-global/5"'
-  register: pnpm_update
-  changed_when: '"Already up-to-date" not in pnpm_update.stdout_lines'
+- name: Update npm packages
+  community.general.npm:
+    global: true
+    state: latest
