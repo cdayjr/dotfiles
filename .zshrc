@@ -128,8 +128,14 @@ fi
 ###
 
 # Node
+## npm packages
+if command -v npm >/dev/null 2>&1; then
+  export PATH="$(npm -g bin):$PATH"
+fi
 ## pnpm packages
-export PATH="$HOME/.npm/pnpm-global/5/node_modules/.bin:$PATH"
+if command -v pnpm >/dev/null 2>&1; then
+  export PATH="$(pnpm -g bin):$PATH"
+fi
 ## n
 if command -v n >/dev/null 2>&1; then
   export N_PREFIX="$HOME/.n"
