@@ -130,11 +130,11 @@ fi
 # Node
 ## npm packages
 if command -v npm >/dev/null 2>&1; then
-  export PATH="$(npm -g bin):$PATH"
+  export PATH="$(npm -g bin 2>/dev/null):$PATH"
 fi
 ## pnpm packages
 if command -v pnpm >/dev/null 2>&1; then
-  export PATH="$(pnpm -g bin):$PATH"
+  export PATH="$(pnpm -g bin 2>/dev/null):$PATH"
 fi
 ## n
 if command -v n >/dev/null 2>&1; then
