@@ -28,7 +28,6 @@
     # GitHub CLI Repo
     - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
     - "https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg"
-    - "https://keybase.io/docs/server_security/code_signing_key.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
 - name: Install YADM repo
   become: yes
@@ -216,35 +215,6 @@
       - wl-clipboard
       - xsel
     state: present
-- name: Keybase Repo
-  become: true
-  ansible.builtin.dnf:
-    name: "https://prerelease.keybase.io/keybase_amd64.rpm"
-    state: present
-- name: Keybase setup for workstation
-  when: linux_desktop
-  ansible.builtin.command:
-    cmd: keybase ctl autostart --enable
-  register: keybase_result
-  changed_when: "keybase_result.stdout != ''"
-- name: Keybase setup for server
-  when: not linux_desktop
-  block:
-    - name: Initialize keybase variables
-      ansible.builtin.command:
-        cmd: keybase ctl init
-      args:
-        creates: "{{ ansible_env.XDG_CONFIG_HOME | default('~/.config') }}/keybase/keybase.autogen.env"
-    - name: Start keybase services
-      ansible.builtin.systemd:
-        scope: user
-        enabled: true
-        state: started
-        name: "{{ item }}"
-      loop:
-        - keybase.service
-        - kbfs.service
-        - keybase-redirector.service
 - name: ThinkPad battery tools
   when: thinkpad
   block:
