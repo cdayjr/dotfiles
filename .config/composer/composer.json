@@ -9,5 +9,10 @@
     "slevomat/coding-standard": "*",
     "squizlabs/php_codesniffer": "*",
     "vimeo/psalm": "*"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
   }
 }
