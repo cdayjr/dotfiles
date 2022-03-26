@@ -67,16 +67,20 @@
         name: all
         state: latest
     - name: Start WSL and get IP address
+      when: false
       win_command: "wsl hostname -I"
       changed_when: false
       register: wsl_hostname
     - name: Add portproxy to wsl for IPv4
+      when: false
       win_command: "netsh interface portproxy add v4tov4 listenport=8022 connectaddress={{ wsl_hostname.stdout | trim }} connectport=8022"
       changed_when: false
     - name: Add portproxy to wsl for IPv6
+      when: false
       win_command: "netsh interface portproxy add v6tov4 listenport=8022 connectaddress={{ wsl_hostname.stdout | trim }} connectport=8022"
       changed_when: false
     - name: Add firewall rule for wsl
+      when: false
       community.windows.win_firewall_rule:
         name: WSL SSH
         localport: 8022
@@ -87,6 +91,7 @@
         state: present
         enabled: yes
     - name: Start WSL SSH
+      when: false
       win_command: "wsl -u root service ssh start"
       changed_when: false
 - name: Environment Setup
