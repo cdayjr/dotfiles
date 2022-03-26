@@ -18,7 +18,7 @@
   community.general.homebrew:
     name:
       - bat
-      - ccze
+      - bottom
       - cmake
       - composer
       - coreutils
@@ -71,17 +71,6 @@
     name: "{{ lookup('env','USER') }}"
     shell: /usr/local/bin/zsh
     state: present
-- name: Setup bottom repository
-  community.general.homebrew_tap:
-    name: clementtsang/bottom
-    state: present
-  register: bottom_repo
-- name: Install bottom from bottom repo
-  community.general.homebrew:
-    name:
-      - clementtsang/bottom/bottom
-    state: present
-  when: bottom_repo is not skipped
 - name: Install Homebrew casks
   community.general.homebrew_cask:
     greedy: true
