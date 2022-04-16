@@ -12,7 +12,6 @@
       - git
       - gpatch
       - patchutils
-      - subversion
     state: present
 - name: Install Homebrew packages
   community.general.homebrew:
