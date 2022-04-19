@@ -97,6 +97,7 @@
       - exa
       - exfat-utils
       - fd-find
+      - fontforge
       - fuse-exfat
       - gh
       - golang

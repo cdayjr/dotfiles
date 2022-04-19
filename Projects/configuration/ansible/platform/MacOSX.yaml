@@ -25,6 +25,7 @@
       - dust
       - exa
       - fd
+      - fontforge
       - gh
       - gnupg
       - go
