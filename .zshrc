@@ -97,7 +97,7 @@ fi
 export PATH=$HOME/.local/bin:$PATH
 
 # Man files
-if ! [ "$MANPATH" ]; then
+if ! [ "$MANPATH" ] && command -v man >/dev/null 2>&1; then
   export MANPATH="$(man -w)"
 fi
 if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
