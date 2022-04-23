@@ -260,7 +260,13 @@ get-latest-github() {
   fi
   local OWNER="$1"
   local REPO="$2"
-  local TAG_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/tags")"
+  if command -v gh >/dev/null 2>&1; then
+    # Use gh if available
+    local TAG_JSON="$(gh api repos/$OWNER/$REPO/tags)"
+  else
+    # otherwise fall back to curl
+    local TAG_JSON="$(curl -s -H "Accept: application/vnd.github.v3+json" "https://api.github.com/repos/$OWNER/$REPO/tags")"
+  fi
   if [ "$?" -ne 0 ]; then
     # curl error
     return 1
