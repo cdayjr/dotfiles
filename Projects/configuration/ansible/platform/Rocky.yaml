@@ -1,0 +1,145 @@
+# vi:syntax=yaml.ansible
+---
+- name: Install dnf package manager
+  become: yes
+  ansible.builtin.package:
+    name:
+      - dnf
+      - dnf-plugins-core
+    state: present
+- name: Install distribution GPG keys
+  become: true
+  ansible.builtin.package:
+    name: "distribution-gpg-keys"
+    state: latest
+- name: Install GPG keys
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ item }}"
+    state: present
+  loop:
+    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version}}"
+    - "/etc/pki/rpm-gpg/RPM-GPG-KEY-rockyofficial"
+    # GitHub CLI repo
+    - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
+- name: Install EPEL
+  become: true
+  ansible.builtin.package:
+    name: epel-release
+    state: present
+- name: Install YADM repo
+  become: yes
+  ansible.builtin.get_url:
+    url: "https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/CentOS_8_Stream/home:TheLocehiliosan:yadm.repo"
+    dest: /etc/yum.repos.d/home:TheLocehiliosan:yadm.repo
+    mode: '0644'
+- name: Install GitHub CLI repo
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
+  args:
+    creates: "/etc/yum.repos.d/gh-cli.repo"
+    warn: false
+- name: Install "Development Tools" DNF package group
+  become: true
+  ansible.builtin.dnf:
+    name: "@Development Tools"
+    state: present
+- name: Install CLI packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - ImageMagick
+      - bc
+      - cargo
+      - ccze
+      - curl
+      - file
+      - gh
+      - golang
+      - jq
+      - man-db
+      - mosh
+      - nmap
+      - nodejs
+      - p7zip
+      - php
+      - php-bcmath
+      - php-cli
+      - php-devel
+      - php-json
+      - php-mbstring
+      - php-xml
+      - procps-ng
+      - python3
+      - python3-devel
+      - rclone
+      - rsync
+      - rust
+      - util-linux-user
+      - unar
+      - vim
+      - weechat
+      - wget
+      - yadm
+      - youtube-dl
+      - zsh
+    state: present
+- name: Install server packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - openssh-server
+    state: present
+- name: Set user shell
+  become: true
+  ansible.builtin.user:
+    name: "{{ lookup('env','USER') }}"
+    shell: /usr/bin/zsh
+    state: present
+# Final upgrades & cleanup
+- name: Upgrade all dnf pacakges
+  become: true
+  ansible.builtin.package:
+    name: "*"
+    state: latest
+- name: Autoremove unneeded packages installed as dependencies
+  become: true
+  ansible.builtin.dnf:
+    autoremove: true
+    skip_broken: true
+    update_cache: true
+- name: Install composer
+  ansible.builtin.get_url:
+    url: "https://getcomposer.org/download/latest-stable/composer.phar"
+    dest: "{{ ansible_env.HOME }}/.local/bin/composer"
+    mode: "0755"
+- name: Install pip packages
+  ansible.builtin.pip:
+    name:
+      - github3.py
+      - mycli
+      - powerline-gitstatus
+      - powerline-status
+      - setuptools_rust
+    extra_args: --user
+    state: latest
+  vars:
+    ansible_python_interpreter: /usr/bin/env python3
+- name: Configure sshd
+  when: not linux_desktop
+  block:
+    - name: Enable password login
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication yes"
+    - name: Disable root password login
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: "^#?PermitRootLogin"
+        line: "PermitRootLogin without-password"

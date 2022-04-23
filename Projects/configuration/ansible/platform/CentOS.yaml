@@ -67,12 +67,12 @@
       - ImageMagick
       - bc
       - ccze
-      - composer
       - curl
       - file
       - gh
       - golang
       - jq
+      - man-db
       - mosh
       - nmap
       - nodejs
@@ -83,9 +83,13 @@
       - php-devel
       - php-json
       - php-mbstring
+      - php-xml
+      - procps-ng
       - python3
+      - python3-devel
       - rclone
       - rsync
+      - util-linux-user
       - unar
       - vim
       - weechat
