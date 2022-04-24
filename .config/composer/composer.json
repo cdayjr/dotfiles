@@ -8,7 +8,8 @@
     "roave/security-advisories": "dev-master@dev",
     "slevomat/coding-standard": "*",
     "squizlabs/php_codesniffer": "*",
-    "vimeo/psalm": "*"
+    "vimeo/psalm": "*",
+    "wp-cli/wp-cli-bundle": "*"
   },
   "config": {
     "allow-plugins": {
