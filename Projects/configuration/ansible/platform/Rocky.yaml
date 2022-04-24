@@ -109,11 +109,27 @@
     autoremove: true
     skip_broken: true
     update_cache: true
-- name: Install composer
-  ansible.builtin.get_url:
-    url: "https://getcomposer.org/download/latest-stable/composer.phar"
-    dest: "{{ ansible_env.HOME }}/.local/bin/composer"
-    mode: "0755"
+- name: Composer setup
+  block:
+    - name: Download composer
+      ansible.builtin.get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/composer-installer
+    - name: Install composer executable
+      ansible.builtin.shell: >
+        cat /tmp/composer-installer | \
+        php -- --install-dir="{{ ansible_env.HOME }}/.local/bin" && \
+        mv "{{ ansible_env.HOME }}/.local/bin/composer.phar" "{{ ansible_env.HOME }}/.local/bin/composer"
+      args:
+        creates: "{{ ansible_env.HOME }}/.local/bin/composer"
+    - name: Ensure composer is executable
+      become: true
+      ansible.builtin.file:
+        group: "{{ lookup('env','USER') }}"
+        mode: ug+rwx
+        owner: "{{ lookup('env','USER') }}"
+        path: "{{ ansible_env.HOME }}/.local/bin/composer"
+        state: file
 - name: Install pip packages
   ansible.builtin.pip:
     name:
