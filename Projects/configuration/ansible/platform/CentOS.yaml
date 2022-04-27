@@ -89,7 +89,6 @@
       - python3-devel
       - rclone
       - rsync
-      - util-linux-user
       - unar
       - vim
       - weechat
