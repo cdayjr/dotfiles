@@ -118,6 +118,10 @@ set laststatus=2
 set t_Co=256
 set noshowmode
 
+" Don't autoformat on save
+let g:format_on_save = 0
+let g:ale_fix_on_save = 0
+
 " Source external files
 for f in split(glob('~/.local/share/includes/**/*.vim'), '\n')
     exe 'source' f
