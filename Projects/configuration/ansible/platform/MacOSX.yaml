@@ -76,26 +76,45 @@
     greedy: true
     name:
       - boostnote
-      - discord
+      - docker
       - firefox
       - flux
       - google-chrome
       - google-drive
       - imagealpha
       - imageoptim
-      - iterm2
-      - keepassxc
       - kitty
-      - lastpass
       - microsoft-edge
-      - mounty
-      - slack
-      - synergy
+      - sequel-ace
       - the-unarchiver
-      - transmission-remote-gui
+      - visual-studio-code
       - xscreensaver
     state: present
     sudo_password: "{{ ansible_become_password }}"
+- name: Install non-work Homebrew casks
+  when: ansible_env.USER != "cday"
+  community.general.homebrew_cask:
+    greedy: true
+    name:
+      - discord
+      - keepassxc
+      - mounty
+      - synergy
+      - transmission-remote-gui
+- name: Install work Homebrew casks
+  when: ansible_env.USER == "cday"
+  community.general.homebrew_cask:
+    greedy: true
+    name:
+      - cloudflare-warp
+      - cyberduck
+      - lastpass
+      - lifesize
+      - microsoft-office
+      - postman
+      - slack
+      - tunnelblick
+      - zoom
 - name: Setup firefox developer repository
   community.general.homebrew_tap:
     name: homebrew/cask-versions
