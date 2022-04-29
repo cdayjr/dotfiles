@@ -35,6 +35,7 @@ if command -v kitty >/dev/null 2>&1 && [ "$TERM" = "xterm-kitty" ]; then
   alias c="kitty +kitten clipboard"
   alias d="kitty +kitten diff"
   alias i="kitty +kitten icat"
+  alias icat="kitty +kitten icat"
   alias u="kitty +kitten unicode_input"
   # handle remote server not being aware of kitty and breaking
   alias ssh-kitty-fix="kitty +kitten ssh"
