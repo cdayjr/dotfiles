@@ -288,7 +288,7 @@ get-latest-github() {
     return 1
   fi
   # return latest tag
-  echo "$TAG_JSON" | tr '\r\n' ' ' | jq -r '.[].name' | sed 's/^v//' | sort --version-sort --reverse | head -n 1
+  echo "$TAG_JSON" | tr '\r\n' ' ' | jq -r '.[].name' | sed 's/^v//' | grep -v '-' | sort --version-sort --reverse | head -n 1
   return 0
 }
 
