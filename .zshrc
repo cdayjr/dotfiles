@@ -95,11 +95,6 @@ export LANG=en_US.UTF-8
 # Local installations; add to front
 path=("$HOME/.local/bin" "$path[@]")
 
-# GNU Coreutils on macOS; add to front
-if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
-  path=("/usr/local/opt/coreutils/libexec/gnubin" "$path[@]")
-fi
-
 # Man files
 if command -v man >/dev/null 2>&1; then
   if ! [ "$MANPATH" ]; then

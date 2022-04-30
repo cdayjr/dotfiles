@@ -20,7 +20,6 @@
       - bottom
       - cmake
       - composer
-      - coreutils
       - curl-openssl
       - dust
       - exa
