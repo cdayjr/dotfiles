@@ -8,6 +8,10 @@ case $- in
       *) return;;
 esac
 
+# In zsh, $path is an array with the values of $PATH, setting -U ensures it's
+# only contains unique entries
+typeset -U path
+
 # partial completion suggestions
 zstyle ':completion:*' list-suffixes
 zstyle ':completion:*' expand prefix suffix
@@ -88,20 +92,22 @@ export LANG=en_US.UTF-8
 # Path setup
 ###
 
-# GNU Coreutils on macOS
-if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
-  export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
+# Local installations; add to front
+path=("$HOME/.local/bin" "$path[@]")
 
-# Local installations
-export PATH=$HOME/.local/bin:$PATH
+# GNU Coreutils on macOS; add to front
+if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
+  path=("/usr/local/opt/coreutils/libexec/gnubin" "$path[@]")
+fi
 
 # Man files
-if ! [ "$MANPATH" ] && command -v man >/dev/null 2>&1; then
-  export MANPATH="$(man -w)"
-fi
-if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
-  export MANPATH="$HOME/.local/share/man:$MANPATH"
+if command -v man >/dev/null 2>&1; then
+  if ! [ "$MANPATH" ]; then
+    export MANPATH="$(man -w)"
+  fi
+  if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
+    export MANPATH="$HOME/.local/share/man:$MANPATH"
+  fi
 fi
 
 ###
@@ -130,7 +136,7 @@ fi
 # Node
 ## npm packages
 if command -v npm >/dev/null 2>&1 && npm -g bin >/dev/null 2>&1; then
-  export PATH="$(npm -g bin 2>/dev/null):$PATH"
+  path+=("$(npm -g bin 2>/dev/null)")
 else
   # call again to get error message
   # If we print the error message above, when the command exits successfully but
@@ -142,7 +148,7 @@ else
 fi
 ## pnpm packages
 if command -v pnpm >/dev/null 2>&1 && pnpm -g bin >/dev/null 2>&1; then
-  export PATH="$(pnpm -g bin 2>/dev/null):$PATH"
+  path+=("$(pnpm -g bin 2>/dev/null)")
 else
   # call again to get error message
   # If we print the error message above, when the command exits successfully but
@@ -155,21 +161,24 @@ fi
 ## n
 if command -v n >/dev/null 2>&1; then
   export N_PREFIX="$HOME/.n"
-  export PATH="$N_PREFIX/bin:$PATH"
+  path+=("$N_PREFIX/bin")
 fi
 
 # Ruby
-export GEM_HOME="$HOME/.gem"
-export PATH="$GEM_HOME/bin:$PATH"
+if command -v gem >/dev/null 2>&1; then
+  export GEM_HOME="$HOME/.gem"
+  path+=("$GEM_HOME/bin")
+fi
 
 # Go
 ## GVM resets GOPATH so it is setup first
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-export GOPATH=$HOME/.go
-export PATH=$GOPATH/bin:$PATH
-
-## Modules; required for 1.11 through 1.12
-export GO111MODULE=on
+if command -v go >/dev/null 2>&1; then
+  export GOPATH=$HOME/.go
+  path+=("$GOPATH/bin")
+  ## Modules; required for 1.11 through 1.12
+  export GO111MODULE=on
+fi
 
 # Python
 ## Set python3 as python if default python is not 3
@@ -179,21 +188,26 @@ fi
 alias pip="python -m pip"
 export PYTHON_BASE="$(python -m site --user-base)"
 export PYTHON_SITE="$(python -m site --user-site)"
-export PATH="$PATH:$PYTHON_BASE/bin"
-
+path+=("$PYTHON_BASE/bin")
 
 # Rust / Cargo
-export PATH=$HOME/.cargo/bin:$PATH
+if command -v cargo >/dev/null 2>&1; then
+  path+=("$HOME/.cargo/bin")
+fi
 
 # Composer / PHP
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
-export COMPOSER_HOME="$HOME/.config/composer"
-export PATH="$PATH:$COMPOSER_HOME/vendor/bin"
-alias php="/usr/bin/env php -c $HOME/.config/php/php.ini"
+if command -v composer >/dev/null 2>&1; then
+  export COMPOSER_HOME="$HOME/.config/composer"
+  path+=("$COMPOSER_HOME/vendor/bin")
+fi
+if command -v php >/dev/null 2>&1; then
+  alias php="/usr/bin/env php -c $HOME/.config/php/php.ini"
+fi
 
 # OpenJDK on macOS
 if [ -d "/usr/local/opt/openjdk/bin" ]; then
-  export PATH="/usr/local/opt/openjdk/bin:$PATH"
+  path+=("/usr/local/opt/openjdk/bin")
 fi
 
 ##
@@ -201,14 +215,16 @@ fi
 ###
 
 # Ensure shell is set to zsh
-export SHELL=$(which zsh)
+export SHELL="$(command -v zsh)"
 
 ## GPG
-export GPG_TTY=$(tty)
+export GPG_TTY="$(tty)"
 
 # Tmux
 # Force it to believe the terminal supports 256 colors
-alias tmux='tmux -2'
+if command -v tmux >/dev/null 2>&1; then
+  alias tmux="/usr/bin/env tmux -2"
+fi
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
@@ -220,17 +236,17 @@ fi
 
 if command -v exa >/dev/null 2>&1; then
   # Use lsd as ls alias
-  alias ls='exa --color=auto --icons --group-directories-first'
+  alias ls="exa --color=auto --icons --group-directories-first"
 else
   # enable color support of ls and also add handy aliases
   if command -v dircolors >/dev/null 2>&1; then
       test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
   fi
-  alias ls='ls --color=auto'
+  alias ls="ls --color=auto"
 fi
 
 # colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 
 # color for grep
 alias grep="grep --color=auto"
@@ -447,7 +463,9 @@ INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
   done
 
 # Set editor
-export EDITOR="/usr/bin/env vim"
+if command -v vim >/dev/null 2>&1; then
+  export EDITOR="/usr/bin/env vim"
+fi
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
