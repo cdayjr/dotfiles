@@ -370,7 +370,8 @@ is-latest-ansible-requirements() {
   return 0
 }
 
-get_config_file() {
+# Fetch a config file from expected locations
+fetch_config_file() {
   local FILE="$1"
   # Check for local config override,
   # per xdg specification
@@ -435,7 +436,7 @@ update() {
   # run updates
   local ANSIBLE_DIR="$HOME/Projects/configuration/ansible"
   local INVENTORY_FILE="$ANSIBLE_DIR/inventory.yaml"
-  local INVENTORY_OVERRIDE="$(get_config_file "/ansible/hosts")"
+  local INVENTORY_OVERRIDE="$(fetch_config_file "/ansible/hosts")"
   if [ -n "$INVENTORY_OVERRIDE" ]; then
     INVENTORY_FILE="$INVENTORY_OVERRIDE"
   fi
