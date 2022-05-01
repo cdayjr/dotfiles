@@ -480,7 +480,7 @@ if command -v notify-send >/dev/null 2>&1; then
 fi
 
 # Attach tmux when ssh session starts, exit when it exits
-if  then
+if command -v tmux >/dev/null 2>&1; then
   if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) \
     && command -v tmux &> /dev/null \
     && [ -n "$PS1" ] \
