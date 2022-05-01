@@ -8,7 +8,7 @@ case $- in
       *) return;;
 esac
 
-# In zsh, $path is an array with the values of $PATH, setting -U ensures it's
+# In zsh, $path is an array with the values of $PATH, setting -U ensures it
 # only contains unique entries
 typeset -U path=("$path[@]")
 
