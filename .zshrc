@@ -477,6 +477,47 @@ if command -v tmux >/dev/null 2>&1; then
   fi
 fi
 
+clone-nerd-fonts() {
+  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts --branch v2.1.0 --single-branch "$HOME/.local/src/nerd-fonts"
+}
+
+font-patcher() {
+  if ! command -v fontforge >/dev/null 2>&1; then
+    >&2 echo "fontforge not found in PATH"
+    return 1
+  fi
+  if ! [ -d "$HOME/.local/src/nerd-fonts" ]; then
+    >&2 echo "nerd-fonts repo not found"
+    return 1
+  fi
+  if [ -z "$1" ] || [ -z "$2" ]; then
+    >&2 echo "USAGE: $0 <FONT_FILE> <OUT_DIR>"
+    return 1
+  fi
+  local FONT_FILE="$1"
+  case $1 in
+    /*) FONT_FILE="$1" ;;
+    *) FONT_FILE="$(pwd)/$1" ;;
+  esac
+  if ! [ -f "$FONT_FILE" ]; then
+    >&2 echo "$FONT_FILE not found"
+    return 1
+  fi
+  local OUT_DIR="$2"
+  case $2 in
+    /*) OUT_DIR="$2" ;;
+    *) OUT_DIR="$(pwd)/$2" ;;
+  esac
+  if ! [ -d "$OUT_DIR" ]; then
+    >&2 echo "$OUT_DIR not found"
+    return 1
+  fi
+  ( \
+    cd "$HOME/.local/src/nerd-fonts" && \
+    fontforge -script font-patcher -s -l -w -c --progressbars --outputdir $OUT_DIR $FONT_FILE \
+  )
+}
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
