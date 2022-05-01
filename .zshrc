@@ -133,7 +133,7 @@ fi
 ## npm packages
 if command -v npm >/dev/null 2>&1 && npm -g bin >/dev/null 2>&1; then
   path+=("$(npm -g bin 2>/dev/null)")
-else
+elif command -v npm >/dev/null 2>&1; then
   # call again to get error message
   # If we print the error message above, when the command exits successfully but
   # the bin path isn't in the PATH yet, you'll get an error like:
@@ -145,7 +145,7 @@ fi
 ## pnpm packages
 if command -v pnpm >/dev/null 2>&1 && pnpm -g bin >/dev/null 2>&1; then
   path+=("$(pnpm -g bin 2>/dev/null)")
-else
+elif command -v pnpm >/dev/null 2>&1; then
   # call again to get error message
   # If we print the error message above, when the command exits successfully but
   # the bin path isn't in the PATH yet, you'll get an error like:
@@ -214,7 +214,9 @@ fi
 export SHELL="$(command -v zsh)"
 
 ## GPG
-export GPG_TTY="$(tty)"
+if command -v tty >/dev/null 2>&1; then
+  export GPG_TTY="$(tty)"
+fi
 
 # Tmux
 # Force it to believe the terminal supports 256 colors
