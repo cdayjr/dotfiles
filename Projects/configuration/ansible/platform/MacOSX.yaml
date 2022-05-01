@@ -241,3 +241,27 @@
     type: string
     value: RequiredDataOnly
     state: present
+- name: Install personal fonts
+  block:
+    - name: Get font collection
+      ansible.builtin.git:
+        repo: git@github.com:cdayjr/fonts
+        dest: ~/.local/src/fonts
+        depth: 1
+    - name: Find all fonts
+      ansible.builtin.find:
+        paths:
+          - ~/.local/src/fonts
+        patterns:
+          - '*.otf'
+          - '*.ttf'
+        recurse: true
+        file_type: file
+      register: personal_font_results
+    - name: Install fonts
+      when: personal_font_results.files|length > 0
+      ansible.builtin.file:
+        src: "{{ item.path }}"
+        dest: "~/Library/Fonts/{{ item.path | basename }}"
+        state: hard
+      loop: "{{ personal_font_results.files }}"
