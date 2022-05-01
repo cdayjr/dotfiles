@@ -10,7 +10,7 @@ esac
 
 # In zsh, $path is an array with the values of $PATH, setting -U ensures it's
 # only contains unique entries
-typeset -U path
+typeset -U path=("$path[@]")
 
 # partial completion suggestions
 zstyle ':completion:*' list-suffixes
@@ -93,7 +93,7 @@ export LANG=en_US.UTF-8
 ###
 
 # Local installations; add to front
-path=("$HOME/.local/bin" "$path[@]")
+path[1,0]="$HOME/.local/bin"
 
 # Man files
 if command -v man >/dev/null 2>&1; then
