@@ -530,17 +530,9 @@ font-patcher() {
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
 
 ## Get submodules to match latest committed commit in parent repo
 alias fix-submodules="git submodule update --recursive -f"
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-if command -v notify-send >/dev/null 2>&1; then
-  alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-fi
 
 # Includes, set this last so it can override other settings
 INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
