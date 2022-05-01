@@ -272,6 +272,13 @@ if pip show powerline-status >/dev/null 2>&1 && command -v powerline-daemon >/de
   . "$POWERLINE_PYTHON_BINDINGS/zsh/powerline.zsh"
 fi
 
+# Set GitHub API Token
+if command -v gh >/dev/null 2>&1; then
+  if gh auth status --hostname github.com >/dev/null 2>&1; then
+    export HOMEBREW_GITHUB_API_TOKEN="$(gh auth status --hostname github.com --show-token 2>&1 | grep 'Token:' | sed 's/^.*Token:[[:space:]]*//g')"
+  fi
+fi
+
 # Support for vagrant access outside of a WSL environment
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 
@@ -420,6 +427,13 @@ update() {
     fi
   done
   if [ -z "$IN_UPDATE" ]; then
+    # Authenticate with gh if not already
+    if command -v gh >/dev/null 2>&1; then
+      if ! gh auth status --hostname github.com >/dev/null 2>&1; then
+        gh auth login --hostname github.com
+      fi
+    fi
+
     # get latest zshrc and load it
     yadm pull origin main
     source "$HOME/.zshrc"
@@ -428,6 +442,7 @@ update() {
     return 0
   fi
   unset IN_UPDATE
+
   # run updates
   local ANSIBLE_DIR="$HOME/Projects/configuration/ansible"
   local INVENTORY_FILE="$ANSIBLE_DIR/inventory.yaml"
