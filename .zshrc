@@ -210,9 +210,6 @@ fi
 # User configuration
 ###
 
-# Ensure shell is set to zsh
-export SHELL="$(command -v zsh)"
-
 ## GPG
 if command -v tty >/dev/null 2>&1; then
   export GPG_TTY="$(tty)"
