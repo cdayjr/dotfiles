@@ -452,15 +452,29 @@ update() {
   fi
 }
 
-# Includes
-INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
-  for INCLUDE in $INCLUDES; do
-    source "$INCLUDE"
-  done
-
 # Set editor
 if command -v vim >/dev/null 2>&1; then
   export EDITOR="/usr/bin/env vim"
+fi
+
+# Restart macOS sshd
+restart-macos-sshd() {
+  if command -v launchctl >/dev/null 2>&1; then
+    sudo launchctl unload  /System/Library/LaunchDaemons/ssh.plist && \
+      sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+  fi
+}
+
+# Attach tmux when ssh session starts, exit when it exits
+if command -v tmux >/dev/null 2>&1; then
+  if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) \
+    && command -v tmux &> /dev/null \
+    && [ -n "$PS1" ] \
+    && [[ ! "$TERM" =~ screen ]] \
+    && [[ ! "$TERM" =~ tmux ]] \
+    && [ -z "$TMUX" ]; then
+    exec tmux new -A -s default && exit
+  fi
 fi
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
@@ -479,22 +493,8 @@ if command -v notify-send >/dev/null 2>&1; then
   alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 fi
 
-# Attach tmux when ssh session starts, exit when it exits
-if command -v tmux >/dev/null 2>&1; then
-  if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) \
-    && command -v tmux &> /dev/null \
-    && [ -n "$PS1" ] \
-    && [[ ! "$TERM" =~ screen ]] \
-    && [[ ! "$TERM" =~ tmux ]] \
-    && [ -z "$TMUX" ]; then
-    exec tmux new -A -s default && exit
-  fi
-fi
-
-# Restart macOS sshd
-restart-macos-sshd() {
-  if command -v launchctl >/dev/null 2>&1; then
-    sudo launchctl unload  /System/Library/LaunchDaemons/ssh.plist && \
-      sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
-  fi
-}
+# Includes, set this last so it can override other settings
+INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
+  for INCLUDE in $INCLUDES; do
+    source "$INCLUDE"
+  done
