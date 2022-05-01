@@ -102,7 +102,7 @@ if command -v man >/dev/null 2>&1; then
     export MANPATH="$(man -w)"
   fi
   if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
-    export MANPATH="$HOME/.local/share/man:$MANPATH"
+    MANPATH="$HOME/.local/share/man:$MANPATH"
   fi
 fi
 
@@ -254,16 +254,16 @@ else
 fi
 export POWERLINE_VIM=""
 if [ -f "/usr/share/vim/vimfiles/plugin/powerline.vim" ]; then
-  export POWERLINE_VIM="/usr/share/vim/vimfiles/"
+  POWERLINE_VIM="/usr/share/vim/vimfiles/"
 else
-  export POWERLINE_VIM="$POWERLINE_PYTHON_BINDINGS/vim/"
+  POWERLINE_VIM="$POWERLINE_PYTHON_BINDINGS/vim/"
 fi
 export POWERLINE_TMUX="/usr/share/tmux/powerline.conf";
 if ! [ -f "$POWERLINE_TMUX" ]; then
-  export POWERLINE_TMUX="$POWERLINE_PYTHON_BINDINGS/tmux/powerline.conf"
+  POWERLINE_TMUX="$POWERLINE_PYTHON_BINDINGS/tmux/powerline.conf"
   if ! [ -f "$POWERLINE_TMUX" ]; then
     # Handle case where tmux config isn't installed
-    export POWERLINE_TMUX="/tmp/powerline.conf"
+    POWERLINE_TMUX="/tmp/powerline.conf"
     touch "$POWERLINE_TMUX"
   fi
 fi
