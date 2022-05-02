@@ -347,6 +347,7 @@
         - "3270"
         - fixedsys_excelsior
         - nerd_fonts
+        - personal
       loop_control:
         loop_var: font_item
     - name: Collect new font installations
@@ -355,6 +356,7 @@
           - "{{ font_3270_installed.changed }}"
           - "{{ font_fixedsys_excelsior_installed.changed }}"
           - "{{ font_nerd_fonts_installed.changed }}"
+          - "{{ fonts_personal_installed.changed }}"
     - name: Reload font cache
       when: "True in new_font_installs"
       ansible.builtin.command: "fc-cache -f"

@@ -8,6 +8,10 @@ case $- in
       *) return;;
 esac
 
+# In zsh, $path is an array with the values of $PATH, setting -U ensures it
+# only contains unique entries
+typeset -U path=("$path[@]")
+
 # partial completion suggestions
 zstyle ':completion:*' list-suffixes
 zstyle ':completion:*' expand prefix suffix
@@ -89,20 +93,17 @@ export LANG=en_US.UTF-8
 # Path setup
 ###
 
-# GNU Coreutils on macOS
-if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
-  export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-fi
-
-# Local installations
-export PATH=$HOME/.local/bin:$PATH
+# Local installations; add to front
+path[1,0]="$HOME/.local/bin"
 
 # Man files
-if ! [ "$MANPATH" ] && command -v man >/dev/null 2>&1; then
-  export MANPATH="$(man -w)"
-fi
-if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
-  export MANPATH="$HOME/.local/share/man:$MANPATH"
+if command -v man >/dev/null 2>&1; then
+  if ! [ "$MANPATH" ]; then
+    export MANPATH="$(man -w)"
+  fi
+  if ! echo $MANPATH | grep -q "$HOME/.local/share/man"; then
+    MANPATH="$HOME/.local/share/man:$MANPATH"
+  fi
 fi
 
 ###
@@ -131,8 +132,8 @@ fi
 # Node
 ## npm packages
 if command -v npm >/dev/null 2>&1 && npm -g bin >/dev/null 2>&1; then
-  export PATH="$(npm -g bin 2>/dev/null):$PATH"
-else
+  path+=("$(npm -g bin 2>/dev/null)")
+elif command -v npm >/dev/null 2>&1; then
   # call again to get error message
   # If we print the error message above, when the command exits successfully but
   # the bin path isn't in the PATH yet, you'll get an error like:
@@ -143,8 +144,8 @@ else
 fi
 ## pnpm packages
 if command -v pnpm >/dev/null 2>&1 && pnpm -g bin >/dev/null 2>&1; then
-  export PATH="$(pnpm -g bin 2>/dev/null):$PATH"
-else
+  path+=("$(pnpm -g bin 2>/dev/null)")
+elif command -v pnpm >/dev/null 2>&1; then
   # call again to get error message
   # If we print the error message above, when the command exits successfully but
   # the bin path isn't in the PATH yet, you'll get an error like:
@@ -156,21 +157,24 @@ fi
 ## n
 if command -v n >/dev/null 2>&1; then
   export N_PREFIX="$HOME/.n"
-  export PATH="$N_PREFIX/bin:$PATH"
+  path+=("$N_PREFIX/bin")
 fi
 
 # Ruby
-export GEM_HOME="$HOME/.gem"
-export PATH="$GEM_HOME/bin:$PATH"
+if command -v gem >/dev/null 2>&1; then
+  export GEM_HOME="$HOME/.gem"
+  path+=("$GEM_HOME/bin")
+fi
 
 # Go
 ## GVM resets GOPATH so it is setup first
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
-export GOPATH=$HOME/.go
-export PATH=$GOPATH/bin:$PATH
-
-## Modules; required for 1.11 through 1.12
-export GO111MODULE=on
+if command -v go >/dev/null 2>&1; then
+  export GOPATH=$HOME/.go
+  path+=("$GOPATH/bin")
+  ## Modules; required for 1.11 through 1.12
+  export GO111MODULE=on
+fi
 
 # Python
 ## Set python3 as python if default python is not 3
@@ -180,36 +184,42 @@ fi
 alias pip="python -m pip"
 export PYTHON_BASE="$(python -m site --user-base)"
 export PYTHON_SITE="$(python -m site --user-site)"
-export PATH="$PATH:$PYTHON_BASE/bin"
-
+path+=("$PYTHON_BASE/bin")
 
 # Rust / Cargo
-export PATH=$HOME/.cargo/bin:$PATH
+if command -v cargo >/dev/null 2>&1; then
+  path+=("$HOME/.cargo/bin")
+fi
 
 # Composer / PHP
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
-export COMPOSER_HOME="$HOME/.config/composer"
-export PATH="$PATH:$COMPOSER_HOME/vendor/bin"
-alias php="/usr/bin/env php -c $HOME/.config/php/php.ini"
+if command -v composer >/dev/null 2>&1; then
+  export COMPOSER_HOME="$HOME/.config/composer"
+  path+=("$COMPOSER_HOME/vendor/bin")
+fi
+if command -v php >/dev/null 2>&1; then
+  alias php="/usr/bin/env php -c $HOME/.config/php/php.ini"
+fi
 
 # OpenJDK on macOS
 if [ -d "/usr/local/opt/openjdk/bin" ]; then
-  export PATH="/usr/local/opt/openjdk/bin:$PATH"
+  path+=("/usr/local/opt/openjdk/bin")
 fi
 
 ##
 # User configuration
 ###
 
-# Ensure shell is set to zsh
-export SHELL=$(which zsh)
-
 ## GPG
-export GPG_TTY=$(tty)
+if command -v tty >/dev/null 2>&1; then
+  export GPG_TTY="$(tty)"
+fi
 
 # Tmux
 # Force it to believe the terminal supports 256 colors
-alias tmux='tmux -2'
+if command -v tmux >/dev/null 2>&1; then
+  alias tmux="/usr/bin/env tmux -2"
+fi
 
 # Compilation flags
 export ARCHFLAGS="-arch x86_64"
@@ -221,17 +231,17 @@ fi
 
 if command -v exa >/dev/null 2>&1; then
   # Use lsd as ls alias
-  alias ls='exa --color=auto --icons --group-directories-first'
+  alias ls="exa --color=auto --icons --group-directories-first"
 else
   # enable color support of ls and also add handy aliases
   if command -v dircolors >/dev/null 2>&1; then
       test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
   fi
-  alias ls='ls --color=auto'
+  alias ls="ls --color=auto"
 fi
 
 # colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 
 # color for grep
 alias grep="grep --color=auto"
@@ -244,16 +254,16 @@ else
 fi
 export POWERLINE_VIM=""
 if [ -f "/usr/share/vim/vimfiles/plugin/powerline.vim" ]; then
-  export POWERLINE_VIM="/usr/share/vim/vimfiles/"
+  POWERLINE_VIM="/usr/share/vim/vimfiles/"
 else
-  export POWERLINE_VIM="$POWERLINE_PYTHON_BINDINGS/vim/"
+  POWERLINE_VIM="$POWERLINE_PYTHON_BINDINGS/vim/"
 fi
 export POWERLINE_TMUX="/usr/share/tmux/powerline.conf";
 if ! [ -f "$POWERLINE_TMUX" ]; then
-  export POWERLINE_TMUX="$POWERLINE_PYTHON_BINDINGS/tmux/powerline.conf"
+  POWERLINE_TMUX="$POWERLINE_PYTHON_BINDINGS/tmux/powerline.conf"
   if ! [ -f "$POWERLINE_TMUX" ]; then
     # Handle case where tmux config isn't installed
-    export POWERLINE_TMUX="/tmp/powerline.conf"
+    POWERLINE_TMUX="/tmp/powerline.conf"
     touch "$POWERLINE_TMUX"
   fi
 fi
@@ -355,7 +365,8 @@ is-latest-ansible-requirements() {
   return 0
 }
 
-get_config_file() {
+# Fetch a config file from expected locations
+fetch_config_file() {
   local FILE="$1"
   # Check for local config override,
   # per xdg specification
@@ -409,6 +420,13 @@ update() {
     fi
   done
   if [ -z "$IN_UPDATE" ]; then
+    # Authenticate with gh if not already
+    if command -v gh >/dev/null 2>&1; then
+      if ! gh auth status --hostname github.com >/dev/null 2>&1; then
+        gh auth login --hostname github.com
+      fi
+    fi
+
     # get latest zshrc and load it
     yadm pull origin main
     source "$HOME/.zshrc"
@@ -417,10 +435,11 @@ update() {
     return 0
   fi
   unset IN_UPDATE
+
   # run updates
   local ANSIBLE_DIR="$HOME/Projects/configuration/ansible"
   local INVENTORY_FILE="$ANSIBLE_DIR/inventory.yaml"
-  local INVENTORY_OVERRIDE="$(get_config_file "/ansible/hosts")"
+  local INVENTORY_OVERRIDE="$(fetch_config_file "/ansible/hosts")"
   if [ -n "$INVENTORY_OVERRIDE" ]; then
     INVENTORY_FILE="$INVENTORY_OVERRIDE"
   fi
@@ -441,31 +460,21 @@ update() {
   fi
 }
 
-# Includes
-INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
-  for INCLUDE in $INCLUDES; do
-    source "$INCLUDE"
-  done
-
 # Set editor
-export EDITOR="/usr/bin/env vim"
+if command -v vim >/dev/null 2>&1; then
+  export EDITOR="/usr/bin/env vim"
+fi
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-
-## Get submodules to match latest committed commit in parent repo
-alias fix-submodules="git submodule update --recursive -f"
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# Restart macOS sshd
+restart-macos-sshd() {
+  if command -v launchctl >/dev/null 2>&1; then
+    sudo launchctl unload  /System/Library/LaunchDaemons/ssh.plist && \
+      sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+  fi
+}
 
 # Attach tmux when ssh session starts, exit when it exits
-if  then
+if command -v tmux >/dev/null 2>&1; then
   if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) \
     && command -v tmux &> /dev/null \
     && [ -n "$PS1" ] \
@@ -476,10 +485,57 @@ if  then
   fi
 fi
 
-# Restart macOS sshd
-restart-macos-sshd() {
-  if command -v launchctl >/dev/null 2>&1; then
-    sudo launchctl unload  /System/Library/LaunchDaemons/ssh.plist && \
-      sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
-  fi
+clone-nerd-fonts() {
+  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts --branch v2.1.0 --single-branch "$HOME/.local/src/nerd-fonts"
 }
+
+font-patcher() {
+  if ! command -v fontforge >/dev/null 2>&1; then
+    >&2 echo "fontforge not found in PATH"
+    return 1
+  fi
+  if ! [ -d "$HOME/.local/src/nerd-fonts" ]; then
+    >&2 echo "nerd-fonts repo not found"
+    return 1
+  fi
+  if [ -z "$1" ] || [ -z "$2" ]; then
+    >&2 echo "USAGE: $0 <FONT_FILE> <OUT_DIR>"
+    return 1
+  fi
+  local FONT_FILE="$1"
+  case $1 in
+    /*) FONT_FILE="$1" ;;
+    *) FONT_FILE="$(pwd)/$1" ;;
+  esac
+  if ! [ -f "$FONT_FILE" ]; then
+    >&2 echo "$FONT_FILE not found"
+    return 1
+  fi
+  local OUT_DIR="$2"
+  case $2 in
+    /*) OUT_DIR="$2" ;;
+    *) OUT_DIR="$(pwd)/$2" ;;
+  esac
+  if ! [ -d "$OUT_DIR" ]; then
+    >&2 echo "$OUT_DIR not found"
+    return 1
+  fi
+  ( \
+    cd "$HOME/.local/src/nerd-fonts" && \
+    fontforge -script font-patcher -s -l -w -c --progressbars --outputdir $OUT_DIR $FONT_FILE \
+  )
+}
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+
+## Get submodules to match latest committed commit in parent repo
+alias fix-submodules="git submodule update --recursive -f"
+
+# Includes, set this last so it can override other settings
+INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
+  for INCLUDE in $INCLUDES; do
+    source "$INCLUDE"
+  done
