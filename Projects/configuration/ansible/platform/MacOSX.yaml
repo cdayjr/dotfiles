@@ -114,6 +114,16 @@
       - slack
       - tunnelblick
       - zoom
+- name: Setup pcloud repository
+  when: ansible_env.USER != "cday"
+  community.general.homebrew_tap:
+    name: tomgross/pcloud
+    state: present
+- name: Install pCloud
+  when: ansible_env.USER != "cday"
+  community.general.homebrew_cask:
+    name:
+      - pcloud
 - name: Setup firefox developer repository
   community.general.homebrew_tap:
     name: homebrew/cask-versions
