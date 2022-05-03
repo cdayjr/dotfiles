@@ -170,8 +170,8 @@
       loop:
         - owner: dexpota
           repo: kitty-themes
-        - owner: kittykatt
-          repo: screenfetch
+        - owner: dylanaraps
+          repo: neofetch
         - owner: muennich
           repo: urxvt-perls
     - name: vim bundles
