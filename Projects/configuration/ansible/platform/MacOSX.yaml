@@ -243,7 +243,7 @@
       - powerline-status
       - powerline-gitstatus
     extra_args: --user
-    state: present
+    state: latest
 - name: Disable Microsoft Required Data Notice
   become: true
   community.general.osx_defaults:
