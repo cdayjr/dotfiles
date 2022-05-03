@@ -161,6 +161,12 @@
         global_command: true
       environment:
         COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
+    - name: Install pip packages
+      ansible.builtin.pip:
+        name:
+          - git-filter-repo
+        extra_args: --user
+        state: latest
     - name: package sources
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
