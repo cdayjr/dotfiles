@@ -82,6 +82,7 @@
       - google-drive
       - imagealpha
       - imageoptim
+      - keepassxc
       - kitty
       - microsoft-edge
       - sequel-ace
@@ -97,7 +98,6 @@
     name:
       - betterdiscord-installer
       - discord
-      - keepassxc
       - mounty
       - synergy
       - transmission-remote-gui
