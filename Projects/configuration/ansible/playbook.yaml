@@ -162,11 +162,21 @@
       environment:
         COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
     - name: Install pip packages
+      when: ansible_python.version.major >= 3
       ansible.builtin.pip:
         name:
           - git-filter-repo
         extra_args: --user
         state: latest
+    - name: Install pip packages on older machines
+      when: ansible_python.version.major < 3
+      ansible.builtin.pip:
+        name:
+          - git-filter-repo
+        extra_args: --user
+        state: latest
+      vars:
+        ansible_python_interpreter: /usr/bin/env python3
     - name: package sources
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
