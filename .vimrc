@@ -54,7 +54,7 @@ match ErrorMsg '\%>120v.\+'
 " Ignore CSV files
 au BufRead,BufNewFile *.csv match
 " Colorscheme
-colorscheme molokai
+colorscheme brogrammer
 " indentation search
 nnoremap <leader>j m':exec '/\%' . col(".") . 'c\S'<CR>``n
 nnoremap <leader>k m':exec '?\%' . col(".") . 'c\S'<CR>``n
