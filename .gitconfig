@@ -1,12 +1,10 @@
 [alias]
   cleanup = "!f() { \
       (git switch -c cleanup-repo-branch || git switch cleanup-repo-branch) && \
-      git branch -D main; \
-      git branch -D master; \
       git reset --hard && \
       git clean -df && \
       git fetch -a && \
-      (git checkout main || git checkout master) && \
+      git checkout $(git remote show origin | grep 'HEAD branch:' | awk '{ print $3 }') && \
       git submodule update --init --recursive -f && \
       git branch | grep -ve '^*' | xargs git branch -D && \
       git remote prune origin && \
