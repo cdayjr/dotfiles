@@ -109,6 +109,12 @@
     autoremove: true
     skip_broken: true
     update_cache: true
+- name: Install hostess cli
+  ansible.builtin.command:
+    cmd: go install github.com/cbednarski/hostess@latest
+    creates: ~/.go/bin/hostess
+  environment:
+    GOPATH: "{{ ansible_env.HOME }}/.go"
 - name: Composer setup
   block:
     - name: Download composer

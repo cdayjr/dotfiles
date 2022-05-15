@@ -372,6 +372,12 @@
     autoremove: true
     skip_broken: true
     update_cache: true
+- name: Install hostess cli
+  ansible.builtin.command:
+    cmd: go install github.com/cbednarski/hostess@latest
+    creates: ~/.go/bin/hostess
+  environment:
+    GOPATH: "{{ ansible_env.HOME }}/.go"
 - name: Install ascii-image-converter cli
   ansible.builtin.command:
     cmd: go install github.com/TheZoraiz/ascii-image-converter@latest

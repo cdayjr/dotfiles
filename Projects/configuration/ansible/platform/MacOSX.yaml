@@ -29,6 +29,7 @@
       - gh
       - gnupg
       - go
+      - hostess
       - imagemagick
       - jq
       - lesspipe
