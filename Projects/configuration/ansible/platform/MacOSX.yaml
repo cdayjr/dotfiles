@@ -16,6 +16,7 @@
 - name: Install Homebrew packages
   community.general.homebrew:
     name:
+      - TheZoraiz/ascii-image-converter/ascii-image-converter
       - bat
       - bottom
       - cmake

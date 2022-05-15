@@ -372,6 +372,12 @@
     autoremove: true
     skip_broken: true
     update_cache: true
+- name: Install ascii-image-converter cli
+  ansible.builtin.command:
+    cmd: go install github.com/TheZoraiz/ascii-image-converter@latest
+    creates: ~/.go/bin/ascii-image-converter
+  environment:
+    GOPATH: "{{ ansible_env.HOME }}/.go"
 - name: Install cargo packages
   ansible.builtin.command:
     cmd: "cargo install {{ item.package }}"
