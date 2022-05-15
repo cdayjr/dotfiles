@@ -132,7 +132,7 @@
       include_tasks: "platform/{{ ansible_distribution }}.yaml"
     - name: Install hostess cli
       ansible.builtin.command:
-        cmd: go get -u github.com/cbednarski/hostess
+        cmd: go install github.com/cbednarski/hostess@latest
         creates: ~/.go/bin/hostess
       environment:
         GOPATH: "{{ ansible_env.HOME }}/.go"
