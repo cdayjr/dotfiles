@@ -378,6 +378,13 @@
     creates: ~/.go/bin/hostess
   environment:
     GOPATH: "{{ ansible_env.HOME }}/.go"
+- name: Install pip packages
+  ansible.builtin.pip:
+    name:
+      - ansible
+      - jmespath # used by ansible templating
+    extra_args: --user
+    state: latest
 - name: Install ascii-image-converter cli
   ansible.builtin.command:
     cmd: go install github.com/TheZoraiz/ascii-image-converter@latest
