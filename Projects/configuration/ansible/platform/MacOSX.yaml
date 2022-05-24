@@ -76,7 +76,6 @@
   community.general.homebrew_cask:
     greedy: true
     name:
-      - boostnote
       - docker
       - firefox
       - flux
