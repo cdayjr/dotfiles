@@ -41,7 +41,6 @@
       - p7zip
       - php
       - podman
-      - powershell
       - procs
       - python
       - rclone
@@ -87,6 +86,7 @@
       - keepassxc
       - kitty
       - microsoft-edge
+      - powershell
       - sequel-ace
       - the-unarchiver
       - visual-studio-code
