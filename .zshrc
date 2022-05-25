@@ -535,7 +535,7 @@ font-patcher() {
 alias fix-submodules="git submodule update --recursive -f"
 
 # Includes, set this last so it can override other settings
-INCLUDES=($(compgen -G "$HOME/.local/share/includes/**/*.zsh")) && \
+INCLUDES=("${(@f)$(find -L "$HOME/.local/share/includes" -name '*.zsh')}") && \
   for INCLUDE in $INCLUDES; do
     source "$INCLUDE"
   done
