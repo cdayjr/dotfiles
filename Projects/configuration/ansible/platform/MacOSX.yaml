@@ -138,11 +138,6 @@
         src: "~/.local/src/work-config"
         dest: "~/.local/share/includes/work-config"
         state: link
-    - name: Link VSCode settings
-      ansible.builtin.file:
-        src: "~/.local/share/includes/work-config/settings.vscode.json"
-        dest: "~/Library/Application Support/Code/User/settings.json"
-        state: link
 - name: Setup firefox developer repository
   community.general.homebrew_tap:
     name: homebrew/cask-versions
