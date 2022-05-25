@@ -28,6 +28,7 @@
     # GitHub CLI Repo
     - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
     - "https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg"
+    - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
 - name: Install YADM repo
   become: yes
@@ -53,6 +54,26 @@
   args:
     creates: "/etc/yum.repos.d/gh-cli.repo"
     warn: false
+- name: Install Visual Studio Code repo
+  when: linux_desktop
+  become: true
+  ansible.builtin.ini_file:
+    option: "{{ item.option }}"
+    path: /etc/yum.repos.d/vscode.repo
+    section: code
+    state: present
+    value: "{{ item.value }}"
+  loop:
+    - option: baseurl
+      value: "https://packages.microsoft.com/yumrepos/vscode"
+    - option: enabled
+      value: "1"
+    - option: gpgcheck
+      value: "1"
+    - option: gpgkey
+      value: https://packages.microsoft.com/keys/microsoft.asc
+    - option: name
+      value: Visual Studio Code
 - name: Install "Development Tools" DNF package group
   become: true
   ansible.builtin.dnf:
@@ -180,6 +201,7 @@
       - calibre
       - chromium
       - chromium-libs-media-freeworld
+      - code
       - discord
       - feh
       - firefox
