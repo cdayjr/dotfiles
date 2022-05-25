@@ -92,40 +92,56 @@
       - xscreensaver
     state: present
     sudo_password: "{{ ansible_become_password }}"
-- name: Install non-work Homebrew casks
+- name: Home setup
   when: ansible_env.USER != "cday"
-  community.general.homebrew_cask:
-    greedy: true
-    name:
-      - betterdiscord-installer
-      - discord
-      - mounty
-      - synergy
-      - transmission-remote-gui
-- name: Install work Homebrew casks
+  block:
+    - name: Install home Homebrew casks
+      community.general.homebrew_cask:
+        greedy: true
+        name:
+          - betterdiscord-installer
+          - discord
+          - mounty
+          - synergy
+          - transmission-remote-gui
+    - name: Setup pcloud repository
+      community.general.homebrew_tap:
+        name: tomgross/pcloud
+        state: present
+    - name: Install pCloud
+      community.general.homebrew_cask:
+        name:
+          - pcloud
+- name: Work setup
   when: ansible_env.USER == "cday"
-  community.general.homebrew_cask:
-    greedy: true
-    name:
-      - cloudflare-warp
-      - cyberduck
-      - lastpass
-      - lifesize
-      - microsoft-office
-      - postman
-      - slack
-      - tunnelblick
-      - zoom
-- name: Setup pcloud repository
-  when: ansible_env.USER != "cday"
-  community.general.homebrew_tap:
-    name: tomgross/pcloud
-    state: present
-- name: Install pCloud
-  when: ansible_env.USER != "cday"
-  community.general.homebrew_cask:
-    name:
-      - pcloud
+  block:
+    - name: Install work Homebrew casks
+      community.general.homebrew_cask:
+        greedy: true
+        name:
+          - cloudflare-warp
+          - cyberduck
+          - lastpass
+          - lifesize
+          - microsoft-office
+          - postman
+          - slack
+          - tunnelblick
+          - zoom
+    - name: Work configuration repo
+      ansible.builtin.git:
+        repo: "git@github.com:cdayjr/work-config"
+        dest: "~/.local/src/work-config"
+    - name: Work configuration link
+      ansible.builtin.file:
+        src: "~/.local/src/work-config"
+        dest: "~/.local/share/includes/work-config"
+        state: link
+    - name: Link VSCode settings
+      ansible.builtin.file:
+        src: "~/.local/share/includes/work-config/settings.vscode.json"
+        dest: "~/Library/Application Support/Code/User/settings.json"
+        state: link
 - name: Setup firefox developer repository
   community.general.homebrew_tap:
     name: homebrew/cask-versions
