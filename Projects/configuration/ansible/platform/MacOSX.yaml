@@ -126,7 +126,6 @@
           - lifesize
           - microsoft-office
           - postman
-          - slack
           - tunnelblick
           - zoom
     - name: Work configuration repo
