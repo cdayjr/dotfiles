@@ -251,7 +251,6 @@
       ansible.builtin.dnf:
         name:
           - akmod-tp_smapi
-          - akmod-acpi_call
           - kernel-devel
         state: present
 - name: Install media packages
