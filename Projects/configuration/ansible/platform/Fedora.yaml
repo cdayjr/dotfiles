@@ -27,15 +27,30 @@
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
     # GitHub CLI Repo
     - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
-    - "https://copr-be.cloud.fedoraproject.org/results/cdayjr/yadm/pubkey.gpg"
+    - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/repodata/repomd.xml.key"
     - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
 - name: Install YADM repo
-  become: yes
-  ansible.builtin.command: "dnf copr enable -y cdayjr/yadm"
-  args:
-    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cdayjr:yadm.repo
-    warn: false
+  become: true
+  ansible.builtin.ini_file:
+    option: "{{ item.option }}"
+    path: /etc/yum.repos.d/home:TheLocehiliosan:yadm.repo
+    section: home_TheLocehiliosan_yadm
+    state: present
+    value: "{{ item.value }}"
+  loop:
+    - option: baseurl
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/"
+    - option: enabled
+      value: "1"
+    - option: gpgcheck
+      value: "1"
+    - option: gpgkey
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/repodata/repomd.xml.key"
+    - option: name
+      value: "Yet Another Dotfiles Manager (Fedora_35)"
+    - option: type
+      value: "rpm-md"
 - name: Install RPMFusion (free)
   become: true
   ansible.builtin.dnf:
