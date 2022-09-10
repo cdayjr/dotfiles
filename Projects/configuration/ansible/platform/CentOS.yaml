@@ -34,7 +34,7 @@
     - "/etc/pki/rpm-gpg/RPM-GPG-KEY-remi"
     - "https://www.centos.org/keys/RPM-GPG-KEY-CentOS-{{ ansible_distribution_major_version}}"
     # GitHub CLI repo
-    - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
+    - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
     # GitLab Runner key
     - "https://packages.gitlab.com/gpg.key"
 - name: Install EPEL

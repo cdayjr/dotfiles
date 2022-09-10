@@ -26,7 +26,7 @@
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}"
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
     # GitHub CLI Repo
-    - "http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xc99b11deb97541f0"
+    - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
     - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/repodata/repomd.xml.key"
     - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
