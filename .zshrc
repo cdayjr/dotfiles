@@ -461,9 +461,28 @@ update() {
 }
 
 # Set editor
-if command -v vim >/dev/null 2>&1; then
-  export EDITOR="/usr/bin/env vim"
+if command -v hx >/dev/null 2>&1; then
+  export EDITOR="$(which hx)"
+elif command -v vim >/dev/null 2>&1; then
+  export EDITOR="$(which vim)"
+elif command -v vi >/dev/null 2>&1; then
+  export EDITOR="$(which vi)"
 fi
+
+# Editor alias
+edit() {
+  if command -v "$EDITOR" >/dev/null 2>&1; then
+    $EDITOR "$@"
+  elif command -v hx >/dev/null 2>&1; then
+    hx "$@"
+  elif command -v vim >/dev/null 2>&1; then
+    vim "$@"
+  elif command -v vi >/dev/null 2>&1; then
+    vi "$@"
+  else
+    >&2 echo "No suitable editor found"
+  fi
+}
 
 # Restart macOS sshd
 restart-macos-sshd() {
