@@ -229,8 +229,6 @@
   ansible.builtin.dnf:
     name:
       - calibre
-      - chromium
-      - chromium-libs-media-freeworld
       - code
       - discord
       - feh
