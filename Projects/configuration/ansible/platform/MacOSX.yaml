@@ -80,7 +80,6 @@
       - docker
       - firefox
       - flux
-      - google-drive
       - imagealpha
       - imageoptim
       - keepassxc
