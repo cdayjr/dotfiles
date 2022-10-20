@@ -89,6 +89,7 @@
       - sequel-ace
       - the-unarchiver
       - visual-studio-code
+      - wezterm
       - xscreensaver
     state: present
     sudo_password: "{{ ansible_become_password }}"
