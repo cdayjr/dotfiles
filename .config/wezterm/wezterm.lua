@@ -3,5 +3,5 @@ return {
   color_scheme = 'Brogrammer',
   enable_tab_bar = false,
   font = wezterm.font 'ComicCodeLigatures NF',
-  font_size = 16.0,
+  font_size = 24.0,
 }
