@@ -102,6 +102,7 @@
         name:
           - betterdiscord-installer
           - discord
+          - mactex
           - mounty
           - synergy
           - transmission-remote-gui
