@@ -138,10 +138,13 @@
       - gh
       - golang
       - jq
+      - libgit2-devel
+      - libssh2-devel
       - mosh
       - mycli
       - nmap
       - nodejs
+      - openssl-devel
       - p7zip
       - php
       - php-bcmath
@@ -149,6 +152,7 @@
       - php-devel
       - php-json
       - php-mbstring
+      - pkg-config
       - powerline
       - procs
       - python3-github3py
