@@ -49,8 +49,6 @@ nnoremap <leader>l :setlocal number!<CR>
 nnoremap <leader>q :nohlsearch<CR>
 " <leader>s fix syntax
 nnoremap <leader>s :syntax sync fromstart<CR>
-" Error past 120 characters
-match ErrorMsg '\%>120v.\+'
 " Ignore CSV files
 au BufRead,BufNewFile *.csv match
 " Colorscheme
@@ -75,11 +73,8 @@ function MyDiff()
                 \ v:fname_in . " " . v:fname_new .  " > " . v:fname_out
 endfunction
 
-" Wrap markdown text at 72 characters
-au BufRead,BufNewFile *.md setlocal textwidth=72
-au BufRead,BufNewFile *.txt setlocal textwidth=72
-" Wrap git commit messages at 72 characters
-au FileType gitcommit setlocal textwidth=72
+" Do not wrap text
+set textwidth=0
 
 " highlight custom gitconfig files
 au BufRead,BufNewFile */gitconfig setfiletype gitconfig

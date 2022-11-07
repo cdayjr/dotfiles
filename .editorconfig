@@ -19,9 +19,9 @@ max_line_length = 80
 tab_width = 2
 trim_trailing_whitespace = true
 
-# text should be wrapped at 72 characters
+# do not wrap text
 [*.md,gitcommit,*.txt]
-max_line_length = 72
+max_line_length = off
 trim_trailing_whitespace = false
 
 # PSR-12 enforces 4 space indentation
