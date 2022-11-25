@@ -137,6 +137,7 @@
       - fuse-exfat
       - gh
       - golang
+      - icu
       - jq
       - libgit2-devel
       - libssh2-devel
