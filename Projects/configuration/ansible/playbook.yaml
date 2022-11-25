@@ -17,16 +17,19 @@
           - docker
           - docker-cli
           - foobar2000
+          - gh
           - git
           - keepassxc
           - kubernetes-cli
           - mpv
+          - nmap
           - obs
           - openjdk
           - powershell-core
           - python
           - sharpkeys
           - synergy
+          - transgui
           - vim
           - vlc
           - vscode
