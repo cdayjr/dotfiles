@@ -39,7 +39,6 @@
     cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
   args:
     creates: "/etc/yum.repos.d/gh-cli.repo"
-    warn: false
 - name: Install "Development Tools" DNF package group
   become: true
   ansible.builtin.dnf:

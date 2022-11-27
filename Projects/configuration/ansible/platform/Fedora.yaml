@@ -68,7 +68,6 @@
     cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
   args:
     creates: "/etc/yum.repos.d/gh-cli.repo"
-    warn: false
 - name: Install Visual Studio Code repo
   when: linux_desktop
   become: true
@@ -184,7 +183,6 @@
   ansible.builtin.command: "dnf copr enable -y atim/bottom"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:bottom.repo
-    warn: false
   when: ansible_distribution_major_version | int >= 32
   register: bottom_repo
 - name: Install bottom from bottom repo
@@ -199,7 +197,6 @@
   ansible.builtin.command: "dnf copr enable -y varlad/helix"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:varlad:helix.repo
-    warn: false
   when: ansible_distribution_major_version | int >= 32
   register: helix_repo
 - name: Install helix from helix repo
@@ -362,7 +359,6 @@
   ansible.builtin.command: "dnf copr enable -y dawid/better_fonts"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:dawid:better_fonts.repo
-    warn: false
   when: linux_desktop and (ansible_distribution_major_version | int >= 32)
   register: better_fonts_repo
 - name: Install fonts from better fonts repo
@@ -379,7 +375,6 @@
   ansible.builtin.command: "dnf copr enable -y cyfrost/packages"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cyfrost:packages.repo
-    warn: false
   register: cyfrost_packages_repo
 - name: Install fonts from cyfrost packages
   become: true

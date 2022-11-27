@@ -47,14 +47,12 @@
   ansible.builtin.command: "dnf copr enable -y cdayjr/yadm"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cdayjr:yadm.repo
-    warn: false
 - name: Install GitHub CLI repo
   become: true
   ansible.builtin.command:
     cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
   args:
     creates: "/etc/yum.repos.d/gh-cli.repo"
-    warn: false
 - name: Install "Development Tools" DNF package group
   become: true
   ansible.builtin.dnf:
@@ -116,7 +114,6 @@
   ansible.builtin.command: "dnf copr enable -y atim/bottom"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:bottom.repo
-    warn: false
   when: ansible_distribution_major_version | int >= 7
   register: bottom_repo
 - name: Install bottom from bottom repo
