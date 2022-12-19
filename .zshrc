@@ -131,16 +131,8 @@ fi
 
 # Node
 ## npm packages
-if command -v npm >/dev/null 2>&1 && npm -g bin >/dev/null 2>&1; then
-  path+=("$(npm -g bin 2>/dev/null)")
-elif command -v npm >/dev/null 2>&1; then
-  # call again to get error message
-  # If we print the error message above, when the command exits successfully but
-  # the bin path isn't in the PATH yet, you'll get an error like:
-  # npm ERR! bin (not in PATH env variable)
-  # But this isn't helpful, because we're calling the command in order to put it
-  # in the PATH in the first place
-  npm -g bin
+if command -v npm >/dev/null 2>&1 && [ -d "$HOME/.npm/bin" ] 2>&1; then
+  path+=("$HOME/.npm/bin")
 fi
 ## pnpm packages
 if command -v pnpm >/dev/null 2>&1 && pnpm -g bin >/dev/null 2>&1; then
