@@ -394,6 +394,7 @@
       include_tasks: "{{ ansible_distribution }}/fonts/{{ font_item }}.yaml"
       loop:
         - "3270"
+        - apple
         - fixedsys_excelsior
         - nerd_fonts
         - personal
@@ -406,6 +407,7 @@
           - "{{ font_fixedsys_excelsior_installed.changed }}"
           - "{{ font_nerd_fonts_installed.changed }}"
           - "{{ fonts_personal_installed.changed }}"
+          - "{{ fonts_apple_installed.changed }}"
     - name: Reload font cache
       when: "True in new_font_installs"
       ansible.builtin.command: "fc-cache -f"

@@ -1,0 +1,43 @@
+# vi:syntax=yaml.ansible
+---
+- name: Check if Apple Fonts are installed
+  ansible.builtin.stat:
+    path: ~/.local/src/fonts/NewYork.ttf
+  register: apple_fonts_check
+- name: Install Apple Fonts
+  when: not apple_fonts_check.stat.exists
+  loop:
+    - file: NY.dmg
+      directory: NYFonts
+      pkg: "NY Fonts.pkg"
+    - file: SF-Arabic.dmg
+      directory: SFArabicFonts
+      pkg: "SF Arabic Fonts.pkg"
+    - file: SF-Compact.dmg
+      directory: SFCompactFonts
+      pkg: "SF Compact Fonts.pkg"
+    - file: SF-Mono.dmg
+      directory: SFMonoFonts
+      pkg: "SF Mono Fonts.pkg"
+    - file: SF-Pro.dmg
+      directory: SFProFonts
+      pkg: "SF Pro Fonts.pkg"
+  loop_control:
+    loop_var: font
+  include_tasks: apple_each.yaml
+- name: "Find all Apple fonts"
+  ansible.builtin.find:
+    paths:
+      - "/tmp/apple"
+    patterns:
+      - '*.otf'
+      - '*.ttf'
+    recurse: true
+    file_type: file
+  register: "apple_font_results"
+- name: "Install {{ font.directory }} fonts"
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "~/.local/share/fonts/{{ item.path | basename }}"
+  loop: "{{ apple_font_results.files }}"
+  register: "fonts_apple_installed"
