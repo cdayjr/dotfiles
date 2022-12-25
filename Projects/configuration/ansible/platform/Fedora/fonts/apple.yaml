@@ -2,7 +2,7 @@
 ---
 - name: Check if Apple Fonts are installed
   ansible.builtin.stat:
-    path: ~/.local/src/fonts/NewYork.ttf
+    path: ~/.local/share/fonts/NewYork.ttf
   register: apple_fonts_check
 - name: Install Apple Fonts
   when: not apple_fonts_check.stat.exists
@@ -26,6 +26,7 @@
     loop_var: font
   include_tasks: apple_each.yaml
 - name: "Find all Apple fonts"
+  when: not apple_fonts_check.stat.exists
   ansible.builtin.find:
     paths:
       - "/tmp/apple"
@@ -36,6 +37,7 @@
     file_type: file
   register: "apple_font_results"
 - name: "Install {{ font.directory }} fonts"
+  when: not apple_fonts_check.stat.exists
   ansible.builtin.copy:
     src: "{{ item.path }}"
     dest: "~/.local/share/fonts/{{ item.path | basename }}"
