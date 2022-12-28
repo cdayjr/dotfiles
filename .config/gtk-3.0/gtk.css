@@ -1,4 +1,7 @@
+@import 'colors.css';
+
 /* Taken from https://unix.stackexchange.com/a/343643 */
+
 /* shrink headerbars (don't forget semicolons after each property) */
 headerbar {
   min-height: 0;
@@ -38,4 +41,3 @@ window.ssd headerbar.titlebar button.titlebutton {
   padding-bottom: 3px;
   min-height: 0;
 }
-@import 'colors.css';
