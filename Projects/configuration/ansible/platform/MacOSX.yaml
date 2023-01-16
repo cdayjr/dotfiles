@@ -20,7 +20,6 @@
       - bat
       - bottom
       - cmake
-      - composer
       - curl-openssl
       - dust
       - exa
@@ -40,7 +39,6 @@
       - node
       - openssl
       - p7zip
-      - php
       - podman
       - procs
       - python
@@ -101,9 +99,11 @@
         greedy: true
         name:
           - betterdiscord-installer
+          - composer
           - discord
           - mactex
           - mounty
+          - php
           - synergy
           - transmission-remote-gui
     - name: Setup pcloud repository
