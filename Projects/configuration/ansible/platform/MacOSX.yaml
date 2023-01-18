@@ -94,16 +94,20 @@
 - name: Home setup
   when: ansible_env.USER != "cday"
   block:
+    - name: Install home Homebrew packages
+      community.general.homebrew:
+        name:
+          - composer
+          - php
+        state: present
     - name: Install home Homebrew casks
       community.general.homebrew_cask:
         greedy: true
         name:
           - betterdiscord-installer
-          - composer
           - discord
           - mactex
           - mounty
-          - php
           - synergy
           - transmission-remote-gui
     - name: Setup pcloud repository
