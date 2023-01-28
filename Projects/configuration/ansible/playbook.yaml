@@ -12,19 +12,14 @@
         name:
           - 7zip
           - Firefox
-          - Minikube
           - discord
-          - docker
-          - docker-cli
           - foobar2000
           - gh
           - git
           - keepassxc
-          - kubernetes-cli
           - mpv
           - nmap
           - obs
-          - openjdk
           - powershell-core
           - python
           - sharpkeys
