@@ -69,7 +69,7 @@ function MyDiff()
     if &diffopt =~ "iwhite"
         let opt = opt . "-w -B " " vim uses -b by default
     endif
-    silent execute "!diff -a --binary " . opt .
+    silent execute "!diff -a " . opt .
                 \ v:fname_in . " " . v:fname_new .  " > " . v:fname_out
 endfunction
 

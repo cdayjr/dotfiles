@@ -76,12 +76,10 @@
     greedy: true
     name:
       - docker
-      - firefox
       - flux
       - imagealpha
       - imageoptim
       - keepassxc
-      - kitty
       - microsoft-edge
       - powershell
       - sequel-ace

@@ -1,15 +1,16 @@
 {
   "minimum-stability": "stable",
+  "prefer-stable": true,
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "*",
-    "phpcompatibility/php-compatibility": "*",
-    "phpunit/phpunit": "*",
-    "psy/psysh": "*",
+    "friendsofphp/php-cs-fixer": "^3.14",
+    "phpcompatibility/php-compatibility": "^9.3",
+    "phpunit/phpunit": "^9.6",
+    "psy/psysh": "^0.11.12",
     "roave/security-advisories": "dev-master@dev",
-    "slevomat/coding-standard": "*",
-    "squizlabs/php_codesniffer": "*",
-    "vimeo/psalm": "*",
-    "wp-cli/wp-cli-bundle": "*"
+    "slevomat/coding-standard": "^8.8",
+    "squizlabs/php_codesniffer": "^3.7",
+    "vimeo/psalm": "^5.6",
+    "wp-cli/wp-cli-bundle": "^2.7"
   },
   "config": {
     "allow-plugins": {
