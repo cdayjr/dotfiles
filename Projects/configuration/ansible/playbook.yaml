@@ -17,6 +17,7 @@
           - gh
           - git
           - keepassxc
+          - microsoft-windows-terminal
           - mpv
           - nmap
           - obs
@@ -29,6 +30,7 @@
           - vim
           - vlc
           - vscode
+          - wezterm
           - winscp
           - wsl2
         state: present
