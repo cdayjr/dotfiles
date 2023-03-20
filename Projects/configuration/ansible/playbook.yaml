@@ -177,8 +177,6 @@
         depth: 1
         force: true # disregard local changes
       loop:
-        - owner: dexpota
-          repo: kitty-themes
         - owner: dylanaraps
           repo: neofetch
         - owner: muennich
