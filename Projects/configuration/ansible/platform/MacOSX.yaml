@@ -290,7 +290,8 @@
       - name: Install fonts
         when: personal_font_results.files|length > 0
         ansible.builtin.file:
-          src: "{{ item.path }}"
           dest: "~/Library/Fonts/{{ item.path | basename }}"
+          force: true
+          src: "{{ item.path }}"
           state: hard
         loop: "{{ personal_font_results.files }}"
