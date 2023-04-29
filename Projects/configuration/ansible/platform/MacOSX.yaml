@@ -83,7 +83,6 @@
       - microsoft-edge
       - powershell
       - sequel-ace
-      - the-unarchiver
       - visual-studio-code
       - wezterm
       - xscreensaver
@@ -242,12 +241,7 @@
       - font-victor-mono-nerd-font
     state: present
     sudo_password: "{{ ansible_become_password }}"
-- name: Upgrade all casks
-  community.general.homebrew_cask:
-    greedy: true
-    sudo_password: "{{ ansible_become_password }}"
-    upgrade_all: true
-- name: Upgrade remaining homebrew packages
+- name: Upgrade homebrew packages
   community.general.homebrew:
     upgrade_all: yes
     upgrade_options: ignore-pinned
