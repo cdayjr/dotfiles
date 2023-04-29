@@ -198,6 +198,11 @@ if [ -d "/usr/local/opt/openjdk/bin" ]; then
   path+=("/usr/local/opt/openjdk/bin")
 fi
 
+# Docker desktop CLI on macOS
+if [ -d "$HOME/.docker/bin" ]; then
+  path+=("$HOME/.docker/bin")
+fi
+
 ##
 # User configuration
 ###
