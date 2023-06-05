@@ -489,6 +489,25 @@ restart-macos-sshd() {
   fi
 }
 
+# clear caches
+clear-caches() {
+  if command -v dnf >/dev/null 2>&1; then
+    sudo dnf autoremove -y
+    sudo dnf clean all
+  fi
+  if command -v cargo >/dev/null 2>&1; then
+    if cargo install --list | grep 'cargo-cache' >/dev/null; then
+      cargo cache -a
+    fi
+  fi
+  if command -v go >/dev/null 2>&1; then
+    go clean -modcache
+  fi
+  if command -v composer >/dev/null >2&1; then
+    composer clear-cache
+  fi
+}
+
 # Attach tmux when ssh session starts, exit when it exits
 if command -v tmux >/dev/null 2>&1; then
   if ([ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]) \
