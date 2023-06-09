@@ -24,6 +24,12 @@ if [ -d /usr/share/doc/yadm/completion/zsh ]; then
   fpath=(/usr/share/doc/yadm/completion/zsh $fpath)
 fi
 
+mkdir -p ~/.zfunc
+fpath+=("$HOME/.zfunc")
+if command -v pdm > /dev/null 2>&1; then
+  pdm completion zsh > ~/.zfunc/_pdm
+fi
+
 # Enable advanced auto completion
 if command -v brew >/dev/null 2>&1 && [ -n "$ZSH_VERSION" ]; then
   # Brew install zsh to "insecure" directories, -i silently ignores the results
