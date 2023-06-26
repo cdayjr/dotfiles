@@ -93,15 +93,16 @@ let g:ale_linters = {
 \}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint', 'prettier'],
-\   'typescript': ['eslint', 'prettier'],
-\   'html': ['prettier'],
-\   'scss': ['prettier'],
 \   'css': ['prettier'],
-\   'yaml': ['prettier'],
+\   'html': ['prettier'],
+\   'javascript': ['eslint', 'prettier'],
 \   'json': ['prettier'],
 \   'markdown': ['prettier'],
 \   'php': ['php_cs_fixer', 'phpcbf'],
+\   'python': ['autopep8'],
+\   'scss': ['prettier'],
+\   'typescript': ['eslint', 'prettier'],
+\   'yaml': ['prettier'],
 \}
 let g:ale_completion_autoimport = 1
 let g:ale_completion_enabled = 1
