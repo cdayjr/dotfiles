@@ -226,8 +226,8 @@
       - font-share-tech
       - font-share-tech-mono
       - font-source-code-pro
-      - font-source-sans-pro
-      - font-source-serif-pro
+      # font-source-sans-pro
+      # font-source-serif-pro
       - font-space-mono
       - font-terminus
       - font-times-new-roman
