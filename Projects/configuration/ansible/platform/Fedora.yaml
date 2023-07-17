@@ -447,6 +447,7 @@
     name:
       - ansible
       - jmespath # used by ansible templating
+      - pdm
     extra_args: --user
     state: latest
 - name: Install ascii-image-converter cli

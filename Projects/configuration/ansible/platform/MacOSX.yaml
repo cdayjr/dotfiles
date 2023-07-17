@@ -39,6 +39,7 @@
       - node
       - openssl
       - p7zip
+      - pdm
       - podman
       - procs
       - python
