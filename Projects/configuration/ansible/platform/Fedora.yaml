@@ -30,6 +30,7 @@
     - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/repodata/repomd.xml.key"
     - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
+    - "https://rpm.librewolf.net/pubkey.gpg"
 - name: Install YADM repo
   become: true
   ansible.builtin.ini_file:
@@ -68,6 +69,12 @@
     cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
   args:
     creates: "/etc/yum.repos.d/gh-cli.repo"
+- name: Install LibreWolf repo
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf config-manager --add-repo https://rpm.librewolf.net/librewolf-repo.repo"
+  args:
+    creates: "/etc/yum.repos.d/librewolf-repo.repo"
 - name: Install Visual Studio Code repo
   when: linux_desktop
   become: true
