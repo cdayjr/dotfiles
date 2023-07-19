@@ -233,7 +233,6 @@
       - code
       - discord
       - feh
-      - firefox
       - flac123
       - flatpak
       - gimp
@@ -245,6 +244,7 @@
       - i3status
       - keepassxc
       - konsole
+      - librewolf
       - lm_sensors
       - mpv
       - pandoc
