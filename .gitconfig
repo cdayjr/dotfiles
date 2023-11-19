@@ -11,6 +11,7 @@
       git remote prune origin && \
       git gc; \
     }; f"
+  grame = "!r() { git grep -n $1 $2 | while IFS=: read i j k; do git blame -f -L $j,$j $i; done }; r"
   mailmap-helper = shortlog --summary --numbered --email --all
   # Fetch large files from https://stackoverflow.com/a/42544963
   fetch-large-files = "!f() { \
