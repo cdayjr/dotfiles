@@ -27,7 +27,7 @@
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
     # GitHub CLI Repo
     - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
-    - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/repodata/repomd.xml.key"
+    - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_38/repodata/repomd.xml.key"
     - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
     - "https://rpm.librewolf.net/pubkey.gpg"
@@ -41,15 +41,15 @@
     value: "{{ item.value }}"
   loop:
     - option: baseurl
-      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/"
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_38/"
     - option: enabled
       value: "1"
     - option: gpgcheck
       value: "1"
     - option: gpgkey
-      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_35/repodata/repomd.xml.key"
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_38/repodata/repomd.xml.key"
     - option: name
-      value: "Yet Another Dotfiles Manager (Fedora_35)"
+      value: "Yet Another Dotfiles Manager (Fedora_38)"
     - option: type
       value: "rpm-md"
 - name: Install RPMFusion (free)
@@ -135,7 +135,6 @@
       - ccze
       - composer
       - curl
-      - exa
       - exfat-utils
       - fd-find
       - fontforge
@@ -257,7 +256,6 @@
       - pandoc
       - pinta
       - powerline-fonts
-      - python3-pyside2
       - python3-streamlink
       - python3-twisted
       - redshift-gtk
@@ -381,6 +379,7 @@
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:dawid:better_fonts.repo
   when: linux_desktop and (ansible_distribution_major_version | int >= 32)
   register: better_fonts_repo
+# disabled until better fonts updates for fedora 39
 - name: Install fonts from better fonts repo
   become: true
   ansible.builtin.dnf:
@@ -388,7 +387,7 @@
       - courier-prime-fonts
       - ubuntu-fonts
     state: present
-  when: better_fonts_repo is not skipped
+  when: false and better_fonts_repo is not skipped
 - name: Fira Code Fonts Repo
   when: linux_desktop and (ansible_distribution_major_version | int >= 32)
   become: true
@@ -468,10 +467,12 @@
     cmd: "cargo install {{ item.package }}"
     creates: "~/.cargo/bin/{{ item.bin }}"
   loop:
-    - package: sd
-      bin: sd
     - package: du-dust
       bin: dust
+    - package: exa
+      bin: exa
+    - package: sd
+      bin: sd
 - name: Install cargo update tool
   ansible.builtin.command:
     cmd: cargo install cargo-update

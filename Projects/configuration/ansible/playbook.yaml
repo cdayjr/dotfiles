@@ -162,6 +162,7 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - pyside2
         extra_args: --user
         state: latest
     - name: Install pip packages on older machines
@@ -169,6 +170,7 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - pyside2
         extra_args: --user
         state: latest
       vars:
