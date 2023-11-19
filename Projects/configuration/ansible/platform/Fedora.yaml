@@ -469,8 +469,8 @@
   loop:
     - package: du-dust
       bin: dust
-    - package: exa
-      bin: exa
+    - package: eza
+      bin: eza
     - package: sd
       bin: sd
 - name: Install cargo update tool

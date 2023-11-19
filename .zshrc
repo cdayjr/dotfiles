@@ -236,9 +236,9 @@ if command -v lesspipe >/dev/null 2>&1; then
   eval "$(SHELL=/bin/sh lesspipe)"
 fi
 
-if command -v exa >/dev/null 2>&1; then
+if command -v eza >/dev/null 2>&1; then
   # Use lsd as ls alias
-  alias ls="exa --color=auto --icons --group-directories-first"
+  alias ls="eza --color=auto --icons --group-directories-first"
 else
   # enable color support of ls and also add handy aliases
   if command -v dircolors >/dev/null 2>&1; then

@@ -22,7 +22,7 @@
       - cmake
       - curl-openssl
       - dust
-      - exa
+      - eza
       - fd
       - fontforge
       - gh
