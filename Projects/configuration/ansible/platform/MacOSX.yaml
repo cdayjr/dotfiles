@@ -24,13 +24,11 @@
       - dust
       - eza
       - fd
-      - fontforge
       - gh
       - gnupg
       - go
       - helix
       - hostess
-      - imagemagick
       - jq
       - lesspipe
       - macvim
@@ -40,7 +38,6 @@
       - openssl
       - p7zip
       - pdm
-      - podman
       - procs
       - python
       - rclone
@@ -49,7 +46,6 @@
       - rust
       - sd
       - smimesign
-      - speedtest-cli
       - tmux
       - tokei
       - unar
