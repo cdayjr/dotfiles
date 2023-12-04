@@ -106,6 +106,8 @@ let g:ale_fixers = {
 \}
 let g:ale_completion_autoimport = 1
 let g:ale_completion_enabled = 1
+" go load all symbols in package
+let g:ale_go_golangci_lint_package = 1
 nnoremap <leader>f :ALEFix<CR>
 
 " Powerline
