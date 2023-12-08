@@ -160,8 +160,6 @@
     name:
       - github3.py
       - mycli
-      - powerline-gitstatus
-      - powerline-status
     extra_args: --user
     state: latest
   vars:

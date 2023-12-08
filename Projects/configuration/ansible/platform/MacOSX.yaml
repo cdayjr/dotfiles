@@ -241,13 +241,6 @@
   community.general.homebrew:
     upgrade_all: yes
     upgrade_options: ignore-pinned
-- name: Install pip packages
-  ansible.builtin.pip:
-    name:
-      - powerline-status
-      - powerline-gitstatus
-    extra_args: --user
-    state: latest
 - name: Disable Microsoft Required Data Notice
   become: true
   community.general.osx_defaults:
