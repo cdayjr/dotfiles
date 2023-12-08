@@ -208,7 +208,7 @@
       - font-overpass
       - font-overpass-mono
       - font-proggy-clean-tt-nerd-font
-      - font-roboto
+      # - font-roboto
       - font-roboto-mono
       - font-roboto-slab
       - font-sauce-code-pro-nerd-font
