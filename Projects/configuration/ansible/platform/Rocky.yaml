@@ -84,6 +84,20 @@
       - youtube-dl
       - zsh
     state: present
+- name: starship Repo
+  become: true
+  ansible.builtin.command: "dnf copr enable -y atim/starship"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:atim:starship.repo
+  when: ansible_distribution_major_version | int >= 32
+  register: starship_repo
+- name: Install starship from starship repo
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - starship
+    state: present
+  when: starship_repo is not skipped
 - name: Install server packages
   become: true
   ansible.builtin.package:

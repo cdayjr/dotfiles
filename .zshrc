@@ -276,7 +276,12 @@ if ! [ -f "$POWERLINE_TMUX" ]; then
 fi
 if pip show powerline-status >/dev/null 2>&1 && command -v powerline-daemon >/dev/null 2>&1; then
   powerline-daemon -q
-  . "$POWERLINE_PYTHON_BINDINGS/zsh/powerline.zsh"
+  # . "$POWERLINE_PYTHON_BINDINGS/zsh/powerline.zsh"
+fi
+
+# starship
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
 fi
 
 # Support for vagrant access outside of a WSL environment

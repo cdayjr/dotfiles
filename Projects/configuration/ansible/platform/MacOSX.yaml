@@ -47,6 +47,7 @@
       - ripgrep
       - rsync
       - rust
+      - starship
       - sd
       - smimesign
       - speedtest-cli
