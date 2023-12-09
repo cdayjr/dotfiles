@@ -116,7 +116,7 @@ let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
 set t_Co=256
 set noshowmode
-helptags ~/.vim/pack/dist/start/vim-airline/doc
+helptags ~/.vim/pack/git-plugins/start/vim-airline/doc
 
 " Don't autoformat on save
 let g:format_on_save = 0
