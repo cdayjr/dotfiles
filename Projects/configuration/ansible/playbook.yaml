@@ -189,7 +189,7 @@
     - name: tmux plugins
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
-        dest: ~/.tmux/plugins/git-plugins/{{ item.repo }}
+        dest: ~/.tmux/plugins/{{ item.repo }}
         depth: 1
         force: true # disregard local changes
       loop:
