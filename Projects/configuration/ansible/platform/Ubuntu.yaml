@@ -55,3 +55,10 @@
     creates: ~/.go/bin/hostess
   environment:
     GOPATH: "{{ ansible_env.HOME }}/.go"
+- name: Install pip packages
+  pip:
+    name:
+      - powerline-status
+      - powerline-gitstatus
+    extra_args: --user
+    state: present

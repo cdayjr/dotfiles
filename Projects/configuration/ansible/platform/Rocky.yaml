@@ -154,6 +154,8 @@
     name:
       - github3.py
       - mycli
+      - powerline-gitstatus
+      - powerline-status
       - setuptools_rust
     extra_args: --user
     state: latest

@@ -159,6 +159,7 @@
       - php-json
       - php-mbstring
       - pkg-config
+      - powerline
       - procs
       - python3-github3py
       - python3-pip
@@ -166,9 +167,11 @@
       - ripgrep
       - rsync
       - rust
+      - tmux-powerline
       - tokei
       - unar
       - vim
+      - vim-powerline
       - weechat
       - wget
       - yadm

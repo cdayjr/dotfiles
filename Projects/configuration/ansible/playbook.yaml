@@ -186,17 +186,6 @@
           repo: neofetch
         - owner: muennich
           repo: urxvt-perls
-    - name: tmux plugins
-      ansible.builtin.git:
-        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
-        dest: ~/.tmux/plugins/git-plugins/{{ item.repo }}
-        depth: 1
-        force: true # disregard local changes
-      loop:
-        - owner: erikw
-          repo: tmux-powerline
-        - owner: tmux-plugins
-          repo: tpm
     - name: vim bundles
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
@@ -210,8 +199,6 @@
           repo: vim-toml
         - owner: chrisbra
           repo: csv.vim
-        - owner: dense-analysis
-          repo: ale
         - owner: editorconfig
           repo: editorconfig-vim
         - owner: fatih
@@ -248,8 +235,8 @@
           repo: vim-fugitive
         - owner: tpope
           repo: vim-liquid
-        - owner: vim-airline
-          repo: vim-airline
+        - owner: dense-analysis
+          repo: ale
 - name: Media server setup
   hosts: media-server
   gather_facts: false

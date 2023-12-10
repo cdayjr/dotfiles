@@ -237,6 +237,32 @@ export GCC_COLORS="error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # color for grep
 alias grep="grep --color=auto"
 
+# Powerline
+if [ -d "/usr/share/powerline" ]; then
+  export POWERLINE_PYTHON_BINDINGS="/usr/share/powerline"
+else
+  export POWERLINE_PYTHON_BINDINGS="$PYTHON_SITE/powerline/bindings"
+fi
+export POWERLINE_VIM=""
+if [ -f "/usr/share/vim/vimfiles/plugin/powerline.vim" ]; then
+  POWERLINE_VIM="/usr/share/vim/vimfiles/"
+else
+  POWERLINE_VIM="$POWERLINE_PYTHON_BINDINGS/vim/"
+fi
+export POWERLINE_TMUX="/usr/share/tmux/powerline.conf";
+if ! [ -f "$POWERLINE_TMUX" ]; then
+  POWERLINE_TMUX="$POWERLINE_PYTHON_BINDINGS/tmux/powerline.conf"
+  if ! [ -f "$POWERLINE_TMUX" ]; then
+    # Handle case where tmux config isn't installed
+    POWERLINE_TMUX="/tmp/powerline.conf"
+    touch "$POWERLINE_TMUX"
+  fi
+fi
+if pip show powerline-status >/dev/null 2>&1 && command -v powerline-daemon >/dev/null 2>&1; then
+  powerline-daemon -q
+  # . "$POWERLINE_PYTHON_BINDINGS/zsh/powerline.zsh"
+fi
+
 # starship
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
