@@ -489,7 +489,7 @@ clear-caches() {
   if command -v go >/dev/null 2>&1; then
     go clean -modcache
   fi
-  if command -v composer >/dev/null >2&1; then
+  if command -v composer >/dev/null 2>&1; then
     composer clear-cache
   fi
 }
