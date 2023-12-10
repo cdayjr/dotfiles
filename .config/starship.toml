@@ -3,8 +3,8 @@ add_newline = false
 continuation_prompt = "[\ue0c4](fg:blue) "
 
 format = """
-$directory\
 $status\
+$directory\
 $character
 """
 
@@ -93,16 +93,32 @@ $shell
 """
 
 [character]
-success_symbol = "[ \ue691](fg:bold green)"
-error_symbol = "[ \ue691](fg:bold red)"
-vimcmd_symbol = "[ \ue7c5](fg:bold yellow)"
+format = '$symbol '
+success_symbol = """
+[\ue0c4](fg:purple bg:blue)\
+[ \ue691 ](bg:blue)\
+[\ue0c4](fg:blue)\
+"""
+error_symbol = """
+[\ue0c4](fg:purple bg:blue)\
+[ \ue691 ](bg:blue)\
+[\ue0c4](fg:blue)\
+"""
+vimcmd_symbol = """
+[\ue0c4](fg:purple bg:yellow)\
+[ \ue7c5 ](bg:yellow)\
+[\ue0c4](fg:yellow)\
+"""
 
 [directory]
-format = "[ $path ](bg:blue)[\ue0c4](fg:blue)"
+format = "[ $path ](bg:purple)"
 
 [status]
 disabled = false
-format = ' [$symbol$status]($style) '
+format = """
+[ $symbol $status ](bg:red)\
+[\ue0c4](fg:red bg:purple)\
+"""
 map_symbol = true
 not_executable_symbol = "\uf4f4"
 not_found_symbol = "\ueb4e"
