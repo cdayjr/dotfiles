@@ -199,6 +199,8 @@
           repo: vim-toml
         - owner: chrisbra
           repo: csv.vim
+        - owner: dense-analysis
+          repo: ale
         - owner: editorconfig
           repo: editorconfig-vim
         - owner: fatih
@@ -235,8 +237,6 @@
           repo: vim-fugitive
         - owner: tpope
           repo: vim-liquid
-        - owner: dense-analysis
-          repo: ale
 - name: Media server setup
   hosts: media-server
   gather_facts: false
