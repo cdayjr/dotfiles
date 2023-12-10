@@ -12,10 +12,6 @@ set ignorecase
 set smartcase
 " Let VIM modify the terminal title
 set title
-" Scroll at 3 lines near the edge, rather than right at the edge
-set scrolloff=3
-" Make the backspace key be more intuitive
-set backspace=indent,eol,start
 " Autoindentation
 set autoindent
 set copyindent

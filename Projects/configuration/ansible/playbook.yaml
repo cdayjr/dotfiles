@@ -248,6 +248,8 @@
           repo: vim-fugitive
         - owner: tpope
           repo: vim-liquid
+        - owner: tpope
+          repo: vim-sensible
 - name: Media server setup
   hosts: media-server
   gather_facts: false
