@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "http-server": "*",
-    "pnpm": "*",
     "prettier": "*"
   }
 }
