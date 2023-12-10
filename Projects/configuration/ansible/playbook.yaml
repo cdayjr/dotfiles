@@ -162,6 +162,7 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - powerk8s
           - pyside2
         extra_args: --user
         state: latest
@@ -170,6 +171,7 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - powerk8s
           - pyside2
         extra_args: --user
         state: latest
