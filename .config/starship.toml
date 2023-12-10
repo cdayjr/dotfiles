@@ -95,6 +95,7 @@ $shell
 [character]
 success_symbol = "[ \ue691](fg:bold green)"
 error_symbol = "[ \ue691](fg:bold red)"
+vimcmd_symbol = "[ \ue7c5](fg:bold yellow)"
 
 [directory]
 format = "[ $path ](bg:blue)[\ue0c4](fg:blue)"
