@@ -5,4 +5,6 @@ return {
   font = wezterm.font 'ComicCodeLigatures Nerd Font Mono',
   font_size = 24.0,
   hide_tab_bar_if_only_one_tab = true,
+  initial_cols = 80,
+  initial_rows = 16,
 }
