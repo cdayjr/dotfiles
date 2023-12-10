@@ -1,8 +1,13 @@
 "$schema" = 'https://starship.rs/config-schema.json'
-
 add_newline = false
+continuation_prompt = "[\ue0c4](fg:blue) "
 
-format = """$directory$character"""
+format = """
+$directory\
+$status\
+$character
+"""
+
 right_format = """
 $username\
 $hostname\
@@ -82,23 +87,211 @@ $line_break\
 $jobs\
 $battery\
 $time\
-$status\
 $os\
 $container\
-$shell"""
+$shell
+"""
+
+[character]
+success_symbol = "[ \ue691](fg:bold green)"
+error_symbol = "[ \ue691](fg:bold red)"
+
+[directory]
+format = "[ $path ](bg:blue)[\ue0c4](fg:blue)"
+
+[status]
+disabled = false
+format = ' [$symbol$status]($style) '
+map_symbol = true
+not_executable_symbol = "\uf4f4"
+not_found_symbol = "\ueb4e"
+pipestatus = true
+sigint_symbol = "\ue009"
+signal_symbol = "\ue00a"
+symbol = "\uea87"
+
+[sudo]
+disabled = false
+symbol = "\uf4df "
+
+# Disabled modules
+
+[aws]
+disabled = true
+
+[azure]
+disabled = true
+
+[buf]
+disabled = true
+
+[bun]
+disabled = true
+
+[c]
+disabled = true
+
+[cmake]
+disabled = true
+
+[cobol]
+disabled = true
+
+[conda]
+disabled = true
+
+[container]
+disabled = true
+
+[crystal]
+disabled = true
+
+[daml]
+disabled = true
+
+[deno]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[elixir]
+disabled = true
+
+[elm]
+disabled = true
+
+[erlang]
+disabled = true
+
+[fennel]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[golang]
+disabled = true
+
+[guix_shell]
+disabled = true
+
+[gradle]
+disabled = true
+
+[haskell]
+disabled = true
+
+[haxe]
+disabled = true
+
+[helm]
+disabled = true
+
+[java]
+disabled = true
+
+[julia]
+disabled = true
+
+[kotlin]
+disabled = true
+
+[line_break]
+disabled = true
+
+[lua]
+disabled = true
+
+[meson]
+disabled = true
+
+[nim]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[ocaml]
+disabled = true
+
+[opa]
+disabled = true
+
+[openstack]
+disabled = true
 
 [package]
+disabled = true
+
+[perl]
 disabled = true
 
 [php]
 disabled = true
 
-[kubernetes]
-format = '[$symbol$context( \($namespace\))]($style) '
-disabled = false
+[pijul_channel]
+disabled = true
 
-[nodejs]
+[pulumi]
+disabled = true
+
+[purescript]
 disabled = true
 
 [python]
+disabled = true
+
+[rlang]
+disabled = true
+
+[raku]
+disabled = true
+
+[red]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[scala]
+disabled = true
+
+[singularity]
+disabled = true
+
+[solidity]
+disabled = true
+
+[spack]
+disabled = true
+
+[swift]
+disabled = true
+
+[terraform]
+disabled = true
+
+[time]
+disabled = true
+
+[vagrant]
+disabled = true
+
+[vlang]
+disabled = true
+
+[vcsh]
+disabled = true
+
+[zig]
 disabled = true
