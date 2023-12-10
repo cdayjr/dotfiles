@@ -394,12 +394,13 @@
       - wine-webdings-fonts
       - wine-wingdings-fonts
     state: present
+# disabled until better fonts updates for fedora 39
 - name: Fedora Beter Fonts Repo
   become: true
   ansible.builtin.command: "dnf copr enable -y dawid/better_fonts"
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:dawid:better_fonts.repo
-  when: linux_desktop and (ansible_distribution_major_version | int >= 32)
+  when: false and linux_desktop and (ansible_distribution_major_version | int >= 32)
   register: better_fonts_repo
 # disabled until better fonts updates for fedora 39
 - name: Install fonts from better fonts repo
