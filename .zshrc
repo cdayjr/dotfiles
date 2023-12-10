@@ -260,7 +260,6 @@ if ! [ -f "$POWERLINE_TMUX" ]; then
 fi
 if command -v powerline-daemon >/dev/null 2>&1; then
   powerline-daemon -q
-  # . "$POWERLINE_PYTHON_BINDINGS/zsh/powerline.zsh"
 fi
 
 # starship
