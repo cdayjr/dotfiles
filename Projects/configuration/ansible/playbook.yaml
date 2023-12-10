@@ -186,6 +186,17 @@
           repo: neofetch
         - owner: muennich
           repo: urxvt-perls
+    - name: tmux plugins
+      ansible.builtin.git:
+        repo: https://github.com/{{ item.owner }}/{{ item.repo }}
+        dest: ~/.tmux/plugins/{{ item.repo }}
+        depth: 1
+        force: true # disregard local changes
+      loop:
+        - owner: tmux-plugins
+          repo: tmux-sensible
+        - owner: tmux-plugins
+          repo: tpm
     - name: vim bundles
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
