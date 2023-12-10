@@ -21,6 +21,13 @@
         "args": {
           "only_if_ssh": true
         }
+      },
+      {
+        "function": "powerline.segments.common.bat.battery",
+        "args": {
+          "offline": "\udb80\udc79",
+          "online": "\udb80\udc84"
+        }
       }
     ]
   }
