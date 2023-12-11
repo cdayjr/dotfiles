@@ -129,6 +129,7 @@ symbol = "\uea87"
 
 [sudo]
 disabled = false
+format = '[$symbol]($style)'
 symbol = "\uf4df "
 
 # Disabled modules
