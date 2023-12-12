@@ -199,7 +199,7 @@
           repo: tmux-sensible
         - owner: tmux-plugins
           repo: tpm
-    - name: vim bundles
+    - name: vim plugins
       ansible.builtin.git:
         repo: https://github.com/{{ item.owner }}/{{ item.repo }}
         dest: ~/.vim/pack/git-plugins/start/{{ item.repo }}
