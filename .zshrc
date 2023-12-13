@@ -200,9 +200,6 @@ if command -v tmux >/dev/null 2>&1; then
   alias tmux="/usr/bin/env tmux -2"
 fi
 
-# Compilation flags
-export ARCHFLAGS="-arch x86_64"
-
 # make less more friendly for non-text input files, see lesspipe(1)
 if command -v lesspipe >/dev/null 2>&1; then
   eval "$(SHELL=/bin/sh lesspipe)"
