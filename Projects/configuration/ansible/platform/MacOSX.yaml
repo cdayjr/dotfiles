@@ -173,7 +173,7 @@
       - font-arimo
       - font-audiowide
       - font-bitstream-vera
-      - font-cascadia
+      # - font-cascadia
       - font-comic-neue
       - font-comic-sans-ms
       - font-courier-new
