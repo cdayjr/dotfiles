@@ -47,10 +47,10 @@
       - ripgrep
       - rsync
       - rust
-      - starship
       - sd
       - smimesign
       - speedtest-cli
+      - starship
       - tmux
       - tokei
       - unar
