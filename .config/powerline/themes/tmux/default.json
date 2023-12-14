@@ -17,6 +17,20 @@
           "offline": "\udb80\udc79",
           "online": "\udb80\udc84"
         }
+      },
+      {
+        "function": "powerline.segments.common.time.date"
+      },
+      {
+        "function":
+        "powerline.segments.common.time.date",
+        "name": "time",
+        "args": {
+          "format":
+          "%H:%M",
+          "istime":
+          true
+        }
       }
     ]
   }
