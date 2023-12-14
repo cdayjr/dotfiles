@@ -115,6 +115,8 @@ format = "[ $path ](bg:purple)"
 
 [kubernetes]
 disabled = false
+format = '[$symbol$context( \($namespace\))]($style) '
+symbol = '☸ '
 
 [status]
 disabled = false
