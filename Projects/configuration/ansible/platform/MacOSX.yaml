@@ -177,7 +177,7 @@
       # - font-cascadia
       - font-comic-neue
       - font-comic-sans-ms
-      - font-courier-new
+      # - font-courier-new
       - font-courier-prime
       - font-courier-prime-code
       - font-courier-prime-medium-and-semi-bold
