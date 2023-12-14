@@ -60,18 +60,34 @@
       - yadm
       - zsh
     state: present
-- name: Add brew zsh to /etc/shells
+- name: Add brew zsh to /etc/shells (x86_64)
   become: true
   ansible.builtin.lineinfile:
     create: true
     name: /etc/shells
     line: /usr/local/bin/zsh
     state: present
-- name: Set user shell
+  when: not apple_silicon
+- name: Add brew zsh to /etc/shells (Apple Silicon)
+  become: true
+  ansible.builtin.lineinfile:
+    create: true
+    name: /etc/shells
+    line: /opt/homebrew/bin/zsh
+    state: present
+  when: apple_silicon
+- name: Set user shell (x86_64)
   become: true
   ansible.builtin.user:
     name: "{{ lookup('env','USER') }}"
     shell: /usr/local/bin/zsh
+    state: present
+  when: not apple_silicon
+- name: Set user shell (Apple Silicon)
+  become: true
+  ansible.builtin.user:
+    name: "{{ lookup('env','USER') }}"
+    shell: /opt/homebrew/bin/zsh
     state: present
 - name: Install Homebrew casks
   community.general.homebrew_cask:

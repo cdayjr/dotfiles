@@ -103,6 +103,7 @@
     # ensure local bin is in path
     PATH: "{{ ansible_env.PATH }}:/home/{{ ansible_user_id }}/.local/bin"
   vars:
+    apple_silicon: "{{ (ansible_distribution == 'MacOSX') and (ansible_architecture == 'arm64') }}"
     linux_desktop: "{{ ('XDG_CURRENT_DESKTOP' in ansible_env) and (ansible_env.XDG_CURRENT_DESKTOP|length > 0) }}"
     thinkpad: "{{ ansible_product_version is regex('ThinkPad') }}"
   handlers:
