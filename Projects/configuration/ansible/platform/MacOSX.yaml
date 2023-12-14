@@ -143,6 +143,7 @@
         name:
           - cloudflare-warp
           - cyberduck
+          - google-drive
           - lastpass
           - lifesize
           - microsoft-office
