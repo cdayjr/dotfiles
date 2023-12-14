@@ -2,17 +2,6 @@
   "segments": {
     "right": [
       {
-        "function": "powerk8s.powerk8s",
-        "priority": 30,
-        "args": {
-          "show_kube_logo": true,
-          "show_cluster": true,
-          "show_namespace": true,
-          "show_default_namespace": false,
-          "alerts": ["live", "cluster:live"]
-        }
-      },
-      {
         "function": "powerline.segments.common.sys.system_load",
         "priority": 50
       },
