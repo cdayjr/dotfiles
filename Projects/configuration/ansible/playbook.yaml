@@ -164,7 +164,7 @@
         name:
           - git-filter-repo
           - powerk8s
-          - pyside2
+          # - pyside2
         extra_args: --user
         state: latest
     - name: Install pip packages on older machines
