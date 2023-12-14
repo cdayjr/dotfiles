@@ -163,6 +163,10 @@
   community.general.homebrew_tap:
     name: homebrew/cask-fonts
     state: present
+- name: Setup font monoid repository
+  community.general.homebrew_tap:
+    name: sscotth/monoid
+    state: present
 - name: Install fonts
   community.general.homebrew_cask:
     name:
@@ -174,10 +178,11 @@
       - font-arimo
       - font-audiowide
       - font-bitstream-vera
-      # - font-cascadia
+      - font-cascadia-code
+      - font-cascadia-mono
       - font-comic-neue
       - font-comic-sans-ms
-      # - font-courier-new
+      - font-courier-new
       - font-courier-prime
       - font-courier-prime-code
       - font-courier-prime-medium-and-semi-bold
@@ -215,7 +220,6 @@
       - font-lekton
       - font-liberation
       - font-meslo-lg
-      - font-monoid
       - font-mplus-nerd-font
       - font-noto-color-emoji
       - font-noto-emoji
@@ -226,15 +230,15 @@
       - font-overpass
       - font-overpass-mono
       - font-proggy-clean-tt-nerd-font
-      # - font-roboto
+      - font-roboto
       - font-roboto-mono
       - font-roboto-slab
       - font-sauce-code-pro-nerd-font
       - font-share-tech
       - font-share-tech-mono
       - font-source-code-pro
-      # font-source-sans-pro
-      # font-source-serif-pro
+      - font-source-sans-3
+      - font-source-serif-4
       - font-space-mono
       - font-terminus
       - font-times-new-roman
@@ -247,6 +251,7 @@
       - font-verdana
       - font-victor-mono
       - font-victor-mono-nerd-font
+      - sscotth/monoid/font-monoid
     state: present
     sudo_password: "{{ ansible_become_password }}"
 - name: Upgrade all casks
