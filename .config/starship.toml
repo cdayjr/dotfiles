@@ -113,6 +113,9 @@ vimcmd_symbol = """
 [directory]
 format = "[ $path ](bg:purple)"
 
+[kubernetes]
+disabled = false
+
 [status]
 disabled = false
 format = """
