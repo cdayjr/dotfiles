@@ -91,6 +91,7 @@
     name: "{{ lookup('env','USER') }}"
     shell: /opt/homebrew/bin/zsh
     state: present
+  when: apple_silicon
 - name: Install Homebrew casks
   community.general.homebrew_cask:
     greedy: true
