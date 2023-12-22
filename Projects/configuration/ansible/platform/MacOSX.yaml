@@ -259,7 +259,6 @@
 - name: Upgrade remaining homebrew packages
   community.general.homebrew:
     upgrade_all: yes
-    upgrade_options: ignore-pinned
 - name: Install pip packages
   ansible.builtin.pip:
     name:
