@@ -518,3 +518,5 @@ INCLUDES_DIR="$HOME/.local/share/includes" && \
   for INCLUDE in $INCLUDES; do
     source "$INCLUDE"
   done
+
+[[ -s "/Users/cday/.gvm/scripts/gvm" ]] && source "/Users/cday/.gvm/scripts/gvm"

@@ -28,3 +28,5 @@ if command -v stty >/dev/null 2>&1; then
   stty start undef
   stty stop undef
 fi
+
+[[ -s "/Users/cday/.gvm/scripts/gvm" ]] && source "/Users/cday/.gvm/scripts/gvm"
