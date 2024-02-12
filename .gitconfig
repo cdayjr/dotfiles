@@ -58,3 +58,5 @@
   defaultBranch = main
 [core]
   autocrlf = input
+[log]
+	mailmap = true
