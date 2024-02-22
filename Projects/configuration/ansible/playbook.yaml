@@ -158,8 +158,16 @@
         global_command: true
       environment:
         COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
-    - name: Install pip packages
-      when: ansible_python.version.major >= 3
+    - name: Install pip packages on current python
+      when: ansible_python.version.major >= 3 and ansible_python.version.minor >= 12
+      ansible.builtin.pip:
+        name:
+          - git-filter-repo
+          # - pyside2
+        extra_args: --user --break-system-packages
+        state: latest
+    - name: Install pip packages on slightly less current python
+      when: ansible_python.version.major >= 3 and ansible_python.version.minor < 12
       ansible.builtin.pip:
         name:
           - git-filter-repo
