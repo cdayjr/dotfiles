@@ -32,8 +32,12 @@ return PhpCsFixer\Config::create()
             'php_unit_size_class' => true,
             // simplify if returns
             'simplified_if_return' => true,
-            // simplify null returns
-            'simplified_null_return' => true,
+            // yoda style
+            'yoda_style' => [
+              'equal' => false,
+              'identical' => false,
+              'less_and_greater' => false,
+            ],
         ]
     )
     ->setFinder(
