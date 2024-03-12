@@ -153,6 +153,7 @@
       - nodejs
       - openssl-devel
       - p7zip
+      - p7zip-plugins
       - php
       - php-bcmath
       - php-cli
