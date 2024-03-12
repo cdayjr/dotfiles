@@ -419,6 +419,14 @@
   args:
     creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:cyfrost:packages.repo
   register: cyfrost_packages_repo
+- name: Install pip packages
+  ansible.builtin.pip:
+    name:
+      - ansible
+      - jmespath # used by ansible templating
+      - pdm
+    extra_args: --user
+    state: latest
 - name: Install fonts from cyfrost packages
   become: true
   ansible.builtin.dnf:
@@ -472,14 +480,6 @@
     creates: ~/.go/bin/hostess
   environment:
     GOPATH: "{{ ansible_env.HOME }}/.go"
-- name: Install pip packages
-  ansible.builtin.pip:
-    name:
-      - ansible
-      - jmespath # used by ansible templating
-      - pdm
-    extra_args: --user
-    state: latest
 - name: Install ascii-image-converter cli
   ansible.builtin.command:
     cmd: go install github.com/TheZoraiz/ascii-image-converter@latest
