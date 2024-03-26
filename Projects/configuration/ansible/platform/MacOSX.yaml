@@ -19,7 +19,7 @@
       - bat
       - bottom
       - composer
-      - curl-openssl
+      - curl
       - dust
       - eza
       - fd
