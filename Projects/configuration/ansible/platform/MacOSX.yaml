@@ -23,7 +23,6 @@
       - dust
       - eza
       - fd
-      - fontforge
       - gh
       - gnupg
       - go
@@ -94,8 +93,11 @@
   community.general.homebrew_cask:
     greedy: true
     name:
+      - cmake
       - docker
+      - doxygen
       - flux
+      - fontforge
       - imagealpha
       - imageoptim
       - keepassxc
