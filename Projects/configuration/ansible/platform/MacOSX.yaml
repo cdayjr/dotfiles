@@ -31,24 +31,24 @@
       - homebrew/core/cmake
       - homebrew/core/fontforge
       - homebrew/core/macvim
+      - homebrew/core/mosh
+      - homebrew/core/podman
+      - homebrew/core/rust
       - hostess
       - imagemagick
       - jq
       - lesspipe
-      - mosh
       - mycli
       - node
       - openssl
       - p7zip
       - pdm
       - php
-      - podman
       - procs
       - python
       - rclone
       - ripgrep
       - rsync
-      - rust
       - sd
       - smimesign
       - speedtest-cli
