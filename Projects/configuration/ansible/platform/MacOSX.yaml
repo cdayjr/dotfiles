@@ -200,9 +200,9 @@
 - name: Install pip packages
   ansible.builtin.pip:
     name:
-      - powerline-status
       - powerline-gitstatus
-    extra_args: --user --break-system-packages
+      - powerline-status
+      - youtube-dl
     state: latest
 - name: Disable Microsoft Required Data Notice
   become: true
