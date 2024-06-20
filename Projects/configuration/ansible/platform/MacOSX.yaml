@@ -162,12 +162,14 @@
     name:
       - font-arial
       - font-arial-black
+      - font-atkinson-hyperlegible
       - font-cascadia-code
       - font-cascadia-mono
       - font-comic-neue
       - font-comic-sans-ms
       - font-courier-new
       - font-impact
+      - font-inclusive-sans
       - font-jetbrains-mono-nerd-font
       - font-noto-color-emoji
       - font-noto-emoji
