@@ -157,21 +157,19 @@
         src: "~/.local/src/work-config"
         dest: "~/.local/share/includes/work-config"
         state: link
-- name: Setup font repository
-  community.general.homebrew_tap:
-    name: homebrew/cask-fonts
-    state: present
 - name: Install fonts
   community.general.homebrew_cask:
     name:
       - font-arial
       - font-arial-black
+      - font-atkinson-hyperlegible
       - font-cascadia-code
       - font-cascadia-mono
       - font-comic-neue
       - font-comic-sans-ms
       - font-courier-new
       - font-impact
+      - font-inclusive-sans
       - font-jetbrains-mono-nerd-font
       - font-noto-color-emoji
       - font-noto-emoji
