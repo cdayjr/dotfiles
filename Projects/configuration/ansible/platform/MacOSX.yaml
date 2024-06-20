@@ -157,10 +157,6 @@
         src: "~/.local/src/work-config"
         dest: "~/.local/share/includes/work-config"
         state: link
-- name: Setup font repository
-  community.general.homebrew_tap:
-    name: homebrew/cask-fonts
-    state: present
 - name: Install fonts
   community.general.homebrew_cask:
     name:
