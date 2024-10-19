@@ -99,7 +99,6 @@
       - docker
       - doxygen
       - flux
-      - imagealpha
       - imageoptim
       - keepassxc
       - librewolf
