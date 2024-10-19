@@ -131,7 +131,7 @@
     - name: Install pCloud
       community.general.homebrew_cask:
         name:
-          - pcloud
+          - pcloud-drive
 - name: Work setup
   when: ansible_env.USER == "cday"
   block:
