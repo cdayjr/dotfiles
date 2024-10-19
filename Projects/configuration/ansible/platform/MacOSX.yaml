@@ -126,7 +126,7 @@
           - transmission-remote-gui
     - name: Setup pcloud repository
       community.general.homebrew_tap:
-        name: tomgross/pcloud
+        name: lyraphase/pcloud
         state: present
     - name: Install pCloud
       community.general.homebrew_cask:
