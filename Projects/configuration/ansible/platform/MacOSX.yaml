@@ -99,6 +99,7 @@
     name:
       - docker
       - doxygen
+      - ente-auth
       - flux
       - imageoptim
       - keepassxc
