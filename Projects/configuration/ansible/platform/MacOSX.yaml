@@ -25,6 +25,7 @@
       - eza
       - fd
       - gh
+      - gifski
       - gnupg
       - go
       - helix
@@ -101,7 +102,6 @@
       - doxygen
       - ente-auth
       - flux
-      - gifski
       - imageoptim
       - joplin
       - keepassxc
