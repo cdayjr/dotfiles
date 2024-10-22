@@ -101,6 +101,7 @@
       - doxygen
       - ente-auth
       - flux
+      - gifski
       - imageoptim
       - joplin
       - keepassxc
