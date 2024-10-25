@@ -38,7 +38,7 @@
                 excludes:
                   - "^nerd-fonts-{{ latest | regex_escape('posix_basic') }}$"
                 paths: "~/.local/share/fonts/"
-                patterns: "^nerd-fonts.*$"
+                patterns: "^nerd-fonts.*tar\\.xz$"
                 use_regex: true
               vars:
                 latest: "{{ font_nf_github_latest_release.json.tag_name }}"
