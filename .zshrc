@@ -140,6 +140,9 @@ if command -v gem >/dev/null 2>&1; then
   path+=("$GEM_HOME/bin")
 fi
 
+# Haskell
+[ -f "$HOME/.ghcup/env" ] && . "$HOME/.ghcup/env" # ghcup-env
+
 # Go
 ## GVM resets GOPATH so it is setup first
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
