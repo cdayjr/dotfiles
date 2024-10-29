@@ -24,6 +24,9 @@ if [ -d /usr/share/doc/yadm/completion/zsh ]; then
   fpath=(/usr/share/doc/yadm/completion/zsh $fpath)
 fi
 
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.zsh/completions:$FPATH"; fi
+
 mkdir -p ~/.zfunc
 fpath+=("$HOME/.zfunc")
 if command -v pdm > /dev/null 2>&1; then
@@ -133,6 +136,9 @@ if command -v n >/dev/null 2>&1; then
   export N_PREFIX="$HOME/.n"
   path+=("$N_PREFIX/bin")
 fi
+
+# deno
+[[ -s "$HOME/.deno/env" ]] && source "$HOME/.deno/env"
 
 # Ruby
 if command -v gem >/dev/null 2>&1; then
