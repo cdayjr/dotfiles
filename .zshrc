@@ -148,6 +148,7 @@ if command -v go >/dev/null 2>&1; then
   path+=("$GOPATH/bin")
   ## Modules; required for 1.11 through 1.12
   export GO111MODULE=on
+  [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 fi
 
 # Python
@@ -518,5 +519,3 @@ INCLUDES_DIR="$HOME/.local/share/includes" && \
   for INCLUDE in $INCLUDES; do
     source "$INCLUDE"
   done
-
-[[ -s "/Users/cday/.gvm/scripts/gvm" ]] && source "/Users/cday/.gvm/scripts/gvm"
