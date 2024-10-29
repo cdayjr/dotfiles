@@ -24,6 +24,9 @@ if [ -d /usr/share/doc/yadm/completion/zsh ]; then
   fpath=(/usr/share/doc/yadm/completion/zsh $fpath)
 fi
 
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.zsh/completions:$FPATH"; fi
+
 mkdir -p ~/.zfunc
 fpath+=("$HOME/.zfunc")
 if command -v pdm > /dev/null 2>&1; then
@@ -134,6 +137,9 @@ if command -v n >/dev/null 2>&1; then
   path+=("$N_PREFIX/bin")
 fi
 
+# deno
+[[ -s "$HOME/.deno/env" ]] && source "$HOME/.deno/env"
+
 # Ruby
 if command -v gem >/dev/null 2>&1; then
   export GEM_HOME="$HOME/.gem"
@@ -151,6 +157,7 @@ if command -v go >/dev/null 2>&1; then
   path+=("$GOPATH/bin")
   ## Modules; required for 1.11 through 1.12
   export GO111MODULE=on
+  [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 fi
 
 # Python
@@ -521,5 +528,3 @@ INCLUDES_DIR="$HOME/.local/share/includes" && \
   for INCLUDE in $INCLUDES; do
     source "$INCLUDE"
   done
-
-[[ -s "/Users/cday/.gvm/scripts/gvm" ]] && source "/Users/cday/.gvm/scripts/gvm"

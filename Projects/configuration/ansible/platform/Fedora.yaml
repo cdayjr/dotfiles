@@ -31,6 +31,7 @@
     - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
     - "https://rpm.librewolf.net/pubkey.gpg"
+    - "https://pkg.cloudflareclient.com/pubkey.gpg"
 - name: Install YADM repo
   become: true
   ansible.builtin.ini_file:
@@ -96,6 +97,47 @@
       value: https://packages.microsoft.com/keys/microsoft.asc
     - option: name
       value: Visual Studio Code
+- name: Install Cloudflare WARP repo
+  become: true
+  ansible.builtin.command:
+    cmd: "dnf config-manager --add-repo https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo"
+  args:
+    creates: "/etc/yum.repos.d/cloudflare-warp-ascii.repo"
+- name: Install Cloudflare WARP package
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - cloudflare-warp
+    state: present
+- name: Configure WARP
+  block:
+    - name: Check WARP registration
+      failed_when: false
+      changed_when: false # command result is not a change
+      ansible.builtin.shell:
+        cmd: "warp-cli --accept-tos registration show"
+      register: warp_registration
+    - name: Register WARP
+      when: warp_registration.rc == 1
+      ansible.builtin.shell:
+        cmd: "warp-cli --accept-tos registration new"
+    - name: Download WARP Configuration
+      changed_when: false # command result is not a change
+      ansible.builtin.get_url:
+        dest: /tmp/warp.ini
+        force: true
+        url: https://www.cloudflare.com/cdn-cgi/trace/
+    - name: Verify WARP
+      register: warp_verify
+      ansible.builtin.ini_file:
+        option: warp
+        path: /tmp/warp.ini
+        state: present
+        value: on
+    - name: Connect to WARP
+      when: warp_verify.changed
+      ansible.builtin.shell:
+        cmd: "warp-cli --accept-tos connect"
 - name: Install "Development Tools" DNF package group
   become: true
   ansible.builtin.dnf:
