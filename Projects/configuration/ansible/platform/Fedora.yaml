@@ -130,6 +130,7 @@
     - name: Verify WARP
       register: warp_verify
       community.general.ini_file:
+        ignore_spaces: true
         option: warp
         path: /tmp/warp.ini
         state: present
