@@ -34,7 +34,7 @@
     - "https://pkg.cloudflareclient.com/pubkey.gpg"
 - name: Install YADM repo
   become: true
-  ansible.builtin.ini_file:
+  community.general.ini_file:
     option: "{{ item.option }}"
     path: /etc/yum.repos.d/home:TheLocehiliosan:yadm.repo
     section: home_TheLocehiliosan_yadm
@@ -80,7 +80,7 @@
 - name: Install Visual Studio Code repo
   when: linux_desktop
   become: true
-  ansible.builtin.ini_file:
+  community.general.ini_file:
     option: "{{ item.option }}"
     path: /etc/yum.repos.d/vscode.repo
     section: code
@@ -129,7 +129,7 @@
         url: https://www.cloudflare.com/cdn-cgi/trace/
     - name: Verify WARP
       register: warp_verify
-      ansible.builtin.ini_file:
+      community.general.ini_file:
         option: warp
         path: /tmp/warp.ini
         state: present
