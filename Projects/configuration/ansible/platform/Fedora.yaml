@@ -133,7 +133,7 @@
         option: warp
         path: /tmp/warp.ini
         state: present
-        value: on
+        value: "on"
     - name: Connect to WARP
       when: warp_verify.changed
       ansible.builtin.shell:
