@@ -130,6 +130,11 @@
       ansible.builtin.service:
         name: sshd
         state: restarted
+    - name: restart_tlp
+      become: true
+      ansible.builtin.service:
+        name: tlp
+        state: restarted
   tasks:
     - name: Install and configure platform specific settings
       include_tasks: "platform/{{ ansible_distribution }}.yaml"

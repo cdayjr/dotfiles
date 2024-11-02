@@ -329,8 +329,6 @@
       - steam
       - sway
       - synergy
-      - tlp
-      - tlp-rdw
       - transmission-remote-gtk
       - trash-cli
       - vlc
@@ -359,13 +357,36 @@
       ansible.builtin.dnf:
         name: "https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc{{ ansible_distribution_major_version }}.noarch.rpm"
         state: present
+    - name: Remove power profiles daemon
+      # remove this package because it conflicts with tlp
+      become: true
+      ansible.builtin.dnf:
+        name:
+          - power-profiles-daemon
+        state: absent
     - name: Install ThinkPad packages
       become: true
       ansible.builtin.dnf:
         name:
-          - akmod-tp_smapi
-          - kernel-devel
+          - tlp
+          - tlp-rdw
         state: present
+    - name: Mask rfkill service
+      # necessary to enable tlp radio switching properly
+      become: true
+      ansible.builtin.systemd_service:
+        name: "{{ item }}"
+        masked: true
+      loop:
+        - rfkill.service
+        - rfkill.socket
+    - name: Enable tlp service
+      become: true
+      ansible.builtin.service:
+        name: tlp.service
+        enabled: true
+      notify:
+        - restart_tlp
 - name: Install media packages
   become: yes
   ansible.builtin.dnf:
