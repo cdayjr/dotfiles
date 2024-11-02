@@ -287,7 +287,6 @@
       - cockpit-bridge
       - cockpit-machines
       - cockpit-networkmanager
-      - cockpit-pcp
       - cockpit-selinux
       - cockpit-session-recording
       - cockpit-sosreport
