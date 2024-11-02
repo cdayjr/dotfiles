@@ -585,15 +585,6 @@
         line: "PasswordAuthentication yes"
       notify:
         - restart_sshd
-    - name: Disable root password login
-      become: true
-      ansible.builtin.lineinfile:
-        path: /etc/ssh/sshd_config
-        state: present
-        regexp: "^#?PermitRootLogin"
-        line: "PermitRootLogin without-password"
-      notify:
-        - restart_sshd
 - name: Configure firewalld
   block:
     - name: Enable firewalld service
