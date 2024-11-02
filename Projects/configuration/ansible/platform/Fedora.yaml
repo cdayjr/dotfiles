@@ -27,7 +27,7 @@
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
     # GitHub CLI Repo
     - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
-    - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_38/repodata/repomd.xml.key"
+    - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_40/repodata/repomd.xml.key"
     - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://repo.linrunner.de/fedora/tlp/repos/RPM-GPG-KEY-tlp-fedora-{{ ansible_distribution_major_version }}-primary"
     - "https://rpm.librewolf.net/pubkey.gpg"
@@ -42,15 +42,15 @@
     value: "{{ item.value }}"
   loop:
     - option: baseurl
-      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_38/"
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_40/"
     - option: enabled
       value: "1"
     - option: gpgcheck
       value: "1"
     - option: gpgkey
-      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_38/repodata/repomd.xml.key"
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_40/repodata/repomd.xml.key"
     - option: name
-      value: "Yet Another Dotfiles Manager (Fedora_38)"
+      value: "Yet Another Dotfiles Manager (Fedora_40)"
     - option: type
       value: "rpm-md"
 - name: Install RPMFusion (free)
