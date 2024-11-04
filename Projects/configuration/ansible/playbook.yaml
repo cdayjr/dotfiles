@@ -168,6 +168,7 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - python-lsp-server[all]
           # - pyside2
         extra_args: --user --break-system-packages
         state: latest
@@ -176,6 +177,7 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - python-lsp-server[all]
           # - pyside2
         extra_args: --user
         state: latest
@@ -184,6 +186,7 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - python-lsp-server[all]
           - pyside2
         extra_args: --user
         state: latest

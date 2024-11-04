@@ -17,10 +17,14 @@
   community.general.homebrew:
     name:
       - TheZoraiz/ascii-image-converter/ascii-image-converter
+      - ansible-language-server
+      - bash-language-server
       - bat
       - bottom
       - composer
       - curl
+      - dockerfile-language-server
+      - dot-language-server
       - dust
       - eza
       - fd
@@ -29,6 +33,7 @@
       - gnupg
       - go
       - helix
+      - helm-ls
       - homebrew/core/cmake
       - homebrew/core/fontforge
       - homebrew/core/macvim
@@ -39,6 +44,7 @@
       - imagemagick
       - jq
       - lesspipe
+      - marksman
       - mycli
       - node
       - openssl
@@ -54,14 +60,19 @@
       - sd
       - smimesign
       - speedtest-cli
+      - sql-language-server
       - starship
+      - terraform-ls
       - tmux
       - tokei
+      - typescript-language-server
       - unar
+      - vscode-langservers-extracted
       - watch
       - weechat
       - wget
       - yadm
+      - yaml-language-server
       - zsh
     state: present
 - name: Add brew zsh to /etc/shells (x86_64)
