@@ -24,7 +24,6 @@
       - composer
       - curl
       - dockerfile-language-server
-      - dot-language-server
       - dust
       - eza
       - fd
