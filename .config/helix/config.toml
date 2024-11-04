@@ -1,1 +1,4 @@
 theme = "base16_terminal"
+
+[editor.cursor-shape]
+insert = "bar"
