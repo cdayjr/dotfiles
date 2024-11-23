@@ -331,22 +331,3 @@
         name: transmission-daemon
         enabled: true
       notify: restart_transmission
-- name: Non-local updates
-  # localhost takes care of itself outside of ansible
-  hosts: "posix:!localhost"
-  gather_facts: false
-  become: false
-  tasks:
-    - name: Check for yadm repo
-      failed_when: false
-      changed_when: false # command result is not a change
-      ansible.builtin.command:
-        cmd: "yadm status"
-      register: yadm_status
-    - name: Ensure yadm is up to date
-      # only run if yadm status is valid
-      when: "yadm_status.rc == 0"
-      ansible.builtin.shell:
-        cmd: "yadm fetch -a && yadm reset --hard && yadm merge origin/main"
-      register: yadm_update
-      changed_when: "yadm_update.stdout is not regex('Already up to date')"
