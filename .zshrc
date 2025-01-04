@@ -169,6 +169,12 @@ alias pip="python -m pip"
 export PYTHON_BASE="$(python -m site --user-base)"
 export PYTHON_SITE="$(python -m site --user-site)"
 path+=("$PYTHON_BASE/bin")
+# update script to update all local pip packages
+pip-update() {
+  pip --disable-pip-version-check list --user --outdated --format=json | \
+    python -c "import json, sys; print('\n'.join([x['name'] for x in json.load(sys.stdin)]))" | \
+    xargs -n1 pip install --user -U
+}
 
 # Rust / Cargo
 if command -v cargo >/dev/null 2>&1; then
