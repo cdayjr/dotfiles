@@ -183,6 +183,7 @@ fi
 
 # Composer / PHP
 [[ -e ~/.phpbrew/bashrc ]] && source ~/.phpbrew/bashrc
+[[ -e ~/.phpbrew/bashrc ]] && export PHPBREW_RC_ENABLE=1
 if command -v composer >/dev/null 2>&1; then
   export COMPOSER_HOME="$HOME/.config/composer"
   path+=("$COMPOSER_HOME/vendor/bin")
