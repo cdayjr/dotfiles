@@ -7,43 +7,41 @@
   community.general.homebrew:
     name:
       - diffstat
+      - doxygen
       - gettext
       - git
       - gpatch
-      - homebrew/core/doxygen
       - patchutils
     state: present
 - name: Install Homebrew packages
   community.general.homebrew:
     name:
-      - TheZoraiz/ascii-image-converter/ascii-image-converter
       - ansible-language-server
+      - ascii-image-converter
       - bash-language-server
       - bat
       - bottom
+      - cmake
       - composer
       - curl
       - dockerfile-language-server
       - dust
       - eza
       - fd
+      - fontforge
       - gh
       - gifski
       - gnupg
       - go
       - helix
       - helm-ls
-      - homebrew/core/cmake
-      - homebrew/core/fontforge
-      - homebrew/core/macvim
-      - homebrew/core/mosh
-      - homebrew/core/podman
-      - homebrew/core/rust
       - hostess
       - imagemagick
       - jq
       - lesspipe
+      - macvim
       - marksman
+      - mosh
       - mycli
       - node
       - openssl
@@ -51,11 +49,13 @@
       - pdm
       - php
       - pngquant
+      - podman
       - procs
       - python
       - rclone
       - ripgrep
       - rsync
+      - rust
       - sd
       - smimesign
       - speedtest-cli
