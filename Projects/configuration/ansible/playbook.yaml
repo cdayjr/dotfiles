@@ -237,6 +237,8 @@
           repo: vim-colorschemes
         - owner: idanarye
           repo: vim-vebugger
+        - owner: imsnif
+          repo: kdl.vim
         - owner: leafgarland
           repo: typescript-vim
         - owner: lumiliet
