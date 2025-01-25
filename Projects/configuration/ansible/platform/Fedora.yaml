@@ -489,8 +489,12 @@
     name:
       - ansible
       - jmespath # used by ansible templating
-      - pdm
+      - pipx
     extra_args: --user
+    state: latest
+- name: Install pdm
+  community.general.pipx:
+    name: pdm
     state: latest
 - name: Install fonts from cyfrost packages
   become: true
