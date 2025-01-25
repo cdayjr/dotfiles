@@ -222,7 +222,9 @@
       - weechat
       - wget
       - yadm
+      - ykpers
       - youtube-dl
+      - yubikey-manager
       - zsh
     state: present
 - name: Set user shell
@@ -336,6 +338,8 @@
       - vlc
       - wl-clipboard
       - xsel
+      - yubikey-manager-qt
+      - yubikey-personalization-gui
     state: present
 - name: Add the Gnome flatpak remote to the system installation
   when: false
