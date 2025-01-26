@@ -41,6 +41,7 @@
       - lesspipe
       - macvim
       - marksman
+      - mas
       - mosh
       - mycli
       - node
@@ -124,6 +125,15 @@
       - xscreensaver
     state: present
     sudo_password: "{{ ansible_become_password }}"
+- name: Install apps from the Mac App Store
+  community.general.mas:
+    id:
+      - 1221250572 # Xnip - Screenshot & Annotation
+      - 1497506650 # Yubico Authenticator
+      - 425424353 # The Unarchiver
+      - 497799835 # Xcode
+      - 640199958 # Apple Developer
+    state: latest
 - name: Home setup
   when: ansible_env.USER != "cday"
   block:
@@ -145,6 +155,12 @@
       community.general.homebrew_cask:
         name:
           - pcloud-drive
+- name: Home app store
+  when: ansible_env.USER != "cday"
+  community.general.mas:
+    id:
+      - 1532597159 # Mp3tag
+    state: latest
 - name: Work setup
   when: ansible_env.USER == "cday"
   block:
