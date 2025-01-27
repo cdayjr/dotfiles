@@ -119,6 +119,7 @@
       - librewolf
       - powershell
       - sequel-ace
+      - synergy
       - the-unarchiver
       - visual-studio-code
       - wezterm
@@ -145,7 +146,6 @@
           - discord
           - mactex
           - mounty
-          - synergy
           - transmission-remote-gui
     - name: Setup pcloud repository
       community.general.homebrew_tap:
