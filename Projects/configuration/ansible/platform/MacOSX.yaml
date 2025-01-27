@@ -13,6 +13,10 @@
       - gpatch
       - patchutils
     state: present
+- name: Setup ascii-image-converter repository
+  community.general.homebrew_tap:
+    name: TheZoraiz/ascii-image-converter
+    state: present
 - name: Install Homebrew packages
   community.general.homebrew:
     name:
