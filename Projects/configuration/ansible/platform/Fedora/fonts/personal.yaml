@@ -11,21 +11,21 @@
     - name: Install personal fonts
       when: personal_fonts_repo.changed
       block:
-      - name: Find all fonts
-        ansible.builtin.find:
-          paths:
-            - ~/.local/src/fonts
-          patterns:
-            - '*.otf'
-            - '*.ttf'
-          recurse: true
-          file_type: file
-        register: personal_font_results
-      - name: Install fonts
-        when: personal_font_results.files|length > 0
-        ansible.builtin.file:
-          src: "{{ item.path }}"
-          dest: "~/.local/share/fonts/{{ item.path | basename }}"
-          state: link
-        loop: "{{ personal_font_results.files }}"
-        register: fonts_personal_installed
+        - name: Find all fonts
+          ansible.builtin.find:
+            paths:
+              - ~/.local/src/fonts
+            patterns:
+              - "*.otf"
+              - "*.ttf"
+            recurse: true
+            file_type: file
+          register: personal_font_results
+        - name: Install fonts
+          when: personal_font_results.files|length > 0
+          ansible.builtin.file:
+            src: "{{ item.path }}"
+            dest: "~/.local/share/fonts/{{ item.path | basename }}"
+            state: link
+          loop: "{{ personal_font_results.files }}"
+          register: fonts_personal_installed

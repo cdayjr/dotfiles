@@ -5,22 +5,21 @@
     dest: "/tmp/{{ font.file }}"
 - name: "{{ font.file }} extraction"
   ansible.builtin.command:
-    cmd: "7z x -o/tmp \"/tmp/{{ font.file }}\""
+    cmd: '7z x -o/tmp "/tmp/{{ font.file }}"'
   args:
     creates: "/tmp/{{ font.directory}}"
 - name: "{{ font.pkg }} extraction"
   ansible.builtin.command:
-    cmd: "7z x -o\"/tmp/{{ font.directory}}\" \"/tmp/{{ font.directory }}/{{ font.pkg }}\""
+    cmd: '7z x -o"/tmp/{{ font.directory}}" "/tmp/{{ font.directory }}/{{ font.pkg }}"'
   args:
     creates: "/tmp/{{ font.directory}}/Payload~"
 - name: "{{ font.pkg }} extraction"
   ansible.builtin.command:
-    cmd: "7z x -o\"/tmp/{{ font.directory}}\" \"/tmp/{{ font.directory }}/{{ font.pkg }}\""
+    cmd: '7z x -o"/tmp/{{ font.directory}}" "/tmp/{{ font.directory }}/{{ font.pkg }}"'
   args:
     creates: "/tmp/{{ font.directory}}/Payload~"
 - name: "{{ font.directory }} Payload~ extraction"
   ansible.builtin.command:
-    cmd: "7z x -o\"/tmp/apple/{{ font.directory}}\" \"/tmp/{{ font.directory }}/Payload~\""
+    cmd: '7z x -o"/tmp/apple/{{ font.directory}}" "/tmp/{{ font.directory }}/Payload~"'
   args:
     creates: "/tmp/apple/{{ font.directory }}/Library"
-

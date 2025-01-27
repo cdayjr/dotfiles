@@ -32,7 +32,7 @@
   ansible.builtin.get_url:
     url: "https://download.opensuse.org/repositories/home:TheLocehiliosan:yadm/CentOS_8_Stream/home:TheLocehiliosan:yadm.repo"
     dest: /etc/yum.repos.d/home:TheLocehiliosan:yadm.repo
-    mode: '0644'
+    mode: "0644"
 - name: Install GitHub CLI repo
   become: true
   ansible.builtin.command:

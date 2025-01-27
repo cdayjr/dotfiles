@@ -31,8 +31,8 @@
     paths:
       - "/tmp/apple"
     patterns:
-      - '*.otf'
-      - '*.ttf'
+      - "*.otf"
+      - "*.ttf"
     recurse: true
     file_type: file
   register: "apple_font_results"
