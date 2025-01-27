@@ -351,6 +351,63 @@
       - org.wezfurlong.wezterm
       - https://flatpak.perezdecastro.org/revolt.flatpakref
     state: present
+- name: Install latest Yubico Authenticator
+  when: linux_desktop
+  block:
+    - name: Check if we have Yubico current version
+      ansible.builtin.stat:
+        path: ~/.local/src/yubico_authenticator/data/flutter_assets/version.json
+      register: has_yubico
+    - name: Fetch current Yubico Authenticator version
+      when: has_yubico.stat.isreg is defined
+      ansible.builtin.set_fact:
+        yubico_current_version: "{{ lookup('ansible.builtin.file', '~/.local/src/yubico_authenticator/data/flutter_assets/version.json') | from_json | json_query('version') }}"
+    - name: Check what is the latest release of the Yubico Authenticator
+      when: yubico_current_version is defined
+      ansible.builtin.uri:
+        follow_redirects: none
+        return_content: true
+        status_code: 302
+        url: https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz
+      register: yubico_latest_version_location
+    - name: Set yubico latest version
+      when: yubico_current_version is defined
+      ansible.builtin.set_fact:
+        yubico_latest_version: "{{ yubico_latest_version_location.location | regex_search('yubico-authenticator-(?P<version>(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-(?:(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)-linux', '\\g<version>') | first }}"
+    - name: Get the latest release of the Yubico Authenticator
+      when: yubico_current_version is not defined or yubico_current_version != yubico_latest_version
+      ansible.builtin.uri:
+        dest: /tmp/yubico_authenticator.tar.gz
+        url: https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz
+      register: download_yubico_authenticator
+    - name: Extract Yubico Authenticator
+      when: yubico_current_version is not defined or yubico_current_version != yubico_latest_version
+      block:
+        - name: Create temporary extract directory
+          ansible.builtin.tempfile:
+            prefix: yubico_authenticator
+            state: directory
+          register: yubico_authenticator_extracted_directory
+        - name: Extract latest release of yubico authenticator tool
+          ansible.builtin.unarchive:
+            src: /tmp/yubico_authenticator.tar.gz
+            dest: "{{ yubico_authenticator_extracted_directory.path }}"
+        - name: Find latest yubico directory
+          ansible.builtin.find:
+            file_type: directory
+            paths: "{{ yubico_authenticator_extracted_directory.path }}"
+            patterns:
+              - "yubico-authenticator-*-linux"
+          register: find_path
+        - name: Put latest release of yubico authenticator tool in directory
+          ansible.builtin.copy:
+            dest: ~/.local/src/yubico_authenticator
+            remote_src: true
+            src: "{{ find_path.files[0].path }}/"
+    - name: Integrate authenticator with desktop
+      ansible.builtin.command:
+        creates: ~/.local/share/applications/com.yubico.authenticator.desktop
+        cmd: ~/.local/src/yubico_authenticator/desktop_integration.sh --install
 - name: ThinkPad battery tools
   when: thinkpad
   block:
