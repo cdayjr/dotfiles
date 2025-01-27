@@ -16,8 +16,8 @@
 - name: Install Homebrew packages
   community.general.homebrew:
     name:
+      - TheZoraiz/ascii-image-converter/ascii-image-converter
       - ansible-language-server
-      - ascii-image-converter
       - bash-language-server
       - bat
       - bottom
