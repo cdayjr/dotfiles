@@ -370,13 +370,12 @@
         yubico_latest_version: "{{ yubico_latest_version_location.location | regex_search('yubico-authenticator-(?P<version>(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)\\.(?:0|[1-9]\\d*)(?:-(?:(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?:[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?)-linux', '\\g<version>') | first }}"
     - name: Get the latest release of the Yubico Authenticator
       when: yubico_current_version is not defined or yubico_current_version != yubico_latest_version
-      ansible.builtin.uri:
-        dest: /tmp/yubico_authenticator.tar.gz
-        url: https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz
-      register: download_yubico_authenticator
-    - name: Extract Yubico Authenticator
-      when: yubico_current_version is not defined or yubico_current_version != yubico_latest_version
       block:
+        - name: Fetch latest release
+          ansible.builtin.uri:
+            dest: /tmp/yubico_authenticator.tar.gz
+            url: https://developers.yubico.com/yubioath-flutter/Releases/yubico-authenticator-latest-linux.tar.gz
+          register: download_yubico_authenticator
         - name: Create temporary extract directory
           ansible.builtin.tempfile:
             prefix: yubico_authenticator
