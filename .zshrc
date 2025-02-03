@@ -86,6 +86,13 @@ setopt HIST_VERIFY
 # You may need to manually set your language environment
 export LANG=en_US.UTF-8
 
+###
+# Path setup
+###
+
+# Local installations; add to front
+path[1,0]="$HOME/.local/bin"
+
 # Man files
 if command -v man >/dev/null 2>&1; then
   if ! [ "$MANPATH" ]; then
@@ -194,13 +201,6 @@ fi
 if [ -d "$HOME/.docker/bin" ]; then
   path+=("$HOME/.docker/bin")
 fi
-
-###
-# Path setup
-###
-
-# Local installations; add to end
-path+=("$HOME/.local/bin")
 
 ##
 # User configuration
