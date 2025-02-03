@@ -116,7 +116,7 @@ if command -v minikube >/dev/null 2>&1; then
 fi
 
 ###
-# Languate setup
+# Language setup
 ###
 
 # Node
