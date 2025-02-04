@@ -123,6 +123,7 @@
       - latest
       - librewolf
       - powershell
+      - rocket
       - sequel-ace
       - the-unarchiver
       - visual-studio-code
