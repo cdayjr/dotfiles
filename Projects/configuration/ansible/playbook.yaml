@@ -41,6 +41,14 @@
         name: tlp
         state: restarted
   tasks:
+    - name: >-
+        become test - if this stalls you need to update your
+        ansible_become_password in your ansible hosts file
+        (probably at ~/.config/ansible/hosts)
+      ansible.builtin.shell:
+        cmd: echo All is ash. Goddamn dirt in your mouth
+      become: true
+      changed_when: false
     - name: Install and configure platform specific settings
       include_tasks: "platform/{{ ansible_distribution }}.yaml"
     # Language package manager content, should be managed by a package config
