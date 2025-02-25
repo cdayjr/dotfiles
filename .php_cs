@@ -1,1 +1,0 @@
-.config/php/php-cs-fixer.config.php
