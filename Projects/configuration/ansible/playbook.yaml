@@ -148,6 +148,8 @@
           repo: vim-go
         - owner: flazz
           repo: vim-colorschemes
+        - owner: fpob
+          repo: nette.vim
         - owner: idanarye
           repo: vim-vebugger
         - owner: imsnif
