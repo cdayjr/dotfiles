@@ -82,6 +82,7 @@
         name:
           - git-filter-repo
           - python-lsp-server[all]
+          - yt-dlp
           # - pyside2
         extra_args: --user --break-system-packages
         state: latest

@@ -223,7 +223,6 @@
       - weechat
       - wget
       - yadm
-      - youtube-dl
       - zsh
     state: present
 - name: Set user shell

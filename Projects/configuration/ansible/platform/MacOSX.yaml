@@ -237,7 +237,6 @@
     name:
       - powerline-gitstatus
       - powerline-status
-      - youtube-dl
     state: latest
 - name: Disable Microsoft Required Data Notice
   become: true
