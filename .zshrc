@@ -134,7 +134,8 @@ fi
 ## n
 if command -v n >/dev/null 2>&1; then
   export N_PREFIX="$HOME/.n"
-  path+=("$N_PREFIX/bin")
+  # add to start of path
+  path=("$N_PREFIX/bin" $path)
 fi
 
 # deno
