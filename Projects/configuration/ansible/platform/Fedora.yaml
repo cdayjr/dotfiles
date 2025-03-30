@@ -181,6 +181,7 @@
       - ccze
       - composer
       - curl
+      - direnv
       - exfat-utils
       - eza
       - fd-find

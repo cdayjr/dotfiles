@@ -28,6 +28,7 @@
       - cmake
       - composer
       - curl
+      - direnv
       - dockerfile-language-server
       - dust
       - eza
