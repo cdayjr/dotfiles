@@ -593,14 +593,12 @@
     cmd: "cargo install {{ item.package }}"
     creates: "~/.cargo/bin/{{ item.bin }}"
   loop:
+    - package: cargo-update
+      bin: cargo-install-update
     - package: du-dust
       bin: dust
     - package: sd
       bin: sd
-- name: Install cargo update tool
-  ansible.builtin.command:
-    cmd: cargo install cargo-update
-    creates: ~/.cargo/bin/cargo-install-update
 - name: Update cargo packages
   ansible.builtin.command:
     cmd: cargo install-update --all
