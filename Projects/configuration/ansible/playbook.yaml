@@ -81,9 +81,9 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - hyfetch
           - python-lsp-server[all]
           - yt-dlp
-          # - pyside2
         extra_args: --user --break-system-packages
         state: latest
     - name: Install pip packages on slightly less current python
@@ -91,8 +91,9 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
+          - hyfetch
           - python-lsp-server[all]
-          # - pyside2
+          - yt-dlp
         extra_args: --user
         state: latest
     - name: Install pip packages on older machines
@@ -100,8 +101,9 @@
       ansible.builtin.pip:
         name:
           - git-filter-repo
-          - python-lsp-server[all]
+          - hyfetch
           - pyside2
+          - python-lsp-server[all]
         extra_args: --user
         state: latest
       vars:
@@ -113,8 +115,6 @@
         depth: 1
         force: true # disregard local changes
       loop:
-        - owner: dylanaraps
-          repo: neofetch
         - owner: muennich
           repo: urxvt-perls
     - name: tmux plugins
