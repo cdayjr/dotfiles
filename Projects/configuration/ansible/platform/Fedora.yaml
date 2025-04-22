@@ -44,9 +44,7 @@
     - option: baseurl
       value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_{{ ansible_distribution_major_version }}/"
     - option: enabled
-      # there's some sort of bug with this repository so this is
-      # disabled temporarily
-      value: "0"
+      value: "1"
     - option: gpgcheck
       value: "1"
     - option: gpgkey
