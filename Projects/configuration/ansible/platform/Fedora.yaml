@@ -183,7 +183,6 @@
       - curl
       - direnv
       - exfat-utils
-      - eza
       - fd-find
       - fontforge
       - fuse-exfat
@@ -596,6 +595,8 @@
       bin: cargo-install-update
     - package: du-dust
       bin: dust
+    - package: eza
+      bin: eza
     - package: sd
       bin: sd
 - name: Update cargo packages
