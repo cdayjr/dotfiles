@@ -196,7 +196,6 @@
           - lifesize
           - microsoft-office
           - postman
-          - tunnelblick
           - zoom
     - name: Work configuration repo
       ansible.builtin.git:
