@@ -142,7 +142,7 @@
 - name: Install "Development Tools" DNF package group
   become: true
   ansible.builtin.dnf:
-    name: "@Development Tools"
+    name: "@development-tools"
     state: present
 - name: Install appstream-data for rpmfusion packages
   when: linux_desktop
