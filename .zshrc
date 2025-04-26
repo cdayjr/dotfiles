@@ -90,6 +90,12 @@ export LANG=en_US.UTF-8
 # Path setup
 ###
 
+# MacPorts
+if [ -f "/opt/local/bin/port" ]; then
+  path[1,0]="/opt/local/bin"
+  path[1,0]="/opt/local/sbin"
+fi
+
 # Local installations; add to front
 path[1,0]="$HOME/.local/bin"
 

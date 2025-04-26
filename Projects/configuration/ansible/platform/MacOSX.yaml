@@ -3,6 +3,10 @@
 - name: Update Homebrew
   community.general.homebrew:
     update_homebrew: yes
+- name: Update MacPorts
+  become: true
+  community.general.macports:
+    selfupdate: true
 - name: Install "Development Tools" Homebrew equivalent package group
   community.general.homebrew:
     name:
@@ -132,6 +136,13 @@
       - xscreensaver
     state: present
     sudo_password: "{{ ansible_become_password }}"
+- name: Install MacPorts packages
+  become: true
+  community.general.macports:
+    name: "{{ item }}"
+  vars:
+    item:
+      - NetSurf
 - name: Install apps from the Mac App Store
   # disable this because it seems to be extremely slow
   when: false
@@ -234,6 +245,10 @@
 - name: Upgrade remaining homebrew packages
   community.general.homebrew:
     upgrade_all: yes
+- name: Upgrade all MacPorts packages
+  become: true
+  community.general.macports:
+    upgrade: true
 - name: Install pip packages
   ansible.builtin.pip:
     name:
