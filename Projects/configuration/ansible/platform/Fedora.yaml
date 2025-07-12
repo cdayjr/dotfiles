@@ -602,6 +602,12 @@
     cmd: cargo install-update --all
   register: cargo_update
   changed_when: cargo_update.stdout.find('No packages need updating.') == -1
+- name: Update flatpak packages
+  when: linux_desktop
+  ansible.builtin.command:
+    cmd: flatpak update --noninteractive
+  register: flatpak_update_output
+  changed_when: "'app/' in flatpak_update_output.stdout"
 - name: Enable cockpit service
   when: not linux_desktop
   become: true
