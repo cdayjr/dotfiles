@@ -28,6 +28,7 @@
       - cmake
       - composer
       - curl
+      - darcs
       - direnv
       - dockerfile-language-server
       - dust
@@ -50,6 +51,7 @@
       - mosh
       - mycli
       - node
+      - opam
       - openssl
       - p7zip
       - pdm

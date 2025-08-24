@@ -179,6 +179,7 @@
       - ccze
       - composer
       - curl
+      - darcs
       - direnv
       - exfat-utils
       - fd-find
@@ -195,6 +196,7 @@
       - mycli
       - nmap
       - nodejs
+      - opam
       - openssl-devel
       - p7zip
       - p7zip-plugins
