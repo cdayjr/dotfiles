@@ -453,13 +453,13 @@ update() {
   if [ -n "$HOST" ]; then
     ansible-playbook \
       --ask-vault-pass \
-      --inventory-file "$INVENTORY_FILE" \
+      --inventory "$INVENTORY_FILE" \
       --limit "$HOST" \
       "$ANSIBLE_DIR/playbook.yaml"
   else
     ansible-playbook \
       --ask-vault-pass \
-      --inventory-file "$INVENTORY_FILE" \
+      --inventory "$INVENTORY_FILE" \
       "$ANSIBLE_DIR/playbook.yaml"
   fi
 }
