@@ -267,9 +267,6 @@ if ! [ -f "$POWERLINE_TMUX" ]; then
     touch "$POWERLINE_TMUX"
   fi
 fi
-if command -v powerline-daemon >/dev/null 2>&1; then
-  powerline-daemon -q
-fi
 
 # starship
 if command -v starship >/dev/null 2>&1; then
