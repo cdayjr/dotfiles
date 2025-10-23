@@ -46,7 +46,6 @@
       - jq
       - lesspipe
       - macvim
-      - marksman
       - mas
       - mosh
       - mycli
@@ -82,6 +81,12 @@
       - yaml-language-server
       - zsh
     state: present
+- name: Install Apple Silocon Homebrew Packages
+  community.general.homebrew:
+    name:
+      - marksman
+    state: present
+  when: apple_silicon
 - name: Add brew zsh to /etc/shells (x86_64)
   become: true
   ansible.builtin.lineinfile:
