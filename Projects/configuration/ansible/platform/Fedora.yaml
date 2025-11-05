@@ -319,12 +319,25 @@
       - wl-clipboard
       - xsel
     state: present
+- name: wezterm Repo
+  become: true
+  ansible.builtin.command: "dnf copr enable -y wezfurlong/wezterm-nightly"
+  args:
+    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:wezfurlong:wezterm-nightly.repo
+  register: wezterm_repo
+  when: linux_desktop
+- name: Install wezterm from wezterm repo
+  become: true
+  ansible.builtin.dnf:
+    name:
+      - wezterm
+    state: present
+  when: wezterm_repo is not skipped
 - name: Install flatpak packages
   when: linux_desktop
   community.general.flatpak:
     method: user
     name:
-      - org.wezfurlong.wezterm
       - https://flatpak.perezdecastro.org/revolt.flatpakref
     state: present
 - name: Install latest Yubico Authenticator
