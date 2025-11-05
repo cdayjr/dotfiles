@@ -36,7 +36,7 @@
     recurse: true
     file_type: file
   register: "apple_font_results"
-- name: "Install {{ font.directory }} fonts"
+- name: "Install {{ item.directory }} fonts"
   when: not apple_fonts_check.stat.exists
   ansible.builtin.copy:
     src: "{{ item.path }}"
