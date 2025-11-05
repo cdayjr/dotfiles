@@ -27,8 +27,8 @@
           loop: "{{ download_urls }}"
           vars:
             latest: "{{ font_nf_github_latest_release.json.tag_name }}"
-            query: "assets[*].browser_download_url"
-            download_urls: "{{ font_nf_github_latest_release.json | community.general.json_query(query) }}"
+            search: "assets[*].browser_download_url"
+            download_urls: "{{ font_nf_github_latest_release.json | community.general.json_query(search) }}"
           register: font_nerd_fonts_installed
         - name: Cleanup old nerd fonts
           when: font_nerd_fonts_installed.changed

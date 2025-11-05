@@ -28,8 +28,8 @@
             dest: "{{ font_3270_temp.path }}"
             remote_src: true
           vars:
-            query: "assets[0].browser_download_url"
-            download_url: "{{ font_3270_github_latest_release.json | community.general.json_query(query) }}"
+            search: "assets[0].browser_download_url"
+            download_url: "{{ font_3270_github_latest_release.json | community.general.json_query(search) }}"
         - name: Find downloaded 3270 font files
           ansible.builtin.find:
             paths: "{{ font_3270_temp.path }}"
