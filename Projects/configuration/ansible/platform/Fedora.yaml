@@ -176,10 +176,12 @@
       - bc
       - cargo
       - ccze
+      - clean-rpm-gpg-pubkey
       - composer
       - curl
       - darcs
       - direnv
+      - dracut-config-rescue
       - exfat-utils
       - fd-find
       - fontforge
@@ -211,9 +213,12 @@
       - python3-github3py
       - python3-pip
       - rclone
+      - remove-retired-packages
       - ripgrep
+      - rpmconf
       - rsync
       - rust
+      - symlinks
       - tmux-powerline
       - tokei
       - unar
