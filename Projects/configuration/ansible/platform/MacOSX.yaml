@@ -136,6 +136,7 @@
       - the-unarchiver
       - visual-studio-code
       - wezterm
+      - xld
       - xscreensaver
     state: present
     sudo_password: "{{ ansible_become_password }}"
@@ -182,6 +183,7 @@
       vars:
         item:
           - NetSurf
+          - xld
     - name: Upgrade all MacPorts packages
       become: true
       community.general.macports:
