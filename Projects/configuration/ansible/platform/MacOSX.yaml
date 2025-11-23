@@ -64,6 +64,7 @@
       - rust
       - sd
       - smimesign
+      - sonar-scanner
       - speedtest-cli
       - sql-language-server
       - starship
