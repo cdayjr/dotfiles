@@ -129,6 +129,7 @@
       - keepassxc
       - latest
       - librewolf
+      - macfuse
       - powershell
       - rocket
       - sequel-ace
