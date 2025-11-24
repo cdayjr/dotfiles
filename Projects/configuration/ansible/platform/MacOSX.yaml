@@ -54,6 +54,8 @@
       - p7zip
       - pdm
       - php
+      - php@8.3
+      - php@8.4
       - pngquant
       - podman
       - procs
@@ -188,6 +190,14 @@
       become: true
       community.general.macports:
         upgrade: true
+    - name: Unlink php
+      community.general.homebrew:
+        name: php
+        state: unlinked
+    - name: Link php@8.4
+      community.general.homebrew:
+        name: php@8.4
+        state: linked
 - name: Home app store
   # disable this because it seems to be extremely slow
   when: ansible_env.USER != "cday" and false
@@ -219,6 +229,14 @@
         src: "~/.local/src/work-config"
         dest: "~/.local/share/includes/work-config"
         state: link
+    - name: Unlink php
+      community.general.homebrew:
+        name: php
+        state: unlinked
+    - name: Link php@8.3
+      community.general.homebrew:
+        name: php@8.3
+        state: linked
 - name: Install fonts
   community.general.homebrew_cask:
     name:
