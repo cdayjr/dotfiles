@@ -129,6 +129,7 @@
       - ente-auth
       - flux
       - gimp
+      - git-credential-manager
       - iina
       - imageoptim
       - joplin
