@@ -71,6 +71,7 @@
       - speedtest-cli
       - sql-language-server
       - starship
+      - streamlink
       - terraform-ls
       - tmux
       - tokei
