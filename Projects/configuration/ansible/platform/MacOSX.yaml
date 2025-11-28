@@ -176,6 +176,7 @@
         name:
           - cloudflare-warp
           - discord
+          - foobar2000
           - mactex
           - mounty
           - steam
