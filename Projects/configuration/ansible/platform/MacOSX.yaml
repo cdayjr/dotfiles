@@ -221,7 +221,19 @@
   when: ansible_env.USER != "cday" and false
   community.general.mas:
     id:
+      - 1482527526 # lire
+      - 1518036000 # Sequel Ace
       - 1532597159 # Mp3tag
+      - 1573461917 # SponsorBlock for Safari
+      - 302584613 # Amazon Kindle
+      - 375589283 # Parcel - Delivery Tracking
+      - 412056820 # Trilian
+      - 425424353 # The Unarchiver
+      - 539883307 # LINE
+      - 545519333 # Amazon Prime Video
+      - 6444602274 # Ivory for Mastodon by Tapbots
+      - 6451469297 # DeArrow for YouTube
+      - 897283731 # Strongbox - Password Manager
     state: latest
 - name: Work setup
   when: ansible_env.USER == "cday"
