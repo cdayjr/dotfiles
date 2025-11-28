@@ -175,6 +175,7 @@
         greedy: true
         name:
           - 8bitdo-ultimate-software
+          - audacity
           - cloudflare-warp
           - discord
           - foobar2000
