@@ -187,6 +187,7 @@
         greedy: true
         name:
           - betterdiscord-installer
+          - lastfm
         install_options: no-quarantine
         state: present
         sudo_password: "{{ ansible_become_password }}"
