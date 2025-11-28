@@ -146,12 +146,17 @@
       - xscreensaver
     state: present
     sudo_password: "{{ ansible_become_password }}"
+- name: Setup sourcegit repository
+  community.general.homebrew_tap:
+    name: ybeapps/homebrew-sourcegit
+    state: present
 - name: Install unsigned Homebrew casks
   community.general.homebrew_cask:
     greedy: true
     name:
       - librewolf
       - powershell
+      - sourcegit
       - xld
     install_options: no-quarantine
     state: present
