@@ -130,16 +130,23 @@
       - joplin
       - keepassxc
       - latest
-      - librewolf
       - macfuse
-      - powershell
       - rocket
       - sequel-ace
       - the-unarchiver
       - visual-studio-code
       - wezterm
-      - xld
       - xscreensaver
+    state: present
+    sudo_password: "{{ ansible_become_password }}"
+- name: Install unsigned Homebrew casks
+  community.general.homebrew_cask:
+    greedy: true
+    name:
+      - librewolf
+      - powershell
+      - xld
+    install_options: no-quarantine
     state: present
     sudo_password: "{{ ansible_become_password }}"
 - name: Install apps from the Mac App Store
@@ -165,11 +172,18 @@
       community.general.homebrew_cask:
         greedy: true
         name:
-          - betterdiscord-installer
           - discord
           - mactex
           - mounty
           - transmission-remote-gui
+        state: present
+        sudo_password: "{{ ansible_become_password }}"
+    - name: Install home unsigned Homebrew casks
+      community.general.homebrew_cask:
+        greedy: true
+        name:
+          - betterdiscord-installer
+        install_options: no-quarantine
         state: present
         sudo_password: "{{ ansible_become_password }}"
     - name: Setup pcloud repository
