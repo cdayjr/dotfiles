@@ -178,6 +178,7 @@
           - mactex
           - mounty
           - steam
+          - threema@beta
           - transmission-remote-gui
         state: present
         sudo_password: "{{ ansible_become_password }}"
