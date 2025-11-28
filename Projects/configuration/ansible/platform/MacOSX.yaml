@@ -177,6 +177,7 @@
           - discord
           - mactex
           - mounty
+          - steam
           - transmission-remote-gui
         state: present
         sudo_password: "{{ ansible_become_password }}"
