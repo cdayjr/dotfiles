@@ -135,6 +135,7 @@
       - keepassxc
       - latest
       - macfuse
+      - pinta
       - podman-desktop
       - rocket
       - sequel-ace
