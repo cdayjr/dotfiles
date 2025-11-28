@@ -124,6 +124,7 @@
   community.general.homebrew_cask:
     greedy: true
     name:
+      - cloudflare-warp
       - docker
       - ente-auth
       - flux
@@ -178,7 +179,6 @@
           - audacity
           - calibre
           - chatterino
-          - cloudflare-warp
           - discord
           - foobar2000
           - mactex
@@ -253,7 +253,6 @@
       community.general.homebrew_cask:
         greedy: true
         name:
-          - cloudflare-warp
           - cyberduck
           - google-drive
           - lastpass
