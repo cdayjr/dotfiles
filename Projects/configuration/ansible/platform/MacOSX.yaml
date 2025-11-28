@@ -133,6 +133,7 @@
       - keepassxc
       - latest
       - macfuse
+      - podman-desktop
       - rocket
       - sequel-ace
       - the-unarchiver
