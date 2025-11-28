@@ -143,6 +143,7 @@
       - the-unarchiver
       - ungoogled-chromium
       - visual-studio-code
+      - vlc
       - wezterm
       - xscreensaver
     state: present
