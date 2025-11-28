@@ -60,6 +60,7 @@
       - podman
       - procs
       - python
+      - python-packaging
       - rclone
       - ripgrep
       - rsync
