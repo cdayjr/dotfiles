@@ -203,7 +203,8 @@
       vars:
         item:
           - NetSurf
-          - xld
+          # Disabled due to build issues
+          # - xld
     - name: Upgrade all MacPorts packages
       become: true
       community.general.macports:
