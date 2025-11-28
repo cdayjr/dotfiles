@@ -188,6 +188,7 @@
           - mounty
           - sdformatter
           - steam
+          - syncplay
           - threema@beta
           - transmission-remote-gui
         state: present
