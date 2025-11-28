@@ -125,7 +125,6 @@
     greedy: true
     name:
       - cloudflare-warp
-      - docker
       - ente-auth
       - flux
       - gimp
@@ -256,6 +255,7 @@
         greedy: true
         name:
           - cyberduck
+          - docker
           - google-drive
           - lastpass
           - lifesize
