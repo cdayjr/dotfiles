@@ -116,6 +116,10 @@ set noshowmode
 let g:format_on_save = 0
 let g:ale_fix_on_save = 0
 
+" Disable "Thanks for flying Vim"
+" See https://mattdturner.com/wordpress/2011/04/how-to-stop-thanks-for-flying-vim-message/
+let &titleold=substitute(getcwd(), $HOME, "~", "")
+
 " Source external files
 for f in split(glob('~/.local/share/includes/**/*.vim'), '\n')
     exe 'source' f
