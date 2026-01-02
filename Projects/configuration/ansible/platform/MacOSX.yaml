@@ -160,7 +160,6 @@
       - librewolf
       - powershell
       - sourcegit
-      - xld
     install_options: no-quarantine
     state: present
     sudo_password: "{{ ansible_become_password }}"
@@ -218,6 +217,7 @@
         name:
           - betterdiscord-installer
           - lastfm
+          - xld
         install_options: no-quarantine
         state: present
         sudo_password: "{{ ansible_become_password }}"
@@ -238,8 +238,6 @@
       vars:
         item:
           - NetSurf
-          # Disabled due to build issues
-          # - xld
     - name: Upgrade all MacPorts packages
       become: true
       community.general.macports:
