@@ -3,7 +3,7 @@
   "prefer-stable": true,
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.92",
-    "psy/psysh": "^0.12.7",
+    "psy/psysh": "^0.12.18",
     "slevomat/coding-standard": "^8.26",
     "squizlabs/php_codesniffer": "^4.0",
     "rector/rector": "^2.3",
