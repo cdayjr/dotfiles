@@ -12,10 +12,10 @@
   ansible.builtin.command:
     cmd: '7z x -o"/tmp/{{ font.directory }}" "/tmp/{{ font.directory }}/{{ font.pkg }}"'
   args:
-    creates: "/tmp/{{ font.directory }}/Payload~"
-- name: "{{ font.pkg }} extraction"
+    creates: "/tmp/{{ font.directory }}/{{ font.directory }}.pkg"
+- name: "{{ font.directory }}.pkg Payload extraction"
   ansible.builtin.command:
-    cmd: '7z x -o"/tmp/{{ font.directory }}" "/tmp/{{ font.directory }}/{{ font.pkg }}"'
+    cmd: '7z x -o"/tmp/{{ font.directory }}" "/tmp/{{ font.directory }}/{{ font.directory }}.pkg/Payload"'
   args:
     creates: "/tmp/{{ font.directory }}/Payload~"
 - name: "{{ font.directory }} Payload~ extraction"
