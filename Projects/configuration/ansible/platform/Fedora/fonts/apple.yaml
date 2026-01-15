@@ -13,12 +13,21 @@
     - file: SF-Arabic.dmg
       directory: SFArabicFonts
       pkg: "SF Arabic Fonts.pkg"
+    - file: SF-Armenian.dmg
+      directory: SFArmenianFonts
+      pkg: "SF Armenian Fonts.pkg"
     - file: SF-Compact.dmg
       directory: SFCompactFonts
       pkg: "SF Compact Fonts.pkg"
     - file: SF-Mono.dmg
       directory: SFMonoFonts
       pkg: "SF Mono Fonts.pkg"
+    - file: SF-Georgian.dmg
+      directory: SFGeorgianFonts
+      pkg: "SF Georgian Fonts.pkg"
+    - file: SF-Hebrew.dmg
+      directory: SFHebrewFonts
+      pkg: "SF Hebrew Fonts.pkg"
     - file: SF-Pro.dmg
       directory: SFProFonts
       pkg: "SF Pro Fonts.pkg"
