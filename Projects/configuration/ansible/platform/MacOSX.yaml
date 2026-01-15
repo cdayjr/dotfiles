@@ -263,6 +263,11 @@
 - name: Work setup
   when: ansible_env.USER == "cday"
   block:
+    - name: Install work Homebrew packages
+      community.general.homebrew:
+        name:
+          - kubernetes-cli@1.33
+        state: present
     - name: Install work Homebrew casks
       community.general.homebrew_cask:
         greedy: true
@@ -293,6 +298,14 @@
     - name: Link php@8.3
       community.general.homebrew:
         name: php@8.3
+        state: linked
+    - name: Unlink kubernetes-cli
+      community.general.homebrew:
+        name: kubernetes-cli
+        state: unlinked
+    - name: Link kubernetes-cli@1.33
+      community.general.homebrew:
+        name: kubernetes-cli@1.33
         state: linked
 - name: Install fonts
   community.general.homebrew_cask:
