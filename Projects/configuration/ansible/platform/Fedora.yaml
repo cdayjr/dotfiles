@@ -28,9 +28,31 @@
     # GitHub CLI Repo
     - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
     - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_42/repodata/repomd.xml.key"
+    - "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_distribution_major_version }}/repodata/repomd.xml.key"
     - "https://packages.microsoft.com/keys/microsoft.asc"
-    - "https://rpm.librewolf.net/pubkey.gpg"
     - "https://pkg.cloudflareclient.com/pubkey.gpg"
+    - "https://rpm.librewolf.net/pubkey.gpg"
+- name: Install Signal repo
+  become: true
+  community.general.ini_file:
+    option: "{{ item.option }}"
+    path: /etc/yum.repos.d/network:im:signal.repo
+    section: network_im_signal
+    state: present
+    value: "{{ item.value }}"
+  loop:
+    - option: baseurl
+      value: "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_distribution_major_version }}/"
+    - option: enabled
+      value: "1"
+    - option: gpgcheck
+      value: "1"
+    - option: gpgkey
+      value: "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_distribution_major_version }}/repodata/repomd.xml.key"
+    - option: name
+      value: "Signal Messaging Devel Project (Fedora_{{ ansible_distribution_major_version }})"
+    - option: type
+      value: "rpm-md"
 - name: Install YADM repo
   become: true
   community.general.ini_file:
@@ -66,14 +88,14 @@
 - name: Install GitHub CLI repo
   become: true
   ansible.builtin.command:
-    cmd: "dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
+    cmd: "dnf config-manager addrepo --from-repofile=https://cli.github.com/packages/rpm/gh-cli.repo"
   args:
     creates: "/etc/yum.repos.d/gh-cli.repo"
 - name: Install LibreWolf repo
   when: linux_desktop
   become: true
   ansible.builtin.command:
-    cmd: "dnf config-manager --add-repo https://rpm.librewolf.net/librewolf-repo.repo"
+    cmd: "dnf config-manager addrepo --from-repofile=https://rpm.librewolf.net/librewolf-repo.repo"
   args:
     creates: "/etc/yum.repos.d/librewolf-repo.repo"
 - name: Install Visual Studio Code repo
@@ -99,7 +121,7 @@
 - name: Install Cloudflare WARP repo
   become: true
   ansible.builtin.command:
-    cmd: "dnf config-manager --add-repo https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo"
+    cmd: "dnf config-manager addrepo --from-repofile=https://pkg.cloudflareclient.com/cloudflare-warp-ascii.repo"
   args:
     creates: "/etc/yum.repos.d/cloudflare-warp-ascii.repo"
 - name: Install Cloudflare WARP package
@@ -309,6 +331,7 @@
       - redshift-gtk
       - remmina
       - rxvt-unicode
+      - signal-desktop
       - steam
       - sway
       - transmission-remote-gtk
