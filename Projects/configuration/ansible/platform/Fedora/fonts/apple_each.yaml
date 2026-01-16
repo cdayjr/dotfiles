@@ -8,18 +8,34 @@
     cmd: '7z x -o/tmp "/tmp/{{ font.file }}"'
   args:
     creates: "/tmp/{{ font.directory }}"
+- name: "{{ font.file }} delete"
+  ansible.builtin.file:
+    path: "/tmp/{{ font.file }}"
+    state: absent
 - name: "{{ font.pkg }} extraction"
   ansible.builtin.command:
     cmd: '7z x -o"/tmp/{{ font.directory }}" "/tmp/{{ font.directory }}/{{ font.pkg }}"'
   args:
     creates: "/tmp/{{ font.directory }}/{{ font.directory }}.pkg"
+- name: "{{ font.pkg }} delete"
+  ansible.builtin.file:
+    path: "/tmp/{{ font.directory }}/{{ font.pkg }}"
+    state: absent
 - name: "{{ font.directory }}.pkg Payload extraction"
   ansible.builtin.command:
     cmd: '7z x -o"/tmp/{{ font.directory }}" "/tmp/{{ font.directory }}/{{ font.directory }}.pkg/Payload"'
   args:
     creates: "/tmp/{{ font.directory }}/Payload~"
+- name: "{{ font.directory }}.pkg delete"
+  ansible.builtin.file:
+    path: "/tmp/{{ font.directory }}/{{ font.directory }}.pkg"
+    state: absent
 - name: "{{ font.directory }} Payload~ extraction"
   ansible.builtin.command:
     cmd: '7z x -o"/tmp/apple/{{ font.directory }}" "/tmp/{{ font.directory }}/Payload~"'
   args:
     creates: "/tmp/apple/{{ font.directory }}/Library"
+- name: "{{ font.directory }}.pkg delete"
+  ansible.builtin.file:
+    path: "/tmp/{{ font.directory }}/Payload~"
+    state: absent

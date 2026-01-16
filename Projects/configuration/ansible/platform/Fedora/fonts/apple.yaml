@@ -52,3 +52,9 @@
     dest: "~/.local/share/fonts/{{ item.path | basename }}"
   loop: "{{ apple_font_results.files }}"
   register: "fonts_apple_installed"
+- name: "Delete {{ item.directory }} fonts"
+  when: not apple_fonts_check.stat.exists
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ apple_font_results.files }}"
