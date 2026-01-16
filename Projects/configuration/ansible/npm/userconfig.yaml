@@ -7,7 +7,7 @@
   register: npm_prefix_check
   changed_when: false
 - name: Set npm prefix
-  when: "'/'.join((ansible_env.HOME,'.npm')) != npm_prefix_check.stdout"
+  when: "'/'.join((ansible_facts['env']['HOME'],'.npm')) != npm_prefix_check.stdout"
   ansible.builtin.command:
-    cmd: "npm config --user set prefix {{ ansible_env.HOME }}/.npm"
+    cmd: "npm config --user set prefix {{ ansible_facts['env']['HOME'] }}/.npm"
   changed_when: true

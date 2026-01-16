@@ -177,7 +177,7 @@
       - 640199958 # Apple Developer
     state: latest
 - name: Home setup
-  when: ansible_env.USER != "cday"
+  when: ansible_facts['env']['USER'] != "cday"
   block:
     - name: Update MacPorts
       become: true
@@ -245,7 +245,7 @@
         upgrade: true
 - name: Home app store
   # disable this because it seems to be extremely slow
-  when: ansible_env.USER != "cday" and false
+  when: ansible_facts['env']['USER'] != "cday" and false
   community.general.mas:
     id:
       - 1482527526 # lire
@@ -261,7 +261,7 @@
       - 897283731 # Strongbox - Password Manager
     state: latest
 - name: Work setup
-  when: ansible_env.USER == "cday"
+  when: ansible_facts['env']['USER'] == "cday"
   block:
     - name: Install work Homebrew packages
       community.general.homebrew:

@@ -10,11 +10,11 @@
 # bizarre setting where you need to set the globalconfig in the file
 # you're using for globalconfig
 - name: Set npm globalconfig
-  when: "'/'.join((ansible_env.HOME,'.npmrc')) != npm_globalconfig_check.stdout"
+  when: "'/'.join((ansible_facts['env']['HOME'],'.npmrc')) != npm_globalconfig_check.stdout"
   ansible.builtin.lineinfile:
     create: true
-    line: "globalconfig={{ ansible_env.HOME }}/.npmrc"
-    path: "{{ ansible_env.HOME }}/.npmrc"
+    line: "globalconfig={{ ansible_facts['env']['HOME'] }}/.npmrc"
+    path: "{{ ansible_facts['env']['HOME'] }}/.npmrc"
     regexp: "^globalconfig"
 - name: Get current npm prefix
   ansible.builtin.command:
@@ -22,9 +22,9 @@
   register: npm_prefix_check
   changed_when: false
 - name: Set npm prefix
-  when: "'/'.join((ansible_env.HOME,'.npm')) != npm_prefix_check.stdout"
+  when: "'/'.join((ansible_facts['env']['HOME'],'.npm')) != npm_prefix_check.stdout"
   ansible.builtin.command:
-    cmd: "npm config --global set prefix {{ ansible_env.HOME }}/.npm"
+    cmd: "npm config --global set prefix {{ ansible_facts['env']['HOME'] }}/.npm"
   changed_when: true
 - name: Update npm packages
   community.general.npm:

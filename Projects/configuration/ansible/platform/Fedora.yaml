@@ -5,13 +5,13 @@
   failed_when: false
   changed_when: false # command result is not a change
   ansible.builtin.shell:
-    cmd: "loginctl show-user {{ ansible_user_id }} -p Linger | grep -q 'Linger=yes'"
+    cmd: "loginctl show-user {{ ansible_facts['user_id'] }} -p Linger | grep -q 'Linger=yes'"
   register: check_linger
 - name: Enable linger for user
   when: (not linux_desktop) and (check_linger.rc != 0)
   become: true
   ansible.builtin.command:
-    cmd: "loginctl enable-linger {{ ansible_user_id }}"
+    cmd: "loginctl enable-linger {{ ansible_facts['user_id'] }}"
 - name: Install distribution GPG keys
   become: true
   ansible.builtin.dnf:
@@ -23,12 +23,12 @@
     key: "{{ item }}"
     state: present
   loop:
-    - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_distribution_major_version }}"
-    - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_distribution_major_version }}"
+    - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-free-fedora-{{ ansible_facts['distribution_major_version'] }}"
+    - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_facts['distribution_major_version'] }}"
     # GitHub CLI Repo
     - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
     - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_42/repodata/repomd.xml.key"
-    - "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_distribution_major_version }}/repodata/repomd.xml.key"
+    - "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_facts['distribution_major_version'] }}/repodata/repomd.xml.key"
     - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://pkg.cloudflareclient.com/pubkey.gpg"
     - "https://rpm.librewolf.net/pubkey.gpg"
@@ -42,15 +42,15 @@
     value: "{{ item.value }}"
   loop:
     - option: baseurl
-      value: "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_distribution_major_version }}/"
+      value: "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_facts['distribution_major_version'] }}/"
     - option: enabled
       value: "1"
     - option: gpgcheck
       value: "1"
     - option: gpgkey
-      value: "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_distribution_major_version }}/repodata/repomd.xml.key"
+      value: "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_facts['distribution_major_version'] }}/repodata/repomd.xml.key"
     - option: name
-      value: "Signal Messaging Devel Project (Fedora_{{ ansible_distribution_major_version }})"
+      value: "Signal Messaging Devel Project (Fedora_{{ ansible_facts['distribution_major_version'] }})"
     - option: type
       value: "rpm-md"
 - name: Install YADM repo
@@ -77,13 +77,13 @@
 - name: Install RPMFusion (free)
   become: true
   ansible.builtin.dnf:
-    name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
     state: present
 - name: Install RPMFusion (nonfree)
   when: linux_desktop
   become: true
   ansible.builtin.dnf:
-    name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm"
+    name: "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
     state: present
 - name: Install GitHub CLI repo
   become: true
@@ -423,7 +423,7 @@
     - name: Install ThinkPad repo
       become: true
       ansible.builtin.dnf:
-        name: "https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc{{ ansible_distribution_major_version }}.noarch.rpm"
+        name: "https://repo.linrunner.de/fedora/tlp/repos/releases/tlp-release.fc{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
         state: present
     - name: Remove power profiles daemon
       # remove this package because it conflicts with tlp
@@ -560,7 +560,7 @@
         path: ~/.local/share/fonts
         state: directory
     - name: Install manual fonts
-      include_tasks: "{{ ansible_distribution }}/fonts/{{ font_item }}.yaml"
+      include_tasks: "{{ ansible_facts['distribution'] }}/fonts/{{ font_item }}.yaml"
       loop:
         - "3270"
         - apple
@@ -597,13 +597,13 @@
     cmd: go install github.com/cbednarski/hostess@latest
     creates: ~/.go/bin/hostess
   environment:
-    GOPATH: "{{ ansible_env.HOME }}/.go"
+    GOPATH: "{{ ansible_facts['env']['HOME'] }}/.go"
 - name: Install ascii-image-converter cli
   ansible.builtin.command:
     cmd: go install github.com/TheZoraiz/ascii-image-converter@latest
     creates: ~/.go/bin/ascii-image-converter
   environment:
-    GOPATH: "{{ ansible_env.HOME }}/.go"
+    GOPATH: "{{ ansible_facts['env']['HOME'] }}/.go"
 - name: Install cargo packages
   ansible.builtin.command:
     cmd: "cargo install {{ item.package }}"

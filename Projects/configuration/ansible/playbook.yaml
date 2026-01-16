@@ -6,11 +6,11 @@
   become: false
   environment:
     # ensure local bin is in path
-    PATH: "{{ ansible_env.PATH }}:/home/{{ ansible_user_id }}/.local/bin"
+    PATH: "{{ lookup('ansible.builtin.env', 'PATH') }}:{{ lookup('ansible.builtin.env', 'HOME') }}/.local/bin"
   vars:
-    apple_silicon: "{{ (ansible_distribution == 'MacOSX') and (ansible_architecture == 'arm64') }}"
-    linux_desktop: "{{ ('XDG_CURRENT_DESKTOP' in ansible_env) and (ansible_env.XDG_CURRENT_DESKTOP|length > 0) }}"
-    thinkpad: "{{ ansible_product_version is regex('ThinkPad') }}"
+    apple_silicon: "{{ (ansible_facts['distribution'] == 'MacOSX') and (ansible_facts['architecture'] == 'arm64') }}"
+    linux_desktop: "{{ lookup('ansible.builtin.env', 'XDG_CURRENT_DESKTOP', default='')|length > 0) }}"
+    thinkpad: "{{ ansible_facts['product_version'] is regex('ThinkPad') }}"
   handlers:
     - name: restart_cockpit
       become: true
@@ -50,7 +50,7 @@
       become: true
       changed_when: false
     - name: Install and configure platform specific settings
-      include_tasks: "platform/{{ ansible_distribution }}.yaml"
+      include_tasks: "platform/{{ ansible_facts['distribution'] }}.yaml"
     # Language package manager content, should be managed by a package config
     # file for contents rather than managed here
     - name: Register npm major version
@@ -69,15 +69,15 @@
     - name: Update composer packages
       # composer requires a modern amount of memory to update,
       # so only run on systems with 2gb or more
-      when: ansible_memtotal_mb >= 2048
+      when: ansible_facts['memtotal_mb'] >= 2048
       community.general.composer:
         no_dev: false
         command: update
         global_command: true
       environment:
-        COMPOSER_HOME: "{{ ansible_env.HOME }}/.config/composer"
+        COMPOSER_HOME: "{{ ansible_facts['env']['HOME'] }}/.config/composer"
     - name: Install pip packages on current python
-      when: ansible_python.version.major >= 3 and ansible_python.version.minor >= 12
+      when: ansible_facts['python']['version']['major'] >= 3 and ansible_facts['python']['version']['minor'] >= 12
       ansible.builtin.pip:
         name:
           - git-filter-repo
@@ -87,7 +87,7 @@
         extra_args: --user --break-system-packages
         state: latest
     - name: Install pip packages on slightly less current python
-      when: ansible_python.version.major >= 3 and ansible_python.version.minor < 12
+      when: ansible_facts['python']['version']['major'] >= 3 and ansible_facts['python']['version']['minor'] < 12
       ansible.builtin.pip:
         name:
           - git-filter-repo
@@ -97,7 +97,7 @@
         extra_args: --user
         state: latest
     - name: Install pip packages on older machines
-      when: ansible_python.version.major < 3
+      when: ansible_facts['python']['version']['major'] < 3
       ansible.builtin.pip:
         name:
           - git-filter-repo

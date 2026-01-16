@@ -54,7 +54,7 @@
     cmd: go install github.com/cbednarski/hostess@latest
     creates: ~/.go/bin/hostess
   environment:
-    GOPATH: "{{ ansible_env.HOME }}/.go"
+    GOPATH: "{{ ansible_facts['env']['HOME'] }}/.go"
 - name: Install pip packages
   pip:
     name:
