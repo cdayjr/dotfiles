@@ -305,7 +305,6 @@
   become: true
   ansible.builtin.dnf:
     name:
-      - calibre
       - code
       - discord
       - feh
