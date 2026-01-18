@@ -29,7 +29,6 @@
     - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
     - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_42/repodata/repomd.xml.key"
     - "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_facts['distribution_major_version'] }}/repodata/repomd.xml.key"
-    - "https://packages.microsoft.com/keys/microsoft.asc"
     - "https://pkg.cloudflareclient.com/pubkey.gpg"
     - "https://rpm.librewolf.net/pubkey.gpg"
 - name: Install Signal repo
@@ -98,26 +97,6 @@
     cmd: "dnf config-manager addrepo --from-repofile=https://rpm.librewolf.net/librewolf-repo.repo"
   args:
     creates: "/etc/yum.repos.d/librewolf-repo.repo"
-- name: Install Visual Studio Code repo
-  when: linux_desktop
-  become: true
-  community.general.ini_file:
-    option: "{{ item.option }}"
-    path: /etc/yum.repos.d/vscode.repo
-    section: code
-    state: present
-    value: "{{ item.value }}"
-  loop:
-    - option: baseurl
-      value: "https://packages.microsoft.com/yumrepos/vscode"
-    - option: enabled
-      value: "1"
-    - option: gpgcheck
-      value: "1"
-    - option: gpgkey
-      value: https://packages.microsoft.com/keys/microsoft.asc
-    - option: name
-      value: Visual Studio Code
 - name: Install Cloudflare WARP repo
   become: true
   ansible.builtin.command:
@@ -305,7 +284,6 @@
   become: true
   ansible.builtin.dnf:
     name:
-      - code
       - discord
       - feh
       - flac123
