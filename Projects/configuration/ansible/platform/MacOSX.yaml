@@ -54,7 +54,6 @@
       - p7zip
       - pdm
       - php
-      - php@8.3
       - php@8.4
       - pngquant
       - podman
@@ -293,9 +292,9 @@
       community.general.homebrew:
         name: php
         state: unlinked
-    - name: Link php@8.3
+    - name: Link php@8.4
       community.general.homebrew:
-        name: php@8.3
+        name: php@8.4
         state: linked
     - name: Unlink kubernetes-cli
       community.general.homebrew:
