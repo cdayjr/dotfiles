@@ -263,6 +263,7 @@
     - name: Install work Homebrew packages
       community.general.homebrew:
         name:
+          - helm
           - kubernetes-cli@1.33
         state: present
     - name: Install work Homebrew casks
