@@ -263,7 +263,7 @@
     - name: Install work Homebrew packages
       community.general.homebrew:
         name:
-          - helm
+          - helm@3
           - kubernetes-cli@1.33
         state: present
     - name: Install work Homebrew casks
@@ -304,6 +304,10 @@
     - name: Link kubernetes-cli@1.33
       community.general.homebrew:
         name: kubernetes-cli@1.33
+        state: linked
+    - name: Link helm@3
+      community.general.homebrew:
+        name: helm@3
         state: linked
 - name: Install fonts
   community.general.homebrew_cask:
