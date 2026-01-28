@@ -1,5 +1,5 @@
 local wezterm = require 'wezterm'
-return {
+config = {
   color_scheme = 'Brogrammer',
   enable_tab_bar = true,
   font = wezterm.font 'ComicCodeLigatures Nerd Font Mono',
@@ -8,3 +8,7 @@ return {
   initial_cols = 80,
   initial_rows = 16,
 }
+if wezterm.target_triple == 'x86_64-apple-darwin' or wezterm.target_triple == 'aarch64-apple-darwin' then
+  config.front_end = 'WebGpu'
+end
+return config
