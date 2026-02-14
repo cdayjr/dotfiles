@@ -126,7 +126,7 @@
       ansible.builtin.get_url:
         dest: /tmp/warp.ini
         force: true
-        url: https://www.cloudflare.com/cdn-cgi/trace/
+        url: https://www.cloudflare.com/cdn-cgi/trace
     - name: Verify WARP
       register: warp_verify
       community.general.ini_file:
