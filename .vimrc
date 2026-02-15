@@ -116,6 +116,10 @@ set noshowmode
 let g:format_on_save = 0
 let g:ale_fix_on_save = 0
 
+" Close buffer without closing window
+" https://superuser.com/a/370121
+command Bd bp | sp | bn | bd
+
 " Disable "Thanks for flying Vim"
 " See https://mattdturner.com/wordpress/2011/04/how-to-stop-thanks-for-flying-vim-message/
 let &titleold=substitute(getcwd(), $HOME, "~", "")
