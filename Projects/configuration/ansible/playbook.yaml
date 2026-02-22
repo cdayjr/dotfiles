@@ -60,6 +60,9 @@
       register: npm_version
       changed_when: false
       failed_when: npm_version.stdout == ""
+      environment:
+        # ensure homebrew is included in path
+        PATH: "{{ ansible_facts['env']['PATH'] }}:/opt/homebrew/bin"
     - name: NPM configuration (globalconfig) (versions <7)
       include_tasks: "npm/globalconfig.yaml"
       when: npm_version.stdout | int < 7
