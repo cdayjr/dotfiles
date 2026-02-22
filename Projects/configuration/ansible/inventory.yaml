@@ -1,9 +1,31 @@
 # vi:syntax=yaml.ansible
+# helix:set language=yaml
 ---
 all:
   children:
     posix:
       hosts:
         localhost:
+          ansible_become_password: PASSWORD
           ansible_connection: local
-          ansible_python_interpreter: /usr/bin/env python3
+          ansible_python_interpreter: /usr/bin/python
+          linux_desktop: true
+      children:
+        apple:
+          mini:
+            ansible_become_password: PASSWORD
+            ansible_connection: local
+            ansible_python_interpreter: /opt/homebrew/bin/python3
+            linux_desktop: true
+        media_server:
+          hosts:
+            homeserver:
+              ansible_become_password: PASSWORD
+              ansible_python_interpreter: /usr/bin/python
+              linux_desktop: false
+webhost:
+  hosts:
+    web1:
+      ansible_python_interpreter: /usr/local/bin/python3
+    web2:
+      ansible_python_interpreter: /usr/local/bin/python3

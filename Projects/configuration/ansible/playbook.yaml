@@ -9,7 +9,6 @@
     PATH: "{{ lookup('ansible.builtin.env', 'PATH') }}:{{ lookup('ansible.builtin.env', 'HOME') }}/.local/bin"
   vars:
     apple_silicon: "{{ (ansible_facts['distribution'] == 'MacOSX') and (ansible_facts['architecture'] == 'arm64') }}"
-    linux_desktop: "{{ lookup('ansible.builtin.env', 'XDG_CURRENT_DESKTOP', default='')|length > 1 }}"
     thinkpad: "{{ ansible_facts['product_version'] is regex('ThinkPad') }}"
   handlers:
     - name: restart_cockpit
