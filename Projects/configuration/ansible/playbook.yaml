@@ -4,9 +4,6 @@
   hosts: posix
   gather_facts: true
   become: false
-  environment:
-    # ensure local bin is in path
-    PATH: "{{ lookup('ansible.builtin.env', 'PATH') }}:{{ lookup('ansible.builtin.env', 'HOME') }}/.local/bin"
   vars:
     apple_silicon: "{{ (ansible_facts['distribution'] == 'MacOSX') and (ansible_facts['architecture'] == 'arm64') }}"
     thinkpad: "{{ ansible_facts['product_version'] is regex('ThinkPad') }}"
