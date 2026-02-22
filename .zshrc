@@ -143,6 +143,12 @@ if command -v n >/dev/null 2>&1; then
   # add to start of path
   path=("$N_PREFIX/bin" $path)
 fi
+## bun
+export BUN_INSTALL="$HOME/.bun"
+if [[ -f "$BUN_INSTALL/bin/bun" ]]; then
+  [ -s "$BUN_INSTALL/_bun" ] && source "$BUN_INSTALL/_bun"
+  path+=("$BUN_INSTALL/bin")
+fi
 
 # deno
 [[ -s "$HOME/.deno/env" ]] && source "$HOME/.deno/env"
