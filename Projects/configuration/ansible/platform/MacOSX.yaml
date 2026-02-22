@@ -26,6 +26,7 @@
       - bottom
       - cmake
       - composer
+      - cowsay
       - curl
       - darcs
       - direnv
