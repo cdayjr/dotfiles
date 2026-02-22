@@ -5,7 +5,7 @@
       git clean -df && \
       git branch | grep -ve '^*' | xargs git branch -D && \
       git fetch -a && \
-      git checkout $(git remote show origin | grep 'HEAD branch:' | awk '{ print $3 }') && \
+      git checkout --track origin/$(git remote show origin | grep 'HEAD branch:' | awk '{ print $3 }') && \
       git branch -D cleanup-repo-branch && \
       git submodule update --init --recursive -f && \
       git remote prune origin && \
