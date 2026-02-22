@@ -292,10 +292,6 @@
       - gimp
       - gnome-tweaks
       - gvfs-smb
-      - i3
-      - i3lock
-      - i3status
-      - i3status
       - keepassxc
       - konsole
       - librewolf
@@ -311,7 +307,6 @@
       - rxvt-unicode
       - signal-desktop
       - steam
-      - sway
       - transmission-remote-gtk
       - trash-cli
       - vlc
