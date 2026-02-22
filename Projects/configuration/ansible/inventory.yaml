@@ -12,11 +12,12 @@ all:
           linux_desktop: true
       children:
         apple:
-          mini:
-            ansible_become_password: PASSWORD
-            ansible_connection: ssh
-            ansible_python_interpreter: /opt/homebrew/bin/python3
-            linux_desktop: true
+          hosts:
+            mini:
+              ansible_become_password: PASSWORD
+              ansible_connection: ssh
+              ansible_python_interpreter: /opt/homebrew/bin/python3
+              linux_desktop: true
         media_server:
           hosts:
             homeserver:
