@@ -179,6 +179,7 @@
       - ccze
       - clean-rpm-gpg-pubkey
       - composer
+      - cowsay
       - curl
       - darcs
       - direnv
