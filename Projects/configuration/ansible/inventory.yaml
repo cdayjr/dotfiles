@@ -14,7 +14,7 @@ all:
         apple:
           mini:
             ansible_become_password: PASSWORD
-            ansible_connection: local
+            ansible_connection: ssh
             ansible_python_interpreter: /opt/homebrew/bin/python3
             linux_desktop: true
         media_server:
