@@ -182,6 +182,8 @@ pip-update() {
     python -c "import json, sys; print('\n'.join([x['name'] for x in json.load(sys.stdin)]))" | \
     xargs -n1 pip install --user -U
 }
+# Disable cowsay for ansible
+export ANSIBLE_NOCOWS=1
 
 # Rust / Cargo
 if command -v cargo >/dev/null 2>&1; then
