@@ -432,7 +432,7 @@ update() {
     # Authenticate with gh if not already
     if command -v gh >/dev/null 2>&1; then
       if ! gh auth status --hostname github.com >/dev/null 2>&1; then
-        gh auth login --hostname github.com
+        gh auth login --hostname github.com --skip-ssh-key
       fi
     fi
 
