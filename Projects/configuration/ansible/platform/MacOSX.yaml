@@ -55,6 +55,7 @@
       - p7zip
       - pdm
       - php
+      - php@8.4
       - pngquant
       - podman
       - procs
@@ -289,6 +290,14 @@
         src: "~/.local/src/work-config"
         dest: "~/.local/share/includes/work-config"
         state: link
+    - name: Unlink php
+      community.general.homebrew:
+        name: php
+        state: unlinked
+    - name: Link php@8.4
+      community.general.homebrew:
+        name: php@8.4
+        state: linked
     - name: Unlink kubernetes-cli
       community.general.homebrew:
         name: kubernetes-cli
