@@ -205,7 +205,6 @@
           - steam
           - streamlink-twitch-gui
           - syncplay
-          - threema@beta
           - transmission-remote-gui
           - twist
         state: present
