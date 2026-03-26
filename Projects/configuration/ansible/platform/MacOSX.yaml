@@ -206,7 +206,6 @@
           - streamlink-twitch-gui
           - syncplay
           - transmission-remote-gui
-          - twist
         state: present
         sudo_password: "{{ ansible_become_password }}"
     - name: Install home unsigned Homebrew casks
