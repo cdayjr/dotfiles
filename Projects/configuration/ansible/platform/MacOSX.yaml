@@ -157,7 +157,6 @@
     greedy: true
     name:
       - librewolf
-      - powershell
       - sourcegit
     install_options: no-quarantine
     state: present
