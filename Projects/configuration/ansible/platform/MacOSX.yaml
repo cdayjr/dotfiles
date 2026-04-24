@@ -265,7 +265,6 @@
           - lifesize
           - microsoft-office
           - postman
-          - zoom
         state: present
         sudo_password: "{{ ansible_become_password }}"
     - name: Work configuration repo
