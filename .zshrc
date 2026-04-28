@@ -284,6 +284,11 @@ fi
 # Support for vagrant access outside of a WSL environment
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
 
+# GitHub CLI
+## Disable telemetry
+export GH_TELEMETRY=false
+export DO_NOT_TRACK=true
+
 # Get latest release of a github repo
 # Checks the tags for the latest release. Removes leading `v` from tag names and
 # strips invalid JSON that comes back from the GitHub API
