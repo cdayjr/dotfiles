@@ -494,19 +494,6 @@
       - overpass-mono-fonts
       - twitter-twemoji-fonts
       - unifont-fonts
-      - wine-arial-fonts
-      - wine-courier-fonts
-      - wine-fixedsys-fonts
-      - wine-fonts
-      - wine-marlett-fonts
-      - wine-ms-sans-serif-fonts
-      - wine-small-fonts
-      - wine-symbol-fonts
-      - wine-system-fonts
-      - wine-tahoma-fonts
-      - wine-times-new-roman-fonts
-      - wine-webdings-fonts
-      - wine-wingdings-fonts
     state: present
 - name: Fira Code Fonts Repo
   when: linux_desktop
