@@ -411,6 +411,7 @@
       become: true
       ansible.builtin.dnf:
         name:
+          - tuned-ppd
           - power-profiles-daemon
         state: absent
     - name: Install ThinkPad packages
