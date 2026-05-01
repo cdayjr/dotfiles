@@ -28,10 +28,18 @@
     # GitHub CLI Repo
     - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
     - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_42/repodata/repomd.xml.key"
-    - "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_facts['distribution_major_version'] }}/repodata/repomd.xml.key"
     - "https://pkg.cloudflareclient.com/pubkey.gpg"
+- name: Install desktop GPG keys
+  when: linux_desktop
+  become: true
+  ansible.builtin.rpm_key:
+    key: "{{ item }}"
+    state: present
+  loop:
+    - "https://download.opensuse.org/repositories/network:/im:/signal/Fedora_{{ ansible_facts['distribution_major_version'] }}/repodata/repomd.xml.key"
     - "https://rpm.librewolf.net/pubkey.gpg"
 - name: Install Signal repo
+  when: linux_desktop
   become: true
   community.general.ini_file:
     option: "{{ item.option }}"
