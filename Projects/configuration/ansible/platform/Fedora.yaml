@@ -27,7 +27,7 @@
     - "/usr/share/distribution-gpg-keys/rpmfusion/RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ ansible_facts['distribution_major_version'] }}"
     # GitHub CLI Repo
     - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x23F3D4EA75716059"
-    - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_42/repodata/repomd.xml.key"
+    - "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_43/repodata/repomd.xml.key"
     - "https://pkg.cloudflareclient.com/pubkey.gpg"
 - name: Install desktop GPG keys
   when: linux_desktop
@@ -70,13 +70,13 @@
     value: "{{ item.value }}"
   loop:
     - option: baseurl
-      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_42/"
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_43/"
     - option: enabled
       value: "1"
     - option: gpgcheck
       value: "1"
     - option: gpgkey
-      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_42/repodata/repomd.xml.key"
+      value: "https://download.opensuse.org/repositories/home:/TheLocehiliosan:/yadm/Fedora_43/repodata/repomd.xml.key"
     - option: name
       value: "Yet Another Dotfiles Manager"
     - option: type
