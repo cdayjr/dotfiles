@@ -150,7 +150,6 @@
     greedy: true
     name:
       - librewolf
-    install_options: no-quarantine
     state: present
     sudo_password: "{{ ansible_become_password }}"
 - name: Install apps from the Mac App Store
@@ -203,7 +202,6 @@
           - betterdiscord-installer
           - lastfm
           - xld
-        install_options: no-quarantine
         state: present
         sudo_password: "{{ ansible_become_password }}"
     - name: Setup pcloud repository
